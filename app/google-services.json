@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "259206029837",
+    "firebase_url": "https://solosphere-events-default-rtdb.firebaseio.com",
+    "project_id": "solosphere-events",
+    "storage_bucket": "solosphere-events.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:259206029837:android:6a3d1b00003d5372df6b44",
+        "android_client_info": {
+          "package_name": "ca.event.solosphere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "259206029837-25l0efndnt03k72videmudhf7db407dd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDu9b-CzBqJyVU2WFlY9pTIbrs04YOCLd8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "259206029837-25l0efndnt03k72videmudhf7db407dd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
