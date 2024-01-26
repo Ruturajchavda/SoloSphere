@@ -1,8 +1,10 @@
-package ca.event.solosphere;
+package ca.event.solosphere.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ca.event.solosphere.R;
 
 public class MainActivity extends AppCompatActivity {
 
