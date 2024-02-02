@@ -1,9 +1,34 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.SoloSphereEvents" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.SoloSphereEvents" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/colorAppBg</item>
+        <item name="colorSurface">@color/colorAppBg</item>
+
+        <item name="android:statusBarColor">@color/colorAppBg</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <item name="android:forceDarkAllowed" tools:ignore="NewApi">false</item>
     </style>
 
     <style name="Theme.SoloSphereEvents" parent="Base.Theme.SoloSphereEvents" />
+
+    <style name="AppTheme.ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="actionMenuTextColor">@color/colorPrimary</item>
+        <item name="android:actionMenuTextColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="text_label_title_toolbar">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/color_white</item>
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
 </resources>
