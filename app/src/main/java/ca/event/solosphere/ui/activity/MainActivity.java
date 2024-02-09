@@ -1,8 +1,16 @@
-package ca.event.solosphere;
+package ca.event.solosphere.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
+import ca.event.solosphere.R;
+import ca.event.solosphere.ui.utils.AppUtils;
 
 public class MainActivity extends AppCompatActivity {
 
