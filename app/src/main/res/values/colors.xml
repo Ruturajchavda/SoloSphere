@@ -6,7 +6,38 @@
     <color name="colorPrimaryDark">#0072EB</color>
     <color name="colorPrimaryExtraDark">#0068D8</color>
     <color name="colorAccent">#DCDCDC</color>
+    <color name="colorStatusBar">#002B58</color>
     <color name="color_black">#FF000000</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="colorAppBg">#161817</color>
+    <color name="colorRipple">#23000000</color>
+    <color name="colorGrayDark">#8C8995</color>
+    <color name="colorGrayLight">#AAA9AE</color>
+    <color name="colorHint">#797683</color>
+    <color name="colorInputSelected">#239F9F9F</color>
+    <color name="colorInputUnselected">#239F9F9F</color>
+
 </resources>
+
+    <!-- Hex Opacity Values
+                100% — FF
+                95% — F2
+                90% — E6
+                85% — D9
+                80% — CC
+                75% — BF
+                70% — B3
+                65% — A6
+                60% — 99
+                55% — 8C
+                50% — 80
+                45% — 73
+                40% — 66
+                35% — 59
+                30% — 4D
+                25% — 40
+                20% — 33
+                15% — 26
+                10% — 1A
+                5% — 0D
+                0% — 00-->
