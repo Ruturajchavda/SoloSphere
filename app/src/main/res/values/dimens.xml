@@ -92,6 +92,14 @@
     <dimen name="btn_bottom_margin">@dimen/_5sdp</dimen>
     <dimen name="btn_font_size">@dimen/font_size_12</dimen>
 
+    <dimen name="small_margin">5dp</dimen>
+    <dimen name="medium_margin">10dp</dimen>
+    <dimen name="large_margin">20dp</dimen>
+    <dimen name="high_margin">30dp</dimen>
+    <dimen name="big_margin">50dp</dimen>
+
+    <dimen name="standard_corner">10dp</dimen>
+    <dimen name="intro_image_size">200dp</dimen>
 
     <dimen name="login_flow_lay_pd">@dimen/dim_15</dimen>
     <dimen name="main_lay_pd">@dimen/dim_10</dimen>

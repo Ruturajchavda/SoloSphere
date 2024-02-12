@@ -2,6 +2,8 @@ package ca.event.solosphere.ui;
 
 import android.app.Application;
 
+import ca.event.solosphere.core.session.SessionManager;
+
 
 public class SoloSphereApplication extends Application {
 
@@ -10,5 +12,8 @@ public class SoloSphereApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        //Initiate Session Manger class to access store Shared Preferences
+        SessionManager.getInstance().initSessionManager(getApplicationContext());
     }
 }

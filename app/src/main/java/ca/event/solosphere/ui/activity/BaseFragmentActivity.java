@@ -1,5 +1,7 @@
 package ca.event.solosphere.ui.activity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,8 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 ;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
@@ -18,6 +23,10 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Extras;
@@ -27,7 +36,6 @@ import ca.event.solosphere.ui.utils.AppUtils;
 public class BaseFragmentActivity extends AppCompatActivity {
     private static final String TAG = "BaseFragmentActivity";
     private boolean isStateSaved = false;
-
 
 
     @Override
@@ -61,7 +69,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_white,this.getTheme()));
+        mToolbar.setTitleTextColor(getResources().getColor(R.color.color_white, this.getTheme()));
         mToolbar.setTitleTextAppearance(BaseFragmentActivity.this, R.style.text_label_title_toolbar);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +94,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
             //Check if instance of activity is restored or it is new instance.
             Log.i(TAG, "current fragment: " + fragment.getClass().getName());
 
-               /* if (fragment.getClass().getName().equals(TrackingFragment.class.getName())) {
+               /* if (fragment.getClass().getName().equals(Fragment.class.getName())) {
                     isBackEnable = false;
                 }*/
 
@@ -147,7 +155,5 @@ public class BaseFragmentActivity extends AppCompatActivity {
         fTransaction.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
         fTransaction.replace(R.id.layoutFHostFragment, fragment, fragment.getClass().getName());
         fTransaction.commit();
-        // fragmentTransaction.remove(yourfragment).commit();
     }
-
 }
