@@ -1,5 +1,41 @@
 <resources>
     <string name="app_name">SoloSphere Events</string>
     <string name="hello_world">Hello World!</string>
+    <string name="tag_line">Your Social circle starts here!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_login">Login</string>
+    <string name="subtitle_login">Please sign in to continue.</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="btn_sign_in">Sign In</string>
+    <string name="btn_sign_up">Sign Up</string>
+    <string name="title_forgot_password">Forgot Password?</string>
+    <string name="not_have_account">Don\'t have account?  <font color='#007BFF'><b>Sign Up</b></font></string>
+    <string name="already_have_account">Already have account?  <font color='#007BFF'><b>Sign In</b></font></string>
+    <string name="or_login_with">Or <font color='#007BFF'><b>Sign In</b></font> With</string>
+    <string name="or_signup_with">Or <font color='#007BFF'><b>Sing Up</b></font> With</string>
+    <string name="title_google">Google</string>
+    <string name="title_create_account">Create Account</string>
+    <string name="subtitle_sign_up">Please fill the input below here</string>
+    <string name="hint_phone">Phone</string>
+    <string name="hint_full_name">Full Name</string>
+    <string name="hint_con_password">Confirm Password</string>
+    <string name="err_name">Please enter your full name!</string>
+    <string name="err_name_length">Please enter at least 3 characters!</string>
+    <string name="err_email">Please enter email address!</string>
+    <string name="err_not_valid_email">Please enter a valid email address!</string>
+    <string name="err_phone">Please enter phone number!</string>
+    <string name="err_not_valid_phone">Please enter a valid phone number!</string>
+    <string name="err_valid_password">Please enter the password with at least one digit, one lowercase, one uppercase and minimum 8 characters long!</string>
+    <string name="err_passwords_do_not_match">Passwords do not match!</string>
+    <string name="err_user_exist">User is already exist!</string>
+    <string name="err_user_not_exist">User does not exist!</string>
+    <string name="title_reset_password">Reset Password</string>
+    <string name="subtitle_reset_password">Please provide your account\'s email id for which you want to reset the password!</string>
+    <string name="btn_continue">Continue</string>
+    <string name="password_link_sent">The link has been sent to your email to reset the password!</string>
+    <string name="title_skip">Skip</string>
+    <string name="title_next">Next</string>
+    <string name="lets_explore">Let\'s Explore</string>
+
 </resources>
