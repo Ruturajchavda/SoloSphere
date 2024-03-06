@@ -17,15 +17,27 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoloSphereEvents"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.activity.ui.NavigationActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.activity.BaseFragmentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ui.activity.NavigationActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".ui.activity.IntroScreenActivity"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true"

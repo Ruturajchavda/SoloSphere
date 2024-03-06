@@ -1,4 +1,4 @@
-package ca.event.solosphere.ui.activity.ui;
+package ca.event.solosphere.ui.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
