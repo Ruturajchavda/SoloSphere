@@ -2,21 +2,24 @@ package ca.event.solosphere.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
-import android.os.Build;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import ca.event.solosphere.R;
-import ca.event.solosphere.ui.utils.AppUtils;
+import ca.event.solosphere.databinding.ActivityMainBinding;
+import ca.event.solosphere.ui.activity.ui.NavigationActivity;
 
 public class MainActivity extends AppCompatActivity {
+
+    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        startActivity(new Intent(this, NavigationActivity.class));
     }
 }   
