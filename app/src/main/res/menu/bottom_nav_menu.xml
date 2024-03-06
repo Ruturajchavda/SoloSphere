@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<item
+    <item
         android:id="@+id/nav_home"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/home"
         android:title="@string/title_home" />
 
     <item
-        android:id="@+id/nav_custom"
-        android:icon="@drawable/ic_custom"
-        android:title="@string/title_greeting" />
+        android:id="@+id/nav_liked_event"
+        android:icon="@drawable/liked_event"
+        android:title="@string/title_liked_event" />
 
     <item
-        android:id="@+id/nav_download"
-        android:icon="@drawable/ic_download"
-        android:title="@string/title_download" />
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/chat"
+        android:title="@string/title_chat" />
 
     <item
-        android:id="@+id/nav_business"
-        android:icon="@drawable/ic_business"
-        android:title="@string/title_business" />
+        android:id="@+id/nav_booked_events"
+        android:icon="@drawable/booked_event"
+        android:title="@string/title_booked_events" />
 
     <item
-        android:id="@+id/nav_account"
-        android:icon="@drawable/ic_account"
-        android:title="@string/title_account" />
--->
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/profile"
+        android:title="@string/title_profile" />
+
 </menu>

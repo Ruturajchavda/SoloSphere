@@ -2,4 +2,14 @@
     <string name="app_name">SoloSphere Events</string>
     <string name="hello_world">Hello World!</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_home">Home</string>
+    <string name="title_liked_event">Liked Event</string>
+    <string name="title_chat">Chat</string>
+    <string name="title_booked_events">Booked Events</string>
+    <string name="title_profile">Profile</string>
+    <string name="demo_location">Toronto,ON</string>
+    <string name="search_events">Search all events...</string>
+    <string name="upcoming_events">Upcoming events</string>
+    <string name="see_all">See all</string>
+    <string name="event_category_feed">My feed</string>
 </resources>
