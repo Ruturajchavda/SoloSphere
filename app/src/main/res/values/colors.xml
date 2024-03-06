@@ -29,9 +29,22 @@
     <color name="colorGrayDark">#8C8995</color>
     <color name="colorGrayLight">#AAA9AE</color>
     <color name="colorHint">#797683</color>
-    <color name="colorInputSelected">#239F9F9F</color>
-    <color name="colorInputUnselected">#239F9F9F</color>
+    <color name="colorInput">#149F9F9F</color>
+    <color name="colorTransparentBlack">#5B000000</color>
 
+    <array name="array_dot_inactive">
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+    </array>
+
+    <array name="array_dot_active">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+    </array>
 </resources>
 <!--opacity value -->
 <!--    100% — FF-->
