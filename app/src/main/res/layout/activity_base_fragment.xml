@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorAppBg"
+    android:background="@drawable/app_bg"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorAppBg"
-        android:actionMenuTextColor="@color/colorPrimary"
+        android:actionMenuTextColor="@color/color_white"
         android:gravity="center"
+        android:background="@color/colorStatusBar"
         app:contentInsetStartWithNavigation="0dp"
         android:theme="@style/AppTheme.ToolbarStyle"/>
 

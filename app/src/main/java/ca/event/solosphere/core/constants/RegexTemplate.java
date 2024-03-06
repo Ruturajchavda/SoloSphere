@@ -16,11 +16,8 @@ public class RegexTemplate {
     public static final String ADDRESS_PATTERN = "^(?s).{20,}$";
 
     //public static final String PASSWORD_PATTERN_SPECIAL = "((?=.*[\\d\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\-\\_\\+\\=\\{\\}\\[\\]\\;{\\:\\<\\>\\,\\.\\?\\/\\~])(?=.*[A-Z]).*.{8,})";
-    public static final String PASSWORD_PATTERN_SPECIAL = "((?=.*[\\d])(?=.*[A-Z]).*.{8,50})";
-
-    public static final String INDIAN_PHONE_NO = "^([0]|\\+91)?[789]\\d{9}$";
-
-    public static final String MOBILE_NO = "^[0-9]([0-9]{9}$)";
+    public static final String PASSWORD_PATTERN_SPECIAL = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d).{8,50}$";
+    public static final String MOBILE_NO = "^\\d{10}$";
 
     public static final String PINCODE = "^([0-9]{6})?$";
 
