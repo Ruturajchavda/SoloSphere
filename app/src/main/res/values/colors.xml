@@ -12,6 +12,26 @@
     <color name="color_black">#FF000000</color>
     <color name="color_white">#FFFFFFFF</color>
     <color name="colorAppBg">#161817</color>
+    <color name="colorRipple">#23000000</color>
+    <color name="colorGrayDark">#8C8995</color>
+    <color name="colorGrayLight">#AAA9AE</color>
+    <color name="colorHint">#797683</color>
+    <color name="colorInput">#149F9F9F</color>
+    <color name="colorTransparentBlack">#5B000000</color>
+
+    <array name="array_dot_inactive">
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+        <item>@color/colorGrayLight</item>
+    </array>
+
+    <array name="array_dot_active">
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+        <item>@color/colorPrimary</item>
+    </array>
 
     <color name="whitesmoke">#F5F5F5</color>
     <color name="gainsboro">#DCDCDC</color>
@@ -68,3 +88,26 @@
 <!--    10% — 1A-->
 <!--    5% — 0D-->
 <!--    0% — 00-->
+
+    <!-- Hex Opacity Values
+                100% — FF
+                95% — F2
+                90% — E6
+                85% — D9
+                80% — CC
+                75% — BF
+                70% — B3
+                65% — A6
+                60% — 99
+                55% — 8C
+                50% — 80
+                45% — 73
+                40% — 66
+                35% — 59
+                30% — 4D
+                25% — 40
+                20% — 33
+                15% — 26
+                10% — 1A
+                5% — 0D
+                0% — 00-->
