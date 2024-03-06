@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".ui.SoloSphereApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -16,15 +17,20 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SoloSphereEvents"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.activity.ui.NavigationActivity"
-            android:exported="false" />
+
         <activity
             android:name=".ui.activity.BaseFragmentActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:exported="false"/>
+
+        <activity
+            android:name=".ui.activity.NavigationActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.MainActivity"
-            android:exported="true" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".ui.activity.SplashActivity"
             android:exported="true">
@@ -34,6 +40,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

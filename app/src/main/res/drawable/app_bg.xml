@@ -13,6 +13,7 @@
     </item>
 
     <item>
-        <color android:color="#A6000000" /> </item>
+        <color android:color="#A6000000" />
+    </item>
 
 </layer-list>

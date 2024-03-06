@@ -1,10 +1,13 @@
 package ca.event.solosphere.ui.activity;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 ;
 
@@ -19,6 +22,7 @@ import androidx.fragment.app.FragmentTransaction;
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.ui.fragment.BaseFragment;
+import ca.event.solosphere.ui.utils.AppUtils;
 
 public class BaseFragmentActivity extends AppCompatActivity {
     private static final String TAG = "BaseFragmentActivity";
@@ -30,7 +34,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         View decorView = this.getWindow().getDecorView();
@@ -55,7 +59,6 @@ public class BaseFragmentActivity extends AppCompatActivity {
         //  getWindow().setStatusBarColor(ContextCompat.getColor(BaseFragmentActivity.this,R.color.color_black));// set status background white
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        //mToolbar.setNavigationIcon(R.drawable.ic_back);
         setSupportActionBar(mToolbar);
 
         mToolbar.setTitleTextColor(getResources().getColor(R.color.color_white,this.getTheme()));
