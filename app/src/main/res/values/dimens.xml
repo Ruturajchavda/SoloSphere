@@ -131,5 +131,5 @@
     <dimen name="large_icon_size">36dp</dimen>
 
     <!--<dimen name="design_navigation_icon_size" tools:override="true">@dimen/dim_20</dimen>-->
-
+    <!--Dimens-->
 </resources>
