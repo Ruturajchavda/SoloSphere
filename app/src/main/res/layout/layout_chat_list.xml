@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dim_15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/userOnOff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageUser"
+                android:layout_width="@dimen/dim_50"
+                android:layout_height="@dimen/dim_50"
+                android:src="@drawable/ic_user_stock" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingStart="@dimen/dim_10"
+                android:paddingEnd="@dimen/dim_10">
+
+                <TextView
+                    android:id="@+id/txtName"
+                    style="@style/text_label_title_dark"
+                    android:textSize="@dimen/font_size_16"
+                    android:text="@string/title_user_name" />
+
+                <TextView
+                    android:id="@+id/txtMessage"
+                    style="@style/text_label"
+                    android:layout_marginTop="@dimen/dim_5"
+                    android:text="@string/title_status"
+                    android:textColor="@color/colorGrayDark" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/userOnOff"
+            android:layout_width="@dimen/dim_10"
+            android:layout_height="@dimen/dim_10"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/event_category_background_selected" />
+    </RelativeLayout>
+</layout>
