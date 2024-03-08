@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.RecentChatsFragment">
+    android:orientation="vertical"
+    tools:context=".ui.fragment.RecentChatsFragment"
+    android:paddingBottom="@dimen/dim_65">
 
-    <TextView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:textColor="@color/color_white"
+        android:layout_height="wrap_content"
+        android:actionMenuTextColor="@color/color_white"
+        android:background="@android:color/transparent"
         android:gravity="center"
-        android:text="Recent Chats" />
+        android:theme="@style/AppTheme.ToolbarStyle"
+        app:contentInsetStartWithNavigation="0dp"
+        app:titleTextColor="@color/color_white"
+        app:titleTextAppearance="@style/text_label_title_toolbar"/>
 
-</FrameLayout>
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:tabGravity="fill"
+        app:tabTextColor="@color/tab_color"
+        app:tabIndicatorColor="@color/tab_color"
+        app:tabMode="fixed" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
