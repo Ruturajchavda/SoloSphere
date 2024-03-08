@@ -42,6 +42,7 @@
     <color name="gray">#808080</color>
 
     <color name="transparent_gray">#33808080</color>
+    <color name="transparent_black">#59000000</color>
     <color name="transparent_gray_dark">#BF808080</color>
 </resources>
 <!--opacity value -->

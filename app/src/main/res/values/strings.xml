@@ -47,5 +47,12 @@
     <string name="title_skip">Skip</string>
     <string name="title_next">Next</string>
     <string name="lets_explore">Let\'s Explore</string>
+    <string name="title_cancel">Cancel</string>
+    <string name="title_accept">Accept</string>
+    <string name="title_user_name">User Name</string>
+    <string name="title_status">Status</string>
+    <string name="title_recent_chats">Recent Chats</string>
+    <string name="title_chats">Chats</string>
+    <string name="title_chat_request">Chat Reuqests</string>
 
 </resources>
