@@ -2,6 +2,7 @@ package ca.event.solosphere.ui.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -30,12 +31,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
 
     @Override
     public void onBindViewHolder(@NonNull EventViewHolder holder, @SuppressLint("RecyclerView") int position) {
-
+        if(position == 1){
+            holder.binding.imageViewSmallBanner.setImageResource(R.drawable.demo_event_2);
+            holder.binding.tvEventCategoryName.setText("Holi Event - Celebration");
+            holder.binding.tvEventCategoryPlace.setText("Waterloo - Ontario, 02:00 PM");
+            holder.binding.textViewOffer.setText("March 13");
+        }
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return 2;
     }
 
 

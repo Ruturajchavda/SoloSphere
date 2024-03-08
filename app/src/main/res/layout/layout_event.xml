@@ -2,90 +2,81 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/rounded_event">
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ImageView
-            android:id="@+id/imageViewSmallBanner"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:adjustViewBounds="true"
-            android:scaleType="centerCrop"
-            android:src="@drawable/demo_event_1"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0" />
+            android:layout_marginVertical="@dimen/normal_margin">
 
-        <TextView
-            android:id="@+id/textViewOffer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/event_category_image_background"
-            android:paddingStart="4dp"
-            android:paddingEnd="4dp"
-            android:text="March 9"
-            android:textColor="@android:color/black"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewSmallBanner"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageViewSmallBanner"
-            app:layout_constraintVertical_bias="0.0" />
+                <ImageView
+                    android:id="@+id/imageViewSmallBanner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/demo_event_1"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageViewSmallBanner"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="1.0"
-            android:background="@color/transparent_gray_dark"
-            android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textViewOffer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/event_category_image_background"
+                    android:paddingStart="4dp"
+                    android:paddingEnd="4dp"
+                    android:text="March 9"
+                    android:textColor="@android:color/black"
+                    android:textSize="10sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
+                    app:layout_constraintEnd_toEndOf="@+id/imageViewSmallBanner"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/imageViewSmallBanner"
+                    app:layout_constraintVertical_bias="0.0" />
 
-            <TextView
-                android:id="@+id/tv_event_category_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Live Convert - Arijit Singh"
-                android:layout_gravity="start"
-                android:layout_marginHorizontal="20dp"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/_17ssp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/imageViewSmallBanner"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0"
+                    android:background="@color/transparent_gray_dark"
+                    android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_event_category_place"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Toronto - Ontario, 10:00 PM"
-                android:layout_gravity="start"
-                android:layout_marginVertical="5dp"
-                android:layout_marginHorizontal="20dp"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/_14ssp"/>
+                        <TextView
+                            android:id="@+id/tv_event_category_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Live Convert - Arijit Singh"
+                            android:layout_gravity="start"
+                            android:layout_marginHorizontal="20dp"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/_17ssp"/>
+
+                        <TextView
+                            android:id="@+id/tv_event_category_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Toronto - Ontario, 10:00 PM"
+                            android:layout_gravity="start"
+                            android:layout_marginVertical="5dp"
+                            android:layout_marginHorizontal="20dp"
+                            android:textColor="@color/color_white"
+                            android:textSize="@dimen/_14ssp"/>
 
 
-        </LinearLayout>
+                </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </layout>
