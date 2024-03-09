@@ -1,20 +1,22 @@
 package ca.event.solosphere.core.model;
 
-public class User{
+public class User {
 
     String fullName;
     String phone;
     String email;
+    String profilePicture;
     String key;
 
     public User() {
 
     }
 
-    public User(String fullName, String phone, String email, String key) {
+    public User(String fullName, String phone, String email, String profilePicture, String key) {
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
+        this.profilePicture = profilePicture;
         this.key = key;
     }
 
@@ -42,6 +44,14 @@ public class User{
         this.email = email;
     }
 
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
     public String getKey() {
         return key;
     }
@@ -56,6 +66,7 @@ public class User{
                 "fullName='" + fullName + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", profilePicture='" + profilePicture + '\'' +
                 ", key='" + key + '\'' +
                 '}';
     }

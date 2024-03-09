@@ -163,7 +163,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    uploadUserData(account.getDisplayName(), "", account.getEmail());
+                    uploadUserData(account.getDisplayName(), "", account.getEmail(),account.getPhotoUrl().toString());
                 } else {
                     hideProgress(loadingView);
                     Snackbar.make(baseActivity, btnSignUp, "Authentication Failed. " + Objects.requireNonNull(task.getException()).getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
@@ -180,7 +180,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    uploadUserData(inputName.getText().toString().trim(), inputPhone.getText().toString().trim(), email);
+                    uploadUserData(inputName.getText().toString().trim(), inputPhone.getText().toString().trim(), email, "");
                 } else {
                     hideProgress(loadingView);
                     Snackbar.make(baseActivity, btnSignUp, "Authentication Failed. " +
@@ -192,7 +192,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     }
 
     //Send user data to Database
-    private void uploadUserData(String name, String phone, String email) {
+    private void uploadUserData(String name, String phone, String email, String profilePicture) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
 
@@ -202,7 +202,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
                     userKey = mFirebaseDatabase.push().getKey();
-                    User user = new User(name, phone, email, userKey);
+                    User user = new User(name, phone, email, profilePicture, userKey);
                     mFirebaseDatabase.child(userKey).setValue(user);
                     startMainIntent();
                 } else {
