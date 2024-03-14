@@ -1,5 +1,6 @@
 package ca.event.solosphere.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -17,7 +18,7 @@ import ca.event.solosphere.ui.adapter.EventCategoryAdapter;
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
-    private Context context;
+    private Activity context;
 
     public HomeFragment() {
         // Required empty public constructor
