@@ -5,7 +5,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginVertical="@dimen/normal_margin">
+        android:paddingStart="@dimen/dim_15"
+        android:paddingEnd="@dimen/dim_15"
+        android:paddingTop="@dimen/dim_5"
+        android:paddingBottom="@dimen/dim_5">
 
         <ImageView
             android:id="@+id/imageViewSmallBanner"

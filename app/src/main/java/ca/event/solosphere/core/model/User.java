@@ -6,18 +6,20 @@ public class User {
     String phone;
     String email;
     String profilePicture;
-    String key;
+    String uid;
+    String deviceToken;
 
     public User() {
 
     }
 
-    public User(String fullName, String phone, String email, String profilePicture, String key) {
+    public User(String fullName, String phone, String email, String profilePicture, String uid, String deviceToken) {
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
         this.profilePicture = profilePicture;
-        this.key = key;
+        this.uid = uid;
+        this.deviceToken = deviceToken;
     }
 
     public String getFullName() {
@@ -52,12 +54,20 @@ public class User {
         this.profilePicture = profilePicture;
     }
 
-    public String getKey() {
-        return key;
+    public String getUid() {
+        return uid;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getDeviceToken() {
+        return deviceToken;
+    }
+
+    public void setDeviceToken(String deviceToken) {
+        this.deviceToken = deviceToken;
     }
 
     @Override
@@ -67,7 +77,8 @@ public class User {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
-                ", key='" + key + '\'' +
+                ", uid='" + uid + '\'' +
+                ", deviceToken='" + deviceToken + '\'' +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package ca.event.solosphere.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
@@ -15,7 +16,7 @@ import ca.event.solosphere.ui.adapter.ChatRequestAdapter;
 public class ChatRequestFragment extends Fragment {
 
     private FragmentChatRequestBinding binding;
-    private Context context;
+    private Activity context;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -40,7 +40,7 @@ public class SplashActivity extends AppCompatActivity {
                     startActivity(new IntroScreenActivity());
                 } else {
                     if (mAuth.getCurrentUser() != null) {
-                        startActivity(new MainActivity());
+                        startActivity(new NavigationActivity());
                     } else {
                         startBusinessIntent(new LoginFragment());
                     }
