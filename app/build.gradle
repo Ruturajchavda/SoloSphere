@@ -47,6 +47,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:32.7.1')
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-database")
+    implementation 'com.google.firebase:firebase-messaging:23.4.1'
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
     //Size
@@ -62,4 +63,10 @@ dependencies {
 
     //Circular ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Blur View
+    implementation 'com.github.Dimezis:BlurView:version-2.0.3'
+
+    //Lottie Animation
+    implementation 'com.airbnb.android:lottie:3.4.1'
 }

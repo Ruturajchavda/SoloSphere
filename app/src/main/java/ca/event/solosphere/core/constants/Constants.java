@@ -23,7 +23,14 @@ public class Constants {
 
     /* Table */
     public static final String TBL_USER = "User";
+    public static final String TBL_CHAT_REQUEST = "ChatRequests";
+    public static final String TBL_CONTACTS = "Contacts";
     public static final String COLUMN_EMAIL = "email";
+    public static final String COLUMN_REQ_TYPE = "request_type";
+    public static final String STATE_NEW = "new";
+    public static final String STATE_REQ_SENT = "request_sent";
+    public static final String STATE_REQ_RECEIVED = "request_received";
+    public static final String STATE_FRIENDS = "friends";
 
 
 }

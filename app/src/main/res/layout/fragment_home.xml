@@ -1,89 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/app_bg"
+    android:orientation="vertical"
     tools:context=".ui.fragment.HomeFragment">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginVertical="@dimen/normal_margin"
+        android:orientation="horizontal">
 
-        <LinearLayout
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_gravity="center"
+            android:src="@drawable/location" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginVertical="@dimen/normal_margin"
-            android:orientation="horizontal">
+            android:layout_marginHorizontal="@dimen/small_margin"
+            android:text="@string/demo_location"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/_13ssp" />
 
-            <ImageView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:src="@drawable/location"/>
+    </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/demo_location"
-                android:layout_marginHorizontal="@dimen/small_margin"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/_13ssp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/large_margin"
+        android:layout_marginVertical="@dimen/normal_margin"
+        android:background="@drawable/rounded_border"
+        android:padding="@dimen/normal_margin">
 
-        </LinearLayout>
-
-        <LinearLayout
+        <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rounded_border"
-            android:padding="@dimen/normal_margin"
-            android:layout_marginHorizontal="@dimen/large_margin"
-            android:layout_marginVertical="@dimen/normal_margin">
+            android:background="@android:color/transparent"
+            android:drawableStart="@drawable/search"
+            android:drawableEnd="@drawable/filter"
+            android:drawablePadding="@dimen/normal_margin"
+            android:drawableTint="@color/darkgray"
+            android:hint="@string/search_events"
+            android:textColorHint="@color/darkgray"
+            android:textSize="@dimen/_13ssp" />
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:textSize="@dimen/_13ssp"
-                android:drawableStart="@drawable/search"
-                android:drawableEnd="@drawable/filter"
-                android:drawablePadding="@dimen/normal_margin"
-                android:drawableTint="@color/darkgray"
-                android:hint="@string/search_events"
-                android:textColorHint="@color/darkgray"/>
+    </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/large_margin"
+        android:layout_marginVertical="@dimen/normal_margin">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/large_margin"
-            android:layout_marginVertical="@dimen/normal_margin">
+            android:layout_marginHorizontal="@dimen/small_margin"
+            android:layout_weight="0.5"
+            android:text="@string/upcoming_events"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/_12ssp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:text="@string/upcoming_events"
-                android:layout_marginHorizontal="@dimen/small_margin"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/_12ssp"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.5"
-                android:gravity="end"
-                android:text="@string/see_all"
-                android:layout_marginHorizontal="@dimen/small_margin"
-                android:textColor="@color/color_white"
-                android:textSize="@dimen/_12ssp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/small_margin"
+            android:layout_weight="0.5"
+            android:gravity="end"
+            android:text="@string/see_all"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/_12ssp" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -96,28 +92,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            tools:listitem="@layout/layout_event_category"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_event_category" />
 
     </LinearLayout>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_event"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="@dimen/large_margin"
-            android:layout_marginVertical="@dimen/normal_margin">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_event"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                tools:listitem="@layout/layout_event"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/layout_event" />
 
     </LinearLayout>
 
-</FrameLayout>
+
+</LinearLayout>
+

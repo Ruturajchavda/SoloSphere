@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -44,7 +45,7 @@ import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.RegexTemplate;
 import ca.event.solosphere.core.model.User;
-import ca.event.solosphere.ui.activity.MainActivity;
+import ca.event.solosphere.ui.activity.NavigationActivity;
 import ca.event.solosphere.ui.utils.AppUtils;
 
 public class SignUpFragment extends BaseFragment implements View.OnClickListener {
@@ -62,7 +63,8 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private GoogleSignInClient mGoogleSignInClient;
-    private String userKey;
+    private String currentUid;
+    private String deviceToken = "";
     private View loadingView;
     private static ActivityResultLauncher<Intent> launcher;
 
@@ -163,7 +165,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
-                    uploadUserData(account.getDisplayName(), "", account.getEmail());
+                    uploadUserData(account.getDisplayName(), "", account.getEmail(), account.getPhotoUrl().toString());
                 } else {
                     hideProgress(loadingView);
                     Snackbar.make(baseActivity, btnSignUp, "Authentication Failed. " + Objects.requireNonNull(task.getException()).getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
@@ -180,7 +182,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()) {
 
-                    uploadUserData(inputName.getText().toString().trim(), inputPhone.getText().toString().trim(), email);
+                    uploadUserData(inputName.getText().toString().trim(), inputPhone.getText().toString().trim(), email, "");
                 } else {
                     hideProgress(loadingView);
                     Snackbar.make(baseActivity, btnSignUp, "Authentication Failed. " +
@@ -192,7 +194,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     }
 
     //Send user data to Database
-    private void uploadUserData(String name, String phone, String email) {
+    private void uploadUserData(String name, String phone, String email, String profilePicture) {
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
 
@@ -201,10 +203,23 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (!dataSnapshot.exists()) {
-                    userKey = mFirebaseDatabase.push().getKey();
-                    User user = new User(name, phone, email, userKey);
-                    mFirebaseDatabase.child(userKey).setValue(user);
-                    startMainIntent();
+                    currentUid = mAuth.getCurrentUser().getUid();
+                    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+                        @Override
+                        public void onComplete(@NonNull Task<String> task) {
+                            if (!task.isSuccessful()) {
+                                return;
+                            }
+                            // Get new FCM registration token
+                            deviceToken = task.getResult();
+                            User user = new User(name, phone, email, profilePicture, currentUid,deviceToken);
+                            mFirebaseDatabase.child(currentUid).setValue(user);
+                            startMainIntent();
+                        }
+                    });
+
+
+
                 } else {
                     Snackbar.make(baseActivity, btnSignUpGoogle, baseActivity.getResources().getString(R.string.err_user_exist), Snackbar.LENGTH_LONG).show();
                 }
@@ -243,7 +258,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
     }
 
     private void startMainIntent() {
-        Intent intent = new Intent(baseActivity, MainActivity.class);
+        Intent intent = new Intent(baseActivity, NavigationActivity.class);
         baseActivity.startActivity(intent);
         baseActivity.finish();
     }

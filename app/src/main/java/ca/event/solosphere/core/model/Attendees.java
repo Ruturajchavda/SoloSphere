@@ -1,25 +1,20 @@
 package ca.event.solosphere.core.model;
 
-public class User {
+public class Attendees {
 
     String fullName;
-    String phone;
-    String email;
     String profilePicture;
     String uid;
-    String deviceToken;
     String currentState;
-    public User() {
+
+    public Attendees() {
 
     }
 
-    public User(String fullName, String phone, String email, String profilePicture, String uid, String deviceToken) {
+    public Attendees(String fullName, String profilePicture, String uid) {
         this.fullName = fullName;
-        this.phone = phone;
-        this.email = email;
         this.profilePicture = profilePicture;
         this.uid = uid;
-        this.deviceToken = deviceToken;
     }
 
     public String getFullName() {
@@ -28,22 +23,6 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getProfilePicture() {
@@ -62,14 +41,6 @@ public class User {
         this.uid = uid;
     }
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
-
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
-
     public String getCurrentState() {
         return currentState;
     }
@@ -80,13 +51,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "Attendees{" +
                 "fullName='" + fullName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
                 ", profilePicture='" + profilePicture + '\'' +
                 ", uid='" + uid + '\'' +
-                ", deviceToken='" + deviceToken + '\'' +
                 ", currentState='" + currentState + '\'' +
                 '}';
     }

@@ -8,6 +8,7 @@
     <string name="title_chat">Chat</string>
     <string name="title_booked_events">Booked Events</string>
     <string name="title_profile">Profile</string>
+    <string name="title_attendee">Attendees</string>
     <string name="demo_location">Toronto,ON</string>
     <string name="search_events">Search all events...</string>
     <string name="upcoming_events">Upcoming events</string>
@@ -53,6 +54,13 @@
     <string name="title_status">Status</string>
     <string name="title_recent_chats">Recent Chats</string>
     <string name="title_chats">Chats</string>
-    <string name="title_chat_request">Chat Reuqests</string>
-
+    <string name="title_chat_request">Chat Requests</string>
+    <string name="title_send_request">Send Request</string>
+    <string name="title_cancel_request">Cancel Request</string>
+    <string name="status_friends">You\'re Friends!</string>
+    <string name="status_already_received_req">This user already sent you request</string>
+    <string name="status_sent_req">You have sent the request</string>
+    <string name="status_received_req">You have received request</string>
+    <string name="err_empty_view">Oops! list is empty!</string>
+    <string name="err_error_view">Something went wrong!\nplease try again</string>
 </resources>

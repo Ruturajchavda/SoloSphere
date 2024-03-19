@@ -1,5 +1,6 @@
 package ca.event.solosphere.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,7 +20,7 @@ import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
 public class ChatListFragment extends Fragment implements RecyclerViewItemInterface {
 
     private FragmentChatListBinding binding;
-    private Context context;
+    private Activity context;
 
 
     @Override

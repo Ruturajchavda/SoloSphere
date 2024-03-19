@@ -37,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.Objects;
 
@@ -45,7 +46,7 @@ import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.constants.RegexTemplate;
 import ca.event.solosphere.ui.activity.BaseFragmentActivity;
-import ca.event.solosphere.ui.activity.MainActivity;
+import ca.event.solosphere.ui.activity.NavigationActivity;
 import ca.event.solosphere.ui.utils.AppUtils;
 
 public class LoginFragment extends BaseFragment implements View.OnClickListener {
@@ -63,6 +64,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private GoogleSignInClient mGoogleSignInClient;
     private View loadingView;
     private static ActivityResultLauncher<Intent> launcher;
+
+    private String deviceToken = "";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(Constants.DEFAULT_WEB_CLIENT).requestEmail().build();
@@ -167,8 +172,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     //Authenticate google signIn using firebase
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         showProgress(loadingView);
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
+
 
         Query queries = mFirebaseDatabase.orderByChild(Constants.COLUMN_EMAIL).equalTo(account.getEmail());
         ValueEventListener eventListener = new ValueEventListener() {
@@ -180,7 +184,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                startMainIntent();
+                                updateToken();
                             } else {
                                 Snackbar.make(baseActivity, btnLogin, "Authentication Failed. " + Objects.requireNonNull(task.getException()).getLocalizedMessage(), Snackbar.LENGTH_LONG).show();
                             }
@@ -208,7 +212,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            startMainIntent();
+                            updateToken();
                         } else {
                             hideProgress(loadingView);
                             Snackbar.make(baseActivity, btnLogin, "Authentication Failed. " +
@@ -218,6 +222,31 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     }
                 });
     }
+
+    private void updateToken() {
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
+            @Override
+            public void onComplete(@NonNull Task<String> task) {
+                if (!task.isSuccessful()) {
+                    return;
+                }
+                // Get new FCM registration token
+                deviceToken = task.getResult();
+                mFirebaseDatabase.child(mAuth.getCurrentUser().getUid()).child("deviceToken").setValue(deviceToken)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    starMainIntent();
+                                }
+
+                            }
+                        });
+            }
+        });
+
+    }
+
 
     //Validation for input give by user
     private boolean validateData() {
@@ -237,8 +266,8 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
         baseActivity.startActivity(intent);
     }
 
-    private void startMainIntent() {
-        Intent intent = new Intent(baseActivity, MainActivity.class);
+    private void starMainIntent() {
+        Intent intent = new Intent(baseActivity, NavigationActivity.class);
         baseActivity.startActivity(intent);
         baseActivity.finish();
     }
