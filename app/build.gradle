@@ -67,4 +67,6 @@ dependencies {
     //Blur View
     implementation 'com.github.Dimezis:BlurView:version-2.0.3'
 
+    //Lottie Animation
+    implementation 'com.airbnb.android:lottie:3.4.1'
 }

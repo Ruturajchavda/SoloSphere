@@ -28,11 +28,10 @@
                 android:text="@string/title_user_name" />
 
             <TextView
-                android:id="@+id/txtMessage"
-                style="@style/text_label"
-                android:layout_marginTop="@dimen/dim_5"
+                android:id="@+id/txtStatus"
+                style="@style/text_label_light"
                 android:text="@string/title_status"
-                android:textColor="@color/colorGrayDark" />
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/layoutAcceptReq"
@@ -75,26 +74,13 @@
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/btnSendReq"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/dim_25"
                     android:background="@drawable/rounded_border"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="@string/title_accept"
+                    android:text="@string/title_send_request"
                     android:textAllCaps="false"
                     android:textColor="@color/color_white" />
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCancelaa"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dim_25"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:text="@string/title_cancel"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_white"
-                    android:textStyle="bold" />
-
             </RelativeLayout>
 
 

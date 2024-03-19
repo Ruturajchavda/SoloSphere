@@ -16,6 +16,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.databinding.ActivityNavigationBinding;
+import ca.event.solosphere.ui.fragment.AttendeeFragment;
 import ca.event.solosphere.ui.fragment.BookedEventsFragment;
 import ca.event.solosphere.ui.fragment.HomeFragment;
 import ca.event.solosphere.ui.fragment.LikedEventsFragment;

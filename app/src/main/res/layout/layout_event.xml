@@ -6,9 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="@dimen/dim_15"
+        android:paddingTop="@dimen/dim_7"
         android:paddingEnd="@dimen/dim_15"
-        android:paddingTop="@dimen/dim_5"
-        android:paddingBottom="@dimen/dim_5">
+        android:paddingBottom="@dimen/dim_7">
 
         <ImageView
             android:id="@+id/imageViewSmallBanner"
