@@ -8,7 +8,7 @@ public class User {
     String profilePicture;
     String uid;
     String deviceToken;
-
+    String currentState;
     public User() {
 
     }
@@ -70,6 +70,14 @@ public class User {
         this.deviceToken = deviceToken;
     }
 
+    public String getCurrentState() {
+        return currentState;
+    }
+
+    public void setCurrentState(String currentState) {
+        this.currentState = currentState;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -79,6 +87,7 @@ public class User {
                 ", profilePicture='" + profilePicture + '\'' +
                 ", uid='" + uid + '\'' +
                 ", deviceToken='" + deviceToken + '\'' +
+                ", currentState='" + currentState + '\'' +
                 '}';
     }
 }

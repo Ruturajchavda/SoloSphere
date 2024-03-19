@@ -181,10 +181,10 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                         mContactsRef.child(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    if (dataSnapshot.hasChild(attendees.getUid())) {
-                                        currentState[0] = Constants.STATE_FRIENDS;
-                                    }
+                                if (dataSnapshot.hasChild(attendees.getUid())) {
+                                    currentState[0] = Constants.STATE_FRIENDS;
+                                    attendees.setCurrentState(currentState[0]);
+                                    attendeeAdapter.notifyDataSetChanged();
                                 }
                             }
 
@@ -196,6 +196,24 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                     }
                 } else {
                     currentState[0] = Constants.STATE_NEW;
+                    mContactsRef.child(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                if (dataSnapshot.hasChild(attendees.getUid())) {
+                                    currentState[0] = Constants.STATE_FRIENDS;
+                                    attendees.setCurrentState(currentState[0]);
+                                    attendeeAdapter.notifyDataSetChanged();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                        }
+                    });
+
                 }
                 attendees.setCurrentState(currentState[0]);
                 populateAdapter();

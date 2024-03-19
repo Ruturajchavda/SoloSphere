@@ -58,53 +58,54 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.Attend
         }
 
         holder.binding.txtName.setText(attendees.getFullName());
+        if (attendees.getCurrentState() != null) {
+            if (attendees.getCurrentState().equals(Constants.STATE_NEW)) {
+                holder.binding.btnSendReq.setText(R.string.title_send_request);
 
-        if (attendees.getCurrentState().equals(Constants.STATE_NEW)) {
-            holder.binding.btnSendReq.setText(R.string.title_send_request);
+                holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-            holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        if (viewItemInterface != null) {
+                            viewItemInterface.OnItemClick(holder.getAdapterPosition(), attendees);
+                        }
 
-                    if (viewItemInterface != null) {
-                        viewItemInterface.OnItemClick(holder.getAdapterPosition(), attendees);
                     }
+                });
 
-                }
-            });
+            } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_SENT)) {
+                holder.binding.btnSendReq.setText(R.string.title_cancel_request);
 
-        } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_SENT)) {
-            holder.binding.btnSendReq.setText(R.string.title_cancel_request);
+                holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-            holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        if (viewItemInterface != null) {
+                            viewItemInterface.OnItemMoved(holder.getAdapterPosition(), attendees);
+                        }
 
-                    if (viewItemInterface != null) {
-                        viewItemInterface.OnItemMoved(holder.getAdapterPosition(), attendees);
                     }
+                });
+            } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_RECEIVED)) {
+                holder.binding.btnSendReq.setVisibility(View.GONE);
+                holder.binding.txtStatus.setText(R.string.status_already_received_req);
+                holder.binding.txtStatus.setVisibility(View.VISIBLE);
+            } else {
+                holder.binding.btnSendReq.setVisibility(View.GONE);
+                holder.binding.txtStatus.setText(R.string.status_friends);
+                holder.binding.txtStatus.setVisibility(View.VISIBLE);
 
-                }
-            });
-        } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_RECEIVED)) {
-            holder.binding.btnSendReq.setVisibility(View.GONE);
-            holder.binding.txtStatus.setText(R.string.status_already_received_req);
-            holder.binding.txtStatus.setVisibility(View.VISIBLE);
-        }else {
-            holder.binding.btnSendReq.setVisibility(View.GONE);
-            holder.binding.txtStatus.setText(R.string.status_friends);
-            holder.binding.txtStatus.setVisibility(View.VISIBLE);
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                        if (viewItemInterface != null) {
+                            viewItemInterface.OnItemShare(holder.getAdapterPosition(), attendees);
+                        }
 
-                    if (viewItemInterface != null) {
-                        viewItemInterface.OnItemShare(holder.getAdapterPosition(), attendees);
                     }
-
-                }
-            });
+                });
+            }
         }
     }
 

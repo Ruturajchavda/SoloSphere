@@ -58,7 +58,9 @@
     <string name="title_send_request">Send Request</string>
     <string name="title_cancel_request">Cancel Request</string>
     <string name="status_friends">You\'re Friends!</string>
-    <string name="status_already_received_req">This user already sent you request.</string>
+    <string name="status_already_received_req">This user already sent you request</string>
+    <string name="status_sent_req">You have sent the request</string>
+    <string name="status_received_req">You have received request</string>
     <string name="err_empty_view">Oops! list is empty!</string>
     <string name="err_error_view">Something went wrong!\nplease try again</string>
 </resources>
