@@ -1,16 +1,139 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutProfile"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragment.ProfileFragment">
+    android:scrollbars="none"
+    android:paddingBottom="@dimen/dim_70">
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:textColor="@color/color_white"
-        android:gravity="center"
-        android:text="Profile" />
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/large_margin"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/dim_120"
+            android:layout_height="@dimen/dim_120"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/color_white"
+            app:cardCornerRadius="@dimen/dim_220"
+            app:cardElevation="@dimen/dim_15">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/ivProfilePicture"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_user_stock"
+                app:civ_border_color="@color/color_white"
+                app:civ_border_width="@dimen/dim_2" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <TextView
+            android:id="@+id/tvUsername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:gravity="center"
+            android:text="@string/title_user_name"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_20"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/hint_email"
+            android:textColor="@color/silver"
+            android:textSize="@dimen/font_size_14" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/large_margin"
+            android:gravity="start"
+            android:text="@string/title_settings"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/font_size_18"
+            android:textStyle="bold" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/tvEditProfile"
+                    style="@style/text_label"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:background="@drawable/bg_input"
+                    android:drawablePadding="@dimen/dim_12"
+                    android:padding="@dimen/dim_12"
+                    android:text="@string/title_edit_profile"
+                    app:drawableEndCompat="@drawable/go_icon"
+                    app:drawableStartCompat="@drawable/edit_profile" />
+
+                <TextView
+                    android:id="@+id/tvPrivacy"
+                    style="@style/text_label"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:background="@drawable/bg_input"
+                    android:drawablePadding="@dimen/dim_12"
+                    android:padding="@dimen/dim_12"
+                    android:text="@string/privacy_policy_text"
+                    app:drawableEndCompat="@drawable/go_icon"
+                    app:drawableStartCompat="@drawable/baseline_privacy_tip_24" />
+
+                <TextView
+                    android:id="@+id/tvTOS"
+                    style="@style/text_label"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:background="@drawable/bg_input"
+                    android:drawablePadding="@dimen/dim_12"
+                    android:padding="@dimen/dim_12"
+                    android:text="@string/terms_of_service"
+                    app:drawableEndCompat="@drawable/go_icon"
+                    app:drawableStartCompat="@drawable/terms_icon" />
+
+                <TextView
+                    android:id="@+id/tvSupport"
+                    style="@style/text_label"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:background="@drawable/bg_input"
+                    android:drawablePadding="@dimen/dim_12"
+                    android:padding="@dimen/dim_12"
+                    android:text="@string/support"
+                    app:drawableEndCompat="@drawable/go_icon"
+                    app:drawableStartCompat="@drawable/baseline_contact_support_24" />
+
+                <TextView
+                    android:id="@+id/tvLogout"
+                    style="@style/text_label"
+                    android:layout_width="match_parent"
+                    android:layout_marginTop="@dimen/large_margin"
+                    android:background="@drawable/bg_input"
+                    android:drawablePadding="@dimen/dim_12"
+                    android:padding="@dimen/dim_12"
+                    android:text="@string/logout"
+                    android:textColor="@color/color_red"
+                    app:drawableStartCompat="@drawable/baseline_logout_24" />
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+    </LinearLayout>
+</ScrollView>

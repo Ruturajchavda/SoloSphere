@@ -139,7 +139,6 @@ public class ChatListFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void getUserData(String uid) {
-        final String[] currentState = {Constants.STATE_NEW};
         mFirebaseDatabase.child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

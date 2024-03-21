@@ -7,4 +7,6 @@ public class Extras {
 
     public static final String EXTRA_SS_ID = "ss_id";
     public static final String EXTRA_ATTACHMENT = "attachment";
+    public static final String EXTRA_URL = "url";
+    public static final String EXTRA_TITLE = "title";
 }

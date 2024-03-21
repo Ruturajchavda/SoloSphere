@@ -3,6 +3,7 @@
 
     <!-- Font size -->
     <dimen name="font_size_30">@dimen/_30ssp</dimen>
+    <dimen name="font_size_25">@dimen/_25ssp</dimen>
     <dimen name="font_size_24">@dimen/_24ssp</dimen>
     <dimen name="font_size_22">@dimen/_22ssp</dimen>
     <dimen name="font_size_20">@dimen/_20ssp</dimen>
