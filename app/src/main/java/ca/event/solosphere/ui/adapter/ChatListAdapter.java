@@ -11,7 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.ArrayList;
+
 import ca.event.solosphere.R;
+import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.LayoutChatListBinding;
 import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
 
@@ -21,10 +26,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     private static final int VIEW_TYPE_CHAT_LIST = 0;
     private static final int VIEW_TYPE_EMPTY = 1;
+    private ArrayList<User> userArrayList = new ArrayList<>();
     private RecyclerViewItemInterface viewItemInterface;
 
-    public ChatListAdapter(Activity mContext) {
+    public ChatListAdapter(Activity mContext, ArrayList<User> userArrayList) {
         this.mContext = mContext;
+        this.userArrayList = userArrayList;
     }
 
     public void setItemClickListener(RecyclerViewItemInterface viewItemInterface) {
@@ -51,12 +58,23 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         if (holder instanceof ChatListViewHolder) {
             // Bind data for event item
             ChatListViewHolder chatListViewHolder = (ChatListViewHolder) holder;
+            User user = userArrayList.get(position);
+
+            String tempUrl = user.getProfilePicture();
+
+            if (tempUrl != null && !tempUrl.isEmpty()) {
+
+                Glide.with(mContext).load(tempUrl).placeholder(R.drawable.ic_user_stock).error(R.drawable.ic_user_stock).into(chatListViewHolder.binding.imageUser);
+            }
+
+            chatListViewHolder.binding.txtName.setText(user.getFullName());
+
             chatListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
                     if (viewItemInterface != null) {
-                        viewItemInterface.OnItemClick(chatListViewHolder.getAdapterPosition());
+                        viewItemInterface.OnItemClick(chatListViewHolder.getAdapterPosition(), user);
                     }
 
                 }
@@ -67,7 +85,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     @Override
     public int getItemCount() {
-        return 10 + 1;
+        return userArrayList.size() + 1;
     }
 
     @Override

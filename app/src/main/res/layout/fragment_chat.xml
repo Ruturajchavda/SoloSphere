@@ -1,10 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.fragment.ChatFragment">
 
-    <include layout="@layout/layout_chat_bar"/>
+    <include
+        android:id="@+id/viewToolbar"
+        layout="@layout/layout_chat_bar" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dim_2"
+        android:background="@color/colorOverlay" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/layoutMSG">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvChatList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/chat_item_right" />
+
+            <include
+                android:id="@+id/emptyView"
+                layout="@layout/include_empty_view"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/errorView"
+                layout="@layout/include_error_view"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/layoutMSG"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/colorInput">
+
+            <EditText
+                android:id="@+id/inputMessage"
+                style="@style/editTextWithNoBg"
+                android:background="@android:color/transparent"
+                android:hint="@string/hint_type_message"
+                android:inputType="textMultiLine"
+                android:textSize="@dimen/font_size_12"
+                android:layout_toStartOf="@id/btnSend"
+                android:textColorHint="@color/colorHint" />
+
+            <ImageView
+                android:id="@+id/btnSend"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_width="@dimen/dim_40"
+                android:layout_height="@dimen/dim_40"
+                android:padding="@dimen/dim_10"
+                android:src="@drawable/ic_send"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>

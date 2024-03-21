@@ -25,6 +25,7 @@ public class Constants {
     public static final String TBL_USER = "User";
     public static final String TBL_CHAT_REQUEST = "ChatRequests";
     public static final String TBL_CONTACTS = "Contacts";
+    public static final String TBL_CHATS = "Chats";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_REQ_TYPE = "request_type";
     public static final String STATE_NEW = "new";

@@ -18,6 +18,7 @@
     <string name="subtitle_login">Please sign in to continue.</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="hint_type_message">Type a message</string>
     <string name="btn_sign_in">Sign In</string>
     <string name="btn_sign_up">Sign Up</string>
     <string name="title_forgot_password">Forgot Password?</string>
@@ -62,5 +63,8 @@
     <string name="status_sent_req">You have sent the request</string>
     <string name="status_received_req">You have received request</string>
     <string name="err_empty_view">Oops! list is empty!</string>
+    <string name="err_no_chat">You haven\'t begin conversation yet!\nSend you first message today!</string>
     <string name="err_error_view">Something went wrong!\nplease try again</string>
+    <string name="text_sample_message">Hi, How are you?</string>
+    <string name="sample_time">10:00 AM, 20 Jan 2024</string>
 </resources>

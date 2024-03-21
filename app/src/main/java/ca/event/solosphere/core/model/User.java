@@ -1,6 +1,8 @@
 package ca.event.solosphere.core.model;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
 
     String fullName;
     String phone;

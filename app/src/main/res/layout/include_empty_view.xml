@@ -11,6 +11,7 @@
     android:background="@drawable/app_bg">
 
     <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationEmpty"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:lottie_autoPlay="true"
@@ -26,5 +27,4 @@
         android:text="@string/err_empty_view"
         android:textColor="@color/colorGrayDark"
         android:textSize="@dimen/_14sdp" />
-
 </LinearLayout>
