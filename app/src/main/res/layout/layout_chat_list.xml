@@ -42,18 +42,18 @@
                         android:id="@+id/txtMessage"
                         style="@style/text_label_light"
                         android:layout_marginTop="@dimen/dim_5"
-                        android:text="@string/title_status"
+                        android:text="@string/start_conversation"
                         android:textColor="@color/colorGrayDark" />
                 </LinearLayout>
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/userOnOff"
-                android:layout_width="@dimen/dim_8"
-                android:layout_height="@dimen/dim_8"
+                android:layout_width="@dimen/dim_15"
+                android:layout_height="@dimen/dim_15"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:src="@drawable/event_category_background_selected" />
+                android:src="@drawable/ic_arrow" />
 
         </RelativeLayout>
 

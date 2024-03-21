@@ -69,6 +69,9 @@ public class ChatListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             chatListViewHolder.binding.txtName.setText(user.getFullName());
 
+            if (user.getLastMessage()!=null && !user.getLastMessage().isEmpty()){
+                chatListViewHolder.binding.txtMessage.setText(user.getLastMessage().trim());
+            }
             chatListViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

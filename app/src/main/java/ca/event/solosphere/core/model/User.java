@@ -11,6 +11,7 @@ public class User implements Serializable {
     String uid;
     String deviceToken;
     String currentState;
+    String lastMessage;
     public User() {
 
     }
@@ -80,6 +81,14 @@ public class User implements Serializable {
         this.currentState = currentState;
     }
 
+    public String getLastMessage() {
+        return lastMessage;
+    }
+
+    public void setLastMessage(String lastMessage) {
+        this.lastMessage = lastMessage;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -90,6 +99,7 @@ public class User implements Serializable {
                 ", uid='" + uid + '\'' +
                 ", deviceToken='" + deviceToken + '\'' +
                 ", currentState='" + currentState + '\'' +
+                ", lastMessage='" + lastMessage + '\'' +
                 '}';
     }
 }

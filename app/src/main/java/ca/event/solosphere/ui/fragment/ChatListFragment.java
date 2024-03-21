@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Chat;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentChatListBinding;
 import ca.event.solosphere.ui.activity.BaseFragmentActivity;
@@ -46,6 +48,7 @@ public class ChatListFragment extends Fragment implements View.OnClickListener, 
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
     private DatabaseReference mContactsRef;
+    private DatabaseReference mChatRef;
     private String currentUid;
     private User user;
 
@@ -73,6 +76,7 @@ public class ChatListFragment extends Fragment implements View.OnClickListener, 
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
         mContactsRef = mFirebaseInstance.getReference(Constants.TBL_CONTACTS);
+        mChatRef = mFirebaseInstance.getReference(Constants.TBL_CHATS);
 
         currentUid = mAuth.getCurrentUser().getUid();
 
@@ -142,6 +146,7 @@ public class ChatListFragment extends Fragment implements View.OnClickListener, 
                 if (dataSnapshot.exists()) {
                     user = dataSnapshot.getValue(User.class);
                     if (user != null) {
+                        lastMessage(user);
                         userArrayList.add(user);
                     }
                     chatListAdapter.notifyDataSetChanged();
@@ -155,8 +160,35 @@ public class ChatListFragment extends Fragment implements View.OnClickListener, 
             }
         });
 
-
     }
+
+    private void lastMessage(final User user) {
+        final String[] theLastMessage = {getActivity().getResources().getString(R.string.start_conversation)};
+
+        mChatRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Chat chat = snapshot.getValue(Chat.class);
+                    if (mAuth.getCurrentUser() != null && chat != null) {
+                        if (chat.getReceiver().equals(currentUid) && chat.getSender().equals(user.getUid()) ||
+                                chat.getReceiver().equals(user.getUid()) && chat.getSender().equals(currentUid)) {
+                            theLastMessage[0] = chat.getMessage();
+                        }
+
+                    }
+                }
+                user.setLastMessage(theLastMessage[0]);
+                chatListAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 
     private void populateAdapter() {
 
