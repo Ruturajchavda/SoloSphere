@@ -16,6 +16,8 @@ public class Constants {
     public static final String DOWNLOAD_FOLDER = "Downloads";
     public static final String DOWNLOAD_PATH = APP_NAME + File.separator + DOWNLOAD_FOLDER;
 
+    public static final String privacyUrl = "file:///android_asset/privacy.html";
+    public static final String TOSUrl = "file:///android_asset/tos.html";
     /* Google API Key */
     public static final String DEFAULT_WEB_CLIENT = "259206029837-25l0efndnt03k72videmudhf7db407dd.apps.googleusercontent.com";
     /* Time outs */
@@ -25,6 +27,7 @@ public class Constants {
     public static final String TBL_USER = "User";
     public static final String TBL_CHAT_REQUEST = "ChatRequests";
     public static final String TBL_CONTACTS = "Contacts";
+    public static final String TBL_CHATS = "Chats";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_REQ_TYPE = "request_type";
     public static final String STATE_NEW = "new";

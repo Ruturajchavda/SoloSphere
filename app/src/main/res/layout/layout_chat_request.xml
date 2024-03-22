@@ -2,89 +2,99 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="@dimen/dim_15">
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageUser"
-            android:layout_width="@dimen/dim_50"
-            android:layout_height="@dimen/dim_50"
-            android:src="@drawable/ic_user_stock" />
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/dim_10"
-            android:paddingEnd="@dimen/dim_10">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dim_15">
 
-            <TextView
-                android:id="@+id/txtName"
-                style="@style/text_label_title_dark"
-                android:textSize="@dimen/font_size_16"
-                android:text="@string/title_user_name" />
-
-            <TextView
-                android:id="@+id/txtStatus"
-                style="@style/text_label_light"
-                android:text="@string/title_status"
-                android:visibility="gone"/>
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/imageUser"
+                android:layout_width="@dimen/dim_40"
+                android:layout_height="@dimen/dim_40"
+                android:src="@drawable/ic_user_stock" />
 
             <LinearLayout
-                android:id="@+id/layoutAcceptReq"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_7"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingStart="@dimen/dim_10"
+                android:paddingEnd="@dimen/dim_10">
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnAccept"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dim_25"
-                    android:layout_weight="1"
-                    android:background="@drawable/rounded_border"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="@string/title_accept"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_white" />
+                <TextView
+                    android:id="@+id/txtName"
+                    style="@style/text_label_title_dark"
+                    android:text="@string/title_user_name"
+                    android:textSize="@dimen/font_size_14" />
 
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnCancel"
-                    style="?android:attr/borderlessButtonStyle"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/dim_25"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:text="@string/title_cancel"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_white"
-                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtStatus"
+                    style="@style/text_label_light"
+                    android:text="@string/title_status"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layoutAcceptReq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_7"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnAccept"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dim_25"
+                        android:layout_weight="1"
+                        android:background="@drawable/rounded_border"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:text="@string/title_accept"
+                        android:textAllCaps="false"
+                        android:textColor="@color/color_white" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnCancel"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/dim_25"
+                        android:layout_weight="1"
+                        android:background="@android:color/transparent"
+                        android:text="@string/title_cancel"
+                        android:textAllCaps="false"
+                        android:textColor="@color/color_white"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                <RelativeLayout
+                    android:id="@+id/layoutSendReq"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dim_7"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btnSendReq"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dim_25"
+                        android:background="@drawable/rounded_border"
+                        android:backgroundTint="@color/colorPrimary"
+                        android:text="@string/title_send_request"
+                        android:textAllCaps="false"
+                        android:textColor="@color/color_white" />
+                </RelativeLayout>
+
 
             </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/layoutSendReq"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dim_7"
-                android:orientation="horizontal">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/btnSendReq"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dim_25"
-                    android:background="@drawable/rounded_border"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="@string/title_send_request"
-                    android:textAllCaps="false"
-                    android:textColor="@color/color_white" />
-            </RelativeLayout>
-
-
         </LinearLayout>
-    </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dim_1"
+            android:background="@color/colorOverlay" />
+    </LinearLayout>
 </layout>
