@@ -11,15 +11,21 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import ca.event.solosphere.R;
+import ca.event.solosphere.core.model.EventCategory;
 import ca.event.solosphere.databinding.LayoutEventCategoryBinding;
 
 public class EventCategoryAdapter extends RecyclerView.Adapter<EventCategoryAdapter.EventCategoryViewHolder> {
 
     private Context mContext;
+    private int selectedEventCategoryPosition = 0;
+    private ArrayList<EventCategory> eventCategories;
 
-    public EventCategoryAdapter(Context mContext) {
+    public EventCategoryAdapter(Context mContext, ArrayList<EventCategory> eventCategories) {
         this.mContext = mContext;
+        this.eventCategories = eventCategories;
     }
 
     @NonNull
@@ -32,25 +38,29 @@ public class EventCategoryAdapter extends RecyclerView.Adapter<EventCategoryAdap
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EventCategoryViewHolder holder, @SuppressLint("RecyclerView") int position) {
-//            holder.binding.llEventCategory.setBackground(mContext.getDrawable(R.drawable.event_category_background_selected));
-//            holder.binding.ivEventCategory.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
-        if(position == 0){
-            holder.binding.ivEventCategory.setImageResource(R.drawable.category_feed);
-            holder.binding.tvEventCategory.setText("My feed");
-        }else if(position == 1){
-            holder.binding.ivEventCategory.setImageResource(R.drawable.category_food);
-            holder.binding.tvEventCategory.setText("Food");
-        }else if(position == 2){
-            holder.binding.ivEventCategory.setImageResource(R.drawable.category_music);
-            holder.binding.tvEventCategory.setText("Concerts");
-        }{
-
+        holder.binding.ivEventCategory.setImageResource(eventCategories.get(position).getCategoryImage());
+        holder.binding.tvEventCategory.setText(eventCategories.get(position).getCategoryTitle());
+        if(position == selectedEventCategoryPosition){
+            holder.binding.llEventCategory.setBackground(mContext.getDrawable(R.drawable.event_category_background_selected));
+            holder.binding.ivEventCategory.setColorFilter(ContextCompat.getColor(mContext, R.color.colorPrimary), android.graphics.PorterDuff.Mode.MULTIPLY);
+        }else{
+            holder.binding.llEventCategory.setBackground(mContext.getDrawable(R.drawable.event_category_background_unselected));
+            holder.binding.ivEventCategory.setColorFilter(ContextCompat.getColor(mContext, R.color.color_white), android.graphics.PorterDuff.Mode.MULTIPLY);
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("UseCompatLoadingForDrawables")
+            @Override
+            public void onClick(View view) {
+                notifyItemChanged(selectedEventCategoryPosition);
+                selectedEventCategoryPosition = holder.getAdapterPosition();
+                notifyItemChanged(selectedEventCategoryPosition);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return eventCategories.size();
     }
 
 

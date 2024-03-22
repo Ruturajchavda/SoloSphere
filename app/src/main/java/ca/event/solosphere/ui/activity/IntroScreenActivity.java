@@ -28,7 +28,6 @@ public class IntroScreenActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_intro_screen);
         //Hide ActionBar
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

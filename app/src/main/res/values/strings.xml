@@ -63,4 +63,10 @@
     <string name="status_received_req">You have received request</string>
     <string name="err_empty_view">Oops! list is empty!</string>
     <string name="err_error_view">Something went wrong!\nplease try again</string>
+    <string name="demo_price">$54.99</string>
+    <string name="demo_date">31</string>
+    <string name="demo_month">December</string>
+    <string name="demo_day">Wednesday</string>
+    <string name="demo_time">10:00 PM - 02:00 AM</string>
+    <string name="about_event">About this event:  </string>
 </resources>

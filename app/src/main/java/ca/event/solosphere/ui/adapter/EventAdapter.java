@@ -1,6 +1,7 @@
 package ca.event.solosphere.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.databinding.LayoutEventBinding;
+import ca.event.solosphere.ui.activity.EventDetailActivity;
 import eightbitlab.com.blurview.RenderScriptBlur;
 
 public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -44,6 +46,12 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof EventViewHolder) {
             // Bind data for event item
             EventViewHolder eventViewHolder = (EventViewHolder) holder;
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(mContext, EventDetailActivity.class));
+                }
+            });
             if (position == 2) {
                 eventViewHolder.binding.imageViewSmallBanner.setImageResource(R.drawable.demo_event_2);
                 eventViewHolder.binding.tvEventCategoryName.setText("Holi Event - Celebration");
