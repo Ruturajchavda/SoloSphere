@@ -38,7 +38,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                /*if (SessionManager.getInstance().isShowIntro()) {
+                if (SessionManager.getInstance().isShowIntro()) {
                     startActivity(new IntroScreenActivity());
                 } else {
                     if (mAuth.getCurrentUser() != null) {
@@ -46,12 +46,12 @@ public class SplashActivity extends AppCompatActivity {
                     } else {
                         startBusinessIntent(new LoginFragment());
                     }
-                }*/
-                if (mAuth.getCurrentUser() != null) {
+                }
+                /*if (mAuth.getCurrentUser() != null) {
                     startBusinessIntent(new OrgHomeFragment());
                 } else {
                     startBusinessIntent(new OrgLoginFragment());
-                }
+                }*/
             }
         }, SPLASH_SCREEN_TIME);
 
