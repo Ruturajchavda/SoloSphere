@@ -21,6 +21,14 @@
         <item name="colorControlHighlight">@color/color_white</item>
     </style>
 
+    <style name="CustomDatePickerTheme" parent="ThemeOverlay.MaterialComponents.Dialog">
+        <item name="colorAccent">@color/colorPrimaryExtraLight</item>
+
+        <item name="colorControlActivated">@color/colorPrimaryExtraLight</item>
+        <item name="colorControlHighlight">@color/colorPrimaryExtraLight</item>
+    </style>
+
+
     <style name="Theme.SoloSphereEvents" parent="Base.Theme.SoloSphereEvents" />
 
     <style name="AppTheme.ToolbarStyle" parent="ThemeOverlay.AppCompat.ActionBar">
