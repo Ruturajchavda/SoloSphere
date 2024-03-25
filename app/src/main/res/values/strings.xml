@@ -84,6 +84,7 @@
     <string name="support">Support</string>
     <string name="logout">Logout</string>
     <string name="title_edit_profile">Edit Profile</string>
+    <string name="title_edit_event">Edit Event</string>
     <string name="edit_profile_image">Edit Profile Picture</string>
     <string name="open_camera_tile">Open Camera</string>
     <string name="open_camera_question">Are you sure you want to open the camera?</string>
@@ -119,6 +120,7 @@
     <string name="err_select_category">Please Select the Category!</string>
     <string name="err_event_not_added">Failed to add event:</string>
     <string name="event_added">Event added successfully!</string>
+    <string name="event_updated">Event Updated successfully!</string>
     <string name="title_select_category">Select Category</string>
     <string name="title_total_spots">Total Spots</string>
 </resources>

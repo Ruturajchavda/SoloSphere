@@ -24,6 +24,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.bumptech.glide.Glide;
 import com.github.drjacky.imagepicker.ImagePicker;
 import com.github.drjacky.imagepicker.constant.ImageProvider;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,23 +52,25 @@ import java.util.UUID;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
+import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.constants.RegexTemplate;
 import ca.event.solosphere.core.model.Category;
 import ca.event.solosphere.core.model.Event;
-import ca.event.solosphere.databinding.FragmentOrgAddEventBinding;
+import ca.event.solosphere.core.model.User;
+import ca.event.solosphere.databinding.FragmentOrgEditEventBinding;
 import ca.event.solosphere.ui.fragment.BaseFragment;
 import ca.event.solosphere.ui.utils.AppUtils;
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 import kotlin.jvm.internal.Intrinsics;
 
-public class OrgAddEventFragment extends BaseFragment implements View.OnClickListener {
+public class OrgEditEventFragment extends BaseFragment implements View.OnClickListener {
+    private static final String TAG = "OrgEditEventFragment";
+    private FragmentOrgEditEventBinding binding;
 
-
-    private static final String TAG = "OrgAddEventFragment";
-    private FragmentOrgAddEventBinding binding;
     private Context context;
-    private FirebaseAuth mAuth;
+    private Event event;
+    private Bundle bundle;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mEventRef;
     private DatabaseReference mCategoryRef;
@@ -79,7 +82,8 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
     private String startTime;
     private String endDate;
     private String endTime;
-    private Uri filePath;
+    private String imageUrl;
+    private Uri newFilePath;
     private static ActivityResultLauncher<Intent> launcher;
     private ArrayList<IconSpinnerItem> categoryArrayList = new ArrayList<>();
     private String selectedCategory = "";
@@ -87,23 +91,28 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setToolbarTitle(baseActivity.getResources().getString(R.string.title_add_event));
+        setToolbarTitle(baseActivity.getResources().getString(R.string.title_edit_event));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentOrgAddEventBinding.inflate(inflater, container, false);
+        // Inflate the layout for this fragment
+        binding = FragmentOrgEditEventBinding.inflate(inflater, container, false);
+        bundle = getArguments();
+        if (bundle != null) {
+            event = (Event) bundle.getSerializable(Extras.EXTRA_ATTACHMENT);
+        } else {
+            event = new Event();
+        }
 
         context = getActivity();
-
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         init();
     }
 
@@ -114,19 +123,18 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
         minDateCalendar.add(Calendar.DAY_OF_MONTH, 1);
 
         // Initialize Firebase
-        mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
         mCategoryRef = mFirebaseInstance.getReference(Constants.TBL_CATEGORIES);
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        doCategoryList(true);
+        doCategoryList(true, event);
 
         binding.inputStartDate.setOnClickListener(this);
         binding.inputStartTime.setOnClickListener(this);
         binding.inputEndDate.setOnClickListener(this);
         binding.inputEndTime.setOnClickListener(this);
-        binding.btnAdd.setOnClickListener(this);
+        binding.btnUpdate.setOnClickListener(this);
         binding.btnSelectEventImage.setOnClickListener(this);
     }
 
@@ -138,13 +146,12 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
                     if (result.getResultCode() == RESULT_OK) {
                         Uri uri = result.getData().getData();
                         binding.ivEventImage.setImageURI(uri);
-                        filePath = uri;
+                        newFilePath = uri;
                     } else if (result.getResultCode() == ImagePicker.RESULT_ERROR) {
                         Log.e(TAG, "onAttach: " + ImagePicker.Companion.getError(result.getData()));
                     }
                 });
     }
-
 
     @Override
     public void onClick(View view) {
@@ -167,7 +174,7 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
                 openImagePicker();
                 break;
 
-            case R.id.btnAdd:
+            case R.id.btnUpdate:
                 if (validateData()) {
                     uploadData();
                 }
@@ -176,69 +183,16 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void doCategoryList(boolean isShowProgress) {
-        if (isShowProgress) {
-            showProgress(binding.loadingView.getRoot());
-        }
-
-        mCategoryRef.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("NotifyDataSetChanged")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                categoryArrayList.clear();
-                hideProgress(binding.loadingView.getRoot());
-
-                categoryArrayList.add(new IconSpinnerItem("Please select category"));
-                selectedCategory = "Please select category";
-
-                if (dataSnapshot != null && dataSnapshot.exists()) {
-                    for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
-                        Category category = categorySnapshot.getValue(Category.class);
-
-                        if (category != null) {
-                            categoryArrayList.add(new IconSpinnerItem(category.getName()));
-                        }
-                    }
-
-                    IconSpinnerAdapter iconSpinnerAdapter = new IconSpinnerAdapter(binding.spinnerCategory);
-                    binding.spinnerCategory.setSpinnerAdapter(iconSpinnerAdapter);
-                    binding.spinnerCategory.setItems(categoryArrayList);
-                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
-                    binding.spinnerCategory.getSpinnerRecyclerView().setLayoutManager(gridLayoutManager);
-                    binding.spinnerCategory.selectItemByIndex(0);
-                    binding.spinnerCategory.setLifecycleOwner(OrgAddEventFragment.this);
-
-                    binding.spinnerCategory.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<IconSpinnerItem>() {
-                        @Override
-                        public void onItemSelected(int i, @Nullable IconSpinnerItem iconSpinnerItem, int i1, IconSpinnerItem t1) {
-                            selectedCategory = t1.getText().toString();
-                        }
-
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                hideProgress(binding.loadingView.getRoot());
-                Log.e(TAG, "onCancelled: " + databaseError.getMessage().toString());
-            }
-        });
-
-
-    }
-
-
     private void uploadData() {
         showProgress(binding.loadingView.getRoot());
-        if (filePath != null) {
+        if (newFilePath != null) {
             String filename = UUID.randomUUID().toString();
             StorageReference ref = storageReference.child("events/" + filename);
-            ref.putFile(filePath)
+            ref.putFile(newFilePath)
                     .addOnSuccessListener(taskSnapshot -> {
                         ref.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
-                            addEvent(imageUrl,
+                            updateEvent(event.getOrgID(), event.getEventID(), imageUrl,
                                     binding.inputEventName.getText().toString().trim(),
                                     binding.inputEventDesc.getText().toString().trim(),
                                     Double.parseDouble(binding.inputTicketPrice.getText().toString().trim()),
@@ -255,14 +209,20 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
                         Snackbar.make(binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.profile_not_updated), Snackbar.LENGTH_LONG).show();
                     });
         } else {
-            hideProgress(binding.loadingView.getRoot());
-            Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.err_event_image), Snackbar.LENGTH_LONG).show();
+            updateEvent(event.getOrgID(), event.getEventID(), imageUrl,
+                    binding.inputEventName.getText().toString().trim(),
+                    binding.inputEventDesc.getText().toString().trim(),
+                    Double.parseDouble(binding.inputTicketPrice.getText().toString().trim()),
+                    Integer.parseInt(binding.inputTotalSpots.getText().toString().trim()),
+                    selectedCategory,
+                    binding.inputEventAddress.getText().toString().trim(),
+                    binding.inputEventCity.getText().toString().trim(),
+                    binding.inputEventState.getText().toString().trim(),
+                    startDate, startTime, endDate, endTime);
         }
     }
 
-    private void addEvent(String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime) {
-        String orgID = mAuth.getCurrentUser().getUid();
-        String eventID = "event_org_" + System.currentTimeMillis();
+    private void updateEvent(String orgID, String eventID, String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime) {
         Event event = new Event(orgID, eventID, eventImage, name, desc, price, totalSpots, category, location, city, state, startDate, startTime, endDate, endTime);
 
         mEventRef.child(eventID).setValue(event)
@@ -270,8 +230,7 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
                     @Override
                     public void onSuccess(Void aVoid) {
                         hideProgress(binding.loadingView.getRoot());
-                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.event_added), Snackbar.LENGTH_LONG).show();
-                        baseActivity.finish();
+                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.event_updated), Snackbar.LENGTH_LONG).show();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -282,6 +241,86 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
                         Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.err_event_not_added) + e.getMessage(), Snackbar.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void doCategoryList(boolean isShowProgress, Event event) {
+        if (isShowProgress) {
+            showProgress(binding.loadingView.getRoot());
+        }
+
+        mCategoryRef.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                categoryArrayList.clear();
+                hideProgress(binding.loadingView.getRoot());
+
+                selectedCategory = event.getCategory();
+                categoryArrayList.add(new IconSpinnerItem("Please select category"));
+                categoryArrayList.add(new IconSpinnerItem(selectedCategory));
+
+                if (dataSnapshot != null && dataSnapshot.exists()) {
+                    for (DataSnapshot categorySnapshot : dataSnapshot.getChildren()) {
+                        Category category = categorySnapshot.getValue(Category.class);
+
+                        if (category != null && !category.equals(event.getCategory())) {
+                            categoryArrayList.add(new IconSpinnerItem(category.getName()));
+                        }
+                    }
+
+                    IconSpinnerAdapter iconSpinnerAdapter = new IconSpinnerAdapter(binding.spinnerCategory);
+                    binding.spinnerCategory.setSpinnerAdapter(iconSpinnerAdapter);
+                    binding.spinnerCategory.setItems(categoryArrayList);
+                    GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 2);
+                    binding.spinnerCategory.getSpinnerRecyclerView().setLayoutManager(gridLayoutManager);
+                    binding.spinnerCategory.selectItemByIndex(1);
+                    binding.spinnerCategory.setLifecycleOwner(OrgEditEventFragment.this);
+
+                    binding.spinnerCategory.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener<IconSpinnerItem>() {
+                        @Override
+                        public void onItemSelected(int i, @Nullable IconSpinnerItem iconSpinnerItem, int i1, IconSpinnerItem t1) {
+                            selectedCategory = t1.getText().toString();
+                        }
+
+                    });
+
+                    fillUI(event);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                hideProgress(binding.loadingView.getRoot());
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage().toString());
+            }
+        });
+
+
+    }
+
+    private void fillUI(Event event) {
+        String tempUrl = event.getEventImage();
+
+        if (tempUrl != null && !tempUrl.isEmpty()) {
+            imageUrl = tempUrl;
+            Glide.with(context).load(tempUrl).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).into(binding.ivEventImage);
+        }
+
+        binding.inputEventName.setText(event.getName());
+        binding.inputEventDesc.setText(event.getDesc());
+        binding.inputTicketPrice.setText(String.valueOf(event.getPrice()));
+        binding.inputTotalSpots.setText(String.valueOf(event.getTotalSpots()));
+        binding.inputEventAddress.setText(event.getLocation());
+        binding.inputEventCity.setText(event.getCity());
+        binding.inputEventState.setText(event.getState());
+        startDate = event.getStartDate();
+        binding.inputStartDate.setText(startDate);
+        endDate = event.getEndDate();
+        binding.inputEndDate.setText(endDate);
+        startTime = event.getStartTime();
+        binding.inputStartTime.setText(startTime);
+        endTime = event.getEndTime();
+        binding.inputEndTime.setText(endTime);
     }
 
     private void openImagePicker() {
@@ -373,7 +412,7 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
         } else if (!AppUtils.validateEditTextIp(binding.inputTotalSpots, RegexTemplate.ONLY_DIGITS, getString(R.string.err_valid_total_spots))) {
             return false;
         } else if (selectedCategory == null || selectedCategory.equals("Please select category")) {
-            Snackbar.make(context, binding.btnAdd, baseActivity.getResources().getString(R.string.err_select_category), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(context, binding.btnUpdate, baseActivity.getResources().getString(R.string.err_select_category), Snackbar.LENGTH_LONG).show();
             return false;
         } else if (!AppUtils.validateEditTextIp(binding.inputEventAddress, RegexTemplate.NAME_PATTERN, getString(R.string.err_name_length))) {
             return false;
@@ -382,16 +421,16 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
         } else if (!AppUtils.validateEditTextIp(binding.inputEventState, RegexTemplate.NAME_PATTERN, getString(R.string.err_name_length))) {
             return false;
         } else if (startDate == null || startDate.isEmpty()) {
-            Snackbar.make(context, binding.btnAdd, baseActivity.getResources().getString(R.string.err_start_date), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(context, binding.btnUpdate, baseActivity.getResources().getString(R.string.err_start_date), Snackbar.LENGTH_LONG).show();
             return false;
         } else if (startTime == null || startTime.isEmpty()) {
-            Snackbar.make(context, binding.btnAdd, baseActivity.getResources().getString(R.string.err_start_time), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(context, binding.btnUpdate, baseActivity.getResources().getString(R.string.err_start_time), Snackbar.LENGTH_LONG).show();
             return false;
         } else if (endDate == null || endDate.isEmpty()) {
-            Snackbar.make(context, binding.btnAdd, baseActivity.getResources().getString(R.string.err_end_date), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(context, binding.btnUpdate, baseActivity.getResources().getString(R.string.err_end_date), Snackbar.LENGTH_LONG).show();
             return false;
         } else if (endTime == null || endTime.isEmpty()) {
-            Snackbar.make(context, binding.btnAdd, baseActivity.getResources().getString(R.string.err_end_time), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(context, binding.btnUpdate, baseActivity.getResources().getString(R.string.err_end_time), Snackbar.LENGTH_LONG).show();
             return false;
         }
         return true;

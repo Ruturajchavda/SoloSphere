@@ -1,6 +1,8 @@
 package ca.event.solosphere.core.model;
 
-public class Event {
+import java.io.Serializable;
+
+public class Event implements Serializable {
     private String orgID;
     private String eventID;
     private String eventImage;

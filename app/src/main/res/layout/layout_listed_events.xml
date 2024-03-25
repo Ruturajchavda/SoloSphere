@@ -35,7 +35,6 @@
                     <TextView
                         android:id="@+id/txtDateTime"
                         style="@style/text_label"
-
                         android:text="@string/title_event_time"
                         android:textColor="@color/colorPrimary" />
 
