@@ -76,4 +76,10 @@ dependencies {
 
     //Image Picker
     implementation 'com.github.Drjacky:ImagePicker:2.3.22'
+
+    // Stripe Android SDK
+    implementation 'com.stripe:stripe-android:20.40.1'
+
+    //networking library
+    implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
 }

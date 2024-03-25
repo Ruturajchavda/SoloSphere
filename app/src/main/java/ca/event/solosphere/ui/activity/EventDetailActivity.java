@@ -5,9 +5,16 @@ import androidx.databinding.DataBindingUtil;
 import androidx.palette.graphics.Palette;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.view.View;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.databinding.ActivityEventDetailBinding;
@@ -36,8 +43,26 @@ public class EventDetailActivity extends AppCompatActivity {
                 //set background color to event name
                 binding.llEventHighlight.setBackgroundColor(backgroundColor);
                 binding.llEventHighlight.getBackground().setAlpha(220);
+
+                binding.btnLike.setBackgroundColor(backgroundColor);
             }
         });
+
+        binding.btnBuyTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        // set event description
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        int startBold = builder.length();
+        builder.append(getString(R.string.about_event));
+        builder.setSpan(new StyleSpan(android.graphics.Typeface.BOLD), startBold, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.setSpan(new ForegroundColorSpan(getColor(R.color.color_white)), startBold, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        builder.append(getString(R.string.about_event_details));
+        binding.tvEventDescription.setText(builder);
 
     }
 
