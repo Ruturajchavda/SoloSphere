@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:padding="@dimen/dim_20"
+    android:scrollbars="none">
+
+    <eightbitlab.com.blurview.BlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:blurOverlayColor="@color/color_light_bg">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/color_light_bg"
+            app:cardCornerRadius="@dimen/dim_30">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dim_10">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                    <com.vipulasri.ticketview.TicketView
+                        android:id="@+id/ticketView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:ticketBackgroundColor="@color/color_white"
+                        app:ticketBorderColor="@color/colorAccent"
+                        app:ticketBorderWidth="1dp"
+                        app:ticketCornerRadius="@dimen/dim_20"
+                        app:ticketCornerType="rounded"
+                        app:ticketDividerPadding="0dp"
+                        app:ticketDividerType="dash"
+                        app:ticketElevation="@dimen/dim_10"
+                        app:ticketOrientation="horizontal"
+                        app:ticketScallopPositionPercent="65"
+                        app:ticketScallopRadius="@dimen/dim_10"
+                        app:ticketShowBorder="false"
+                        app:ticketShowDivider="true" />
+
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/guideline"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layout_constraintGuide_percent="0.65" />
+
+                    <LinearLayout
+                        android:id="@+id/layoutDetails"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dim_20"
+                        app:layout_constraintBottom_toTopOf="@+id/guideline"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/layoutImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/dim_140"
+                            android:elevation="@dimen/dim_8"
+                            app:cardBackgroundColor="@color/color_light_bg"
+                            app:cardCornerRadius="@dimen/dim_15"
+                            app:layout_constraintTop_toTopOf="parent">
+
+                            <ImageView
+                                android:id="@+id/imageEvent"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitXY"
+                                android:src="@drawable/demo_event_1" />
+                        </androidx.cardview.widget.CardView>
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txtEventName"
+                            style="@style/text_label"
+                            android:layout_marginTop="@dimen/dim_25"
+                            android:text="@string/title_event_name"
+                            android:textColor="@color/color_black"
+                            android:textSize="@dimen/font_size_14" />
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/txtLocation"
+                            style="@style/text_label"
+                            android:text="@string/demo_location"
+                            android:textColor="@color/darkgray" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/dim_20"
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/text_label"
+                                    android:text="@string/title_date"
+                                    android:textColor="@color/color_black" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/txtDate"
+                                    style="@style/text_label"
+                                    android:text="@string/demo_date"
+                                    android:textColor="@color/darkgray" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="5dp"
+                                android:layout_marginRight="5dp"
+                                android:background="@color/material_grey_300" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    style="@style/text_label"
+                                    android:text="@string/title_time"
+                                    android:textColor="@color/color_black" />
+
+                                <com.google.android.material.textview.MaterialTextView
+                                    android:id="@+id/txtTime"
+                                    style="@style/text_label"
+                                    android:text="@string/demo_time"
+                                    android:textColor="@color/darkgray" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="@dimen/dim_15"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/guideline">
+
+                        <ImageView
+                            android:id="@+id/imageQRCode"
+                            android:layout_width="@dimen/dim_120"
+                            android:layout_height="@dimen/dim_120"
+                            android:layout_gravity="center"
+                            android:scaleType="fitXY"
+                            app:srcCompat="@drawable/demo_qr" />
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+    </eightbitlab.com.blurview.BlurView>
+</ScrollView>

@@ -46,6 +46,7 @@
     <color name="transparent_gray_dark">#BF808080</color>
     <color name="colorOverlay">#22FFFFFF</color>
     <color name="color_label">#9C9A9A</color>
+    <color name="color_light_bg">#22FFFFFF</color>
 
     <color name="ucrop_color_toolbar">@color/colorPrimary</color>
     <color name="ucrop_color_statusbar">@color/colorPrimary</color>

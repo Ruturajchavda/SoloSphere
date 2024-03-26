@@ -77,4 +77,10 @@ dependencies {
     //Spinner
     implementation "com.github.skydoves:powerspinner:1.2.7"
 
+    //TicketView
+    implementation 'com.vipulasri:ticketview:1.1.2'
+
+    //QRCode Generator
+    implementation 'com.github.androidmads:QRGenerator:1.0.1'
+
 }

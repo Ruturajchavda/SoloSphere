@@ -78,7 +78,7 @@ public class OrgHomeFragment extends BaseFragment implements View.OnClickListene
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
 
-        doEventList(true);
+        //doEventList(true);
 
         binding.errorView.getRoot().setOnClickListener(this);
     }
@@ -141,7 +141,6 @@ public class OrgHomeFragment extends BaseFragment implements View.OnClickListene
             }
         };
         queries.addListenerForSingleValueEvent(eventListener);
-        hideProgress(binding.loadingView.getRoot());
     }
 
     private void populateAdapter() {

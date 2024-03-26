@@ -123,4 +123,11 @@
     <string name="event_updated">Event Updated successfully!</string>
     <string name="title_select_category">Select Category</string>
     <string name="title_total_spots">Total Spots</string>
+    <string name="title_date">Date</string>
+    <string name="demo_date">Mar 30 2024</string>
+    <string name="title_time">Time</string>
+    <string name="demo_time">3:00 am</string>
+    <string name="title_seat">Seat</string>
+    <string name="no_seat">No Seat</string>
+    <string name="title_ticket">Ticket</string>
 </resources>
