@@ -114,6 +114,7 @@
     <string name="card_validity_label">VALID UPTO</string>
     <string name="card_validity_sample">MM/YY</string>
     <string name="card_name_sample">Cardholder Name</string>
+    <string name="title_payment">Payment</string>
 
     <string name="err_not_org">Oops! This email is not registers as an Organization.</string>
     <string name="title_event_name">Event Name</string>

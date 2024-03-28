@@ -20,6 +20,7 @@ public class Event implements Serializable {
     private String endTime;
 
     private int attendees;
+
     public Event() {
     }
 

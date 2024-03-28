@@ -57,6 +57,8 @@
     <color name="card_cvv_color">#383838</color>
     <color name="CTA_text">#FFFFFF</color>
     <color name="CTA_bg">#32C25E</color>
+    <color name="event_like_color">#D95347</color>
+
 </resources><!--opacity value -->
     <!--    100% — FF-->
     <!--    95% — F2-->

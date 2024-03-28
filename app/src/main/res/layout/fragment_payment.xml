@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -26,7 +25,6 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/activity_horizontal_margin">
-
 
 
                     <ImageView
@@ -82,57 +80,53 @@
 
                 <ImageView
                     android:id="@+id/ivType"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/items_inbetween_small"
-                    android:layout_marginBottom="@dimen/items_inbetween_small"
                     android:layout_width="@dimen/cardtype_width"
                     android:layout_height="@dimen/cardtype_height"
-                    />
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="@dimen/items_inbetween_small"
+                    android:layout_marginBottom="@dimen/items_inbetween_small" />
 
             </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Credit Card Number"
-                android:textColor="@color/lightgray"
                 android:layout_marginTop="@dimen/normal_margin"
                 android:layout_marginBottom="@dimen/small_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:text="Credit Card Number"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lightgray" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/etCardNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etCardNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="1234 5678 9012 3456"
-                    android:inputType="number" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_white"
+                android:hint="1234 5678 9012 3456"
+                android:inputType="number"
+                android:maxLength="19"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/gray" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cardholder Name"
-                android:textColor="@color/lightgray"
-                android:layout_marginBottom="@dimen/small_margin"
                 android:layout_marginTop="@dimen/normal_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="Cardholder Name"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/lightgray" />
 
-            <com.google.android.material.textfield.TextInputLayout
+            <EditText
+                android:id="@+id/etCardHolderName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editTextCardholderName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="John Doe"
-                    android:inputType="text" />
-            </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/color_white"
+                android:hint="John Doe"
+                android:textColor="@color/color_white"
+                android:inputType="text"
+                android:textColorHint="@color/gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -142,68 +136,67 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginEnd="@dimen/normal_margin"
                     android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_marginEnd="@dimen/normal_margin"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expiry Date"
-                        android:textColor="@color/lightgray"
                         android:layout_marginBottom="@dimen/small_margin"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:text="Expiry Date"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/lightgray" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+
+                    <EditText
+                        android:id="@+id/etExpiryDate"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_white"
+                        android:hint="MM/YY"
+                        android:inputType="number"
+                        android:textColor="@color/color_white"
+                        android:textColorHint="@color/gray" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextExpiryDate"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="MM/YY"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:layout_marginTop="@dimen/normal_margin"
+                    android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Security Code"
-                        android:textColor="@color/lightgray"
                         android:layout_marginBottom="@dimen/small_margin"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:text="Security Code"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:textColor="@color/lightgray" />
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <EditText
+                        android:id="@+id/etSecurityCode"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/color_white"
+                        android:hint="123"
+                        android:textColor="@color/color_white"
+                        android:inputType="number"
+                        android:textColorHint="@color/gray" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/editTextSecurityCode"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="123"
-                            android:inputType="number" />
-                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </LinearLayout>
 
             <Button
-                android:id="@+id/buttonPay"
+                android:id="@+id/btnPay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Pay"
                 android:backgroundTint="@color/colorPrimary"
+                android:text="Pay"
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>

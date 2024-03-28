@@ -57,6 +57,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvEventName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -67,6 +68,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvEventCategory"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -85,6 +87,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/tvEventPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -104,12 +107,16 @@
 
         </RelativeLayout>
 
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
         <LinearLayout
             android:id="@+id/llEventDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/large_margin"
             android:layout_marginTop="@dimen/normal_margin"
+            android:paddingBottom="100dp"
             android:orientation="vertical">
 
 
@@ -126,6 +133,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvEventDate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -134,6 +142,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
+                        android:id="@+id/tvEventMonth"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -152,6 +161,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tvEventDay"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -160,6 +170,7 @@
                         android:textSize="@dimen/_14ssp" />
 
                     <TextView
+                        android:id="@+id/tvEventTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
@@ -203,6 +214,7 @@
                     android:src="@drawable/baseline_location_on_24" />
 
                 <TextView
+                    android:id="@+id/tvEventLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -220,6 +232,7 @@
                 android:layout_gravity="start"
                 android:layout_marginHorizontal="@dimen/high_margin"
                 android:gravity="center"
+                android:visibility="gone"
                 android:text="@string/demo_address"
                 android:textColor="@color/darkgray"
                 android:textSize="@dimen/_14ssp" />
@@ -234,6 +247,8 @@
                 android:textColor="@color/colorPrimary" />
 
         </LinearLayout>
+
+        </ScrollView>
 
     </LinearLayout>
 

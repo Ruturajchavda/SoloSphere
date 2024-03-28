@@ -15,6 +15,10 @@ import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.databinding.FragmentBookedEventsBinding;
 import ca.event.solosphere.ui.activity.BaseFragmentActivity;
+import ca.event.solosphere.databinding.FragmentBookedEventsBinding;
+import ca.event.solosphere.databinding.FragmentLikedEventsBinding;
+import ca.event.solosphere.ui.adapter.EventAdapter;
+import ca.event.solosphere.ui.adapter.EventAdapter1;
 
 public class BookedEventsFragment extends Fragment {
 
@@ -39,8 +43,12 @@ public class BookedEventsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Intent intent = new Intent(getActivity(), BaseFragmentActivity.class);
-        intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new TicketFragment());
-        getActivity().startActivity(intent);
+//        Intent intent = new Intent(getActivity(), BaseFragmentActivity.class);
+//        intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new TicketFragment());
+//        getActivity().startActivity(intent);
+
+        EventAdapter1 eventAdapter = new EventAdapter1(getActivity());
+        binding.rvEvent.setAdapter(eventAdapter);
+
     }
 }
