@@ -263,7 +263,7 @@ public class OrgAddEventFragment extends BaseFragment implements View.OnClickLis
     private void addEvent(String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime) {
         String orgID = mAuth.getCurrentUser().getUid();
         String eventID = "event_org_" + System.currentTimeMillis();
-        Event event = new Event(orgID, eventID, eventImage, name, desc, price, totalSpots, category, location, city, state, startDate, startTime, endDate, endTime);
+        Event event = new Event(orgID, eventID, eventImage, name, desc, price, totalSpots, category, location, city, state, startDate, startTime, endDate, endTime,0);
 
         mEventRef.child(eventID).setValue(event)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

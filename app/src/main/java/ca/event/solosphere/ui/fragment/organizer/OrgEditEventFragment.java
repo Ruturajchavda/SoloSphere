@@ -201,7 +201,7 @@ public class OrgEditEventFragment extends BaseFragment implements View.OnClickLi
                                     binding.inputEventAddress.getText().toString().trim(),
                                     binding.inputEventCity.getText().toString().trim(),
                                     binding.inputEventState.getText().toString().trim(),
-                                    startDate, startTime, endDate, endTime);
+                                    startDate, startTime, endDate, endTime, event.getAttendees());
                         });
                     })
                     .addOnFailureListener(e -> {
@@ -218,12 +218,12 @@ public class OrgEditEventFragment extends BaseFragment implements View.OnClickLi
                     binding.inputEventAddress.getText().toString().trim(),
                     binding.inputEventCity.getText().toString().trim(),
                     binding.inputEventState.getText().toString().trim(),
-                    startDate, startTime, endDate, endTime);
+                    startDate, startTime, endDate, endTime, event.getAttendees());
         }
     }
 
-    private void updateEvent(String orgID, String eventID, String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime) {
-        Event event = new Event(orgID, eventID, eventImage, name, desc, price, totalSpots, category, location, city, state, startDate, startTime, endDate, endTime);
+    private void updateEvent(String orgID, String eventID, String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime, int attendees) {
+        Event event = new Event(orgID, eventID, eventImage, name, desc, price, totalSpots, category, location, city, state, startDate, startTime, endDate, endTime, attendees);
 
         mEventRef.child(eventID).setValue(event)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

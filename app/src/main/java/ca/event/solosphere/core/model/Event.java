@@ -19,10 +19,11 @@ public class Event implements Serializable {
     private String endDate;
     private String endTime;
 
+    private int attendees;
     public Event() {
     }
 
-    public Event(String orgID, String eventID, String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime) {
+    public Event(String orgID, String eventID, String eventImage, String name, String desc, double price, int totalSpots, String category, String location, String city, String state, String startDate, String startTime, String endDate, String endTime, int attendees) {
         this.orgID = orgID;
         this.eventID = eventID;
         this.eventImage = eventImage;
@@ -38,6 +39,7 @@ public class Event implements Serializable {
         this.startTime = startTime;
         this.endDate = endDate;
         this.endTime = endTime;
+        this.attendees = attendees;
     }
 
     public String getOrgID() {
@@ -160,6 +162,14 @@ public class Event implements Serializable {
         this.endTime = endTime;
     }
 
+    public int getAttendees() {
+        return attendees;
+    }
+
+    public void setAttendees(int attendees) {
+        this.attendees = attendees;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
@@ -168,8 +178,8 @@ public class Event implements Serializable {
                 ", eventImage='" + eventImage + '\'' +
                 ", name='" + name + '\'' +
                 ", desc='" + desc + '\'' +
-                ", price='" + price + '\'' +
-                ", totalSpots='" + totalSpots + '\'' +
+                ", price=" + price +
+                ", totalSpots=" + totalSpots +
                 ", category='" + category + '\'' +
                 ", location='" + location + '\'' +
                 ", city='" + city + '\'' +
@@ -178,6 +188,7 @@ public class Event implements Serializable {
                 ", startTime='" + startTime + '\'' +
                 ", endDate='" + endDate + '\'' +
                 ", endTime='" + endTime + '\'' +
+                ", attendees=" + attendees +
                 '}';
     }
 }
