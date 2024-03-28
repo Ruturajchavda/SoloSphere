@@ -10,19 +10,22 @@ public class User implements Serializable {
     String profilePicture;
     String uid;
     String deviceToken;
+    String userType;
     String currentState;
     String lastMessage;
+
     public User() {
 
     }
 
-    public User(String fullName, String phone, String email, String profilePicture, String uid, String deviceToken) {
+    public User(String fullName, String phone, String email, String profilePicture, String uid, String deviceToken, String userType) {
         this.fullName = fullName;
         this.phone = phone;
         this.email = email;
         this.profilePicture = profilePicture;
         this.uid = uid;
         this.deviceToken = deviceToken;
+        this.userType = userType;
     }
 
     public String getFullName() {
@@ -73,6 +76,14 @@ public class User implements Serializable {
         this.deviceToken = deviceToken;
     }
 
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getCurrentState() {
         return currentState;
     }
@@ -98,6 +109,7 @@ public class User implements Serializable {
                 ", profilePicture='" + profilePicture + '\'' +
                 ", uid='" + uid + '\'' +
                 ", deviceToken='" + deviceToken + '\'' +
+                ", userType='" + userType + '\'' +
                 ", currentState='" + currentState + '\'' +
                 ", lastMessage='" + lastMessage + '\'' +
                 '}';

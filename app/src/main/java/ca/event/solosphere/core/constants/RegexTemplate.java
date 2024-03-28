@@ -21,7 +21,9 @@ public class RegexTemplate {
 
     public static final String PINCODE = "^([0-9]{6})?$";
 
-    public static final String ONLY_DIGITS = "[^0-9]";
+    public static final String ONLY_DIGITS = "^\\d+$";
+    public static final String VALID_PRICE = "^\\d+(\\.\\d{1,2})?$";
+
 
     public static final String VALID_NAME="^[a-zA-Z][a-zA-Z\\s]{2,50}$";
 }
