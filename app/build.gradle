@@ -73,4 +73,14 @@ dependencies {
 
     //Image Picker
     implementation 'com.github.Drjacky:ImagePicker:2.3.22'
+
+    //Spinner
+    implementation "com.github.skydoves:powerspinner:1.2.7"
+
+    //TicketView
+    implementation 'com.vipulasri:ticketview:1.1.2'
+
+    //QRCode Generator
+    implementation 'com.github.androidmads:QRGenerator:1.0.1'
+
 }

@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -31,12 +33,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.ui.fragment.BaseFragment;
+import ca.event.solosphere.ui.fragment.ChatFragment;
+import ca.event.solosphere.ui.fragment.organizer.OrgAddEventFragment;
 import ca.event.solosphere.ui.utils.AppUtils;
 
 public class BaseFragmentActivity extends AppCompatActivity {
     private static final String TAG = "BaseFragmentActivity";
     private boolean isStateSaved = false;
 
+    public static boolean isAddEventEnable = false;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +55,8 @@ public class BaseFragmentActivity extends AppCompatActivity {
         int systemUiVisibilityFlags = decorView.getSystemUiVisibility();
         systemUiVisibilityFlags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
         decorView.setSystemUiVisibility(systemUiVisibilityFlags);
+
+        isAddEventEnable = false;
 
         setContentView(R.layout.activity_base_fragment);
 
@@ -117,6 +125,38 @@ public class BaseFragmentActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_base, menu);
+        Log.e(TAG, "onCreateOptionsMenu()");
+        this.menu = menu;
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(final Menu menu) {
+        menu.findItem(R.id.menu_add).setVisible(isAddEventEnable);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_add:
+                addEvent();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+
+    }
+
+    private void addEvent() {
+        Intent intent = new Intent(this, BaseFragmentActivity.class);
+        intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new OrgAddEventFragment());
+        startActivity(intent);
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         // Save the state of activity
         outState.putBoolean("isStateSaved", true);
@@ -145,6 +185,12 @@ public class BaseFragmentActivity extends AppCompatActivity {
     public void hideToolbar() {
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
+        }
+    }
+
+    public void hideToolbarBack() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
     }
 

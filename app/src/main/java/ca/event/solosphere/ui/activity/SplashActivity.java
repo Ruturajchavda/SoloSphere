@@ -19,6 +19,8 @@ import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.session.SessionManager;
 import ca.event.solosphere.ui.fragment.BaseFragment;
 import ca.event.solosphere.ui.fragment.LoginFragment;
+import ca.event.solosphere.ui.fragment.organizer.OrgHomeFragment;
+import ca.event.solosphere.ui.fragment.organizer.OrgLoginFragment;
 import ca.event.solosphere.ui.utils.AppUtils;
 
 public class SplashActivity extends AppCompatActivity {
@@ -45,6 +47,11 @@ public class SplashActivity extends AppCompatActivity {
                         startBusinessIntent(new LoginFragment());
                     }
                 }
+                /*if (mAuth.getCurrentUser() != null) {
+                    startBusinessIntent(new OrgHomeFragment());
+                } else {
+                    startBusinessIntent(new OrgLoginFragment());
+                }*/
             }
         }, SPLASH_SCREEN_TIME);
 

@@ -44,6 +44,9 @@ public class BaseFragment extends Fragment implements FragmentProvider {
     public void hideToolbar() {
         this.baseActivity.hideToolbar();
     }
+    public void hideToolbarBack() {
+        this.baseActivity.hideToolbarBack();
+    }
 
     public void showProgress(View view) {
         view.setVisibility(View.VISIBLE);

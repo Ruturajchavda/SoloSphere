@@ -212,7 +212,7 @@ public class SignUpFragment extends BaseFragment implements View.OnClickListener
                             }
                             // Get new FCM registration token
                             deviceToken = task.getResult();
-                            User user = new User(name, phone, email, profilePicture, currentUid,deviceToken);
+                            User user = new User(name, phone, email, profilePicture, currentUid,deviceToken,Constants.TYPE_USR);
                             mFirebaseDatabase.child(currentUid).setValue(user);
                             startMainIntent();
                         }
