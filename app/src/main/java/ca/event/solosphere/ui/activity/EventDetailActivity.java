@@ -1,13 +1,11 @@
 package ca.event.solosphere.ui.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.palette.graphics.Palette;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -30,10 +28,7 @@ import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Event;
-import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.ActivityEventDetailBinding;
-import ca.event.solosphere.databinding.ActivityIntroScreenBinding;
-import ca.event.solosphere.ui.fragment.LoginFragment;
 import ca.event.solosphere.ui.fragment.PaymentFragment;
 
 public class EventDetailActivity extends AppCompatActivity {
@@ -72,8 +67,6 @@ public class EventDetailActivity extends AppCompatActivity {
                 //set background color to event name
                 binding.llEventHighlight.setBackgroundColor(backgroundColor);
                 binding.llEventHighlight.getBackground().setAlpha(220);
-
-                binding.btnLike.setBackgroundColor(backgroundColor);
             }
         });
 
@@ -81,6 +74,9 @@ public class EventDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EventDetailActivity.this, BaseFragmentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Extras.EXTRA_EVENT_DETAIL, event);
+                bundle.putString(Extras.EXTRA_EVENT_ID, eventID);
                 intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new PaymentFragment());
                 startActivity(intent);
             }
@@ -131,7 +127,7 @@ public class EventDetailActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    Event event = dataSnapshot.getValue(Event.class);
+                    event = dataSnapshot.getValue(Event.class);
                     if (event != null) {
                         // Set event data to UI elements
                         binding.tvEventName.setText(event.getName());

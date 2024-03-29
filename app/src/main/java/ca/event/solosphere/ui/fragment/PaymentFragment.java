@@ -1,59 +1,30 @@
 package ca.event.solosphere.ui.fragment;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
-import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
-import com.bumptech.glide.Glide;
-import com.github.drjacky.imagepicker.ImagePicker;
-import com.github.drjacky.imagepicker.constant.ImageProvider;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.UUID;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
-import ca.event.solosphere.core.constants.RegexTemplate;
-import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentPaymentBinding;
 import ca.event.solosphere.ui.activity.NavigationActivity;
-import ca.event.solosphere.ui.utils.AppUtils;
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
-import kotlin.jvm.internal.Intrinsics;
 
 public class PaymentFragment extends BaseFragment implements View.OnClickListener {
 
@@ -63,6 +34,11 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     private Bundle bundle;
     private String creditCardNumber = "";
     private String creditCardExpiry = "";
+    private String eventID;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mAttendeesRef;
     private final String DEMO_CREDIT_CARD_NUMBER = "1234 5678 9012 3456";
     private final String DEMO_EXPIRY = "01/25";
     private final String DEMO_SECURITY_CODE = "123";
@@ -82,6 +58,9 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
         binding = FragmentPaymentBinding.inflate(inflater, container, false);
         context = getActivity();
         bundle = getArguments();
+        if(bundle != null){
+            eventID = bundle.getString(Extras.EXTRA_EVENT_ID);
+        }
 
         binding.btnPay.setOnClickListener(this);
 
@@ -151,9 +130,16 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
                     Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
             securityCode.equals(DEMO_SECURITY_CODE)){
                 showPaymentSuccessDialog();
+                saveUserTicketData();
             }
         }
 
+    }
+
+    private void saveUserTicketData() {
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
     }
 
     private void showPaymentSuccessDialog() {
@@ -174,8 +160,6 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
                 });
         alert.setCanceledOnTouchOutside(false);
         alert.show();
-//        Button button = alert.findViewById(R.id.confirm_button);
-//        button.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
     }
 
 }

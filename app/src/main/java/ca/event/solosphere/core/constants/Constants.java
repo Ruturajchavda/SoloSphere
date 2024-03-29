@@ -29,6 +29,7 @@ public class Constants {
     public static final String TBL_CONTACTS = "Contacts";
     public static final String TBL_CHATS = "Chats";
     public static final String TBL_EVENTS = "Events";
+    public static final String TBL_ATTENDEES = "Attendees";
     public static final String TBL_CATEGORIES = "Categories";
     public static final String COLUMN_EMAIL = "email";
     public static final String COLUMN_ORG_ID = "orgID";

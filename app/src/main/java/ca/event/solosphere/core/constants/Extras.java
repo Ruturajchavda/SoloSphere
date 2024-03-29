@@ -9,4 +9,6 @@ public class Extras {
     public static final String EXTRA_ATTACHMENT = "attachment";
     public static final String EXTRA_URL = "url";
     public static final String EXTRA_TITLE = "title";
+    public static final String EXTRA_EVENT_ID = "event_id";
+    public static final String EXTRA_EVENT_DETAIL = "event_detail";
 }
