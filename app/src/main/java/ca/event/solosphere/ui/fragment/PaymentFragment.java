@@ -12,7 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.activity.result.ActivityResultLauncher;
+import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -22,6 +28,8 @@ import java.util.Objects;
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Attendee;
+import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.FragmentPaymentBinding;
 import ca.event.solosphere.ui.activity.NavigationActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -125,13 +133,13 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     public void onClick(View view) {
         if(view.getId() == binding.btnPay.getId()){
 //            showPaymentSuccessDialog();
-            String securityCode = binding.etSecurityCode.getText().toString();
-            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
-                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
-            securityCode.equals(DEMO_SECURITY_CODE)){
-                showPaymentSuccessDialog();
-                saveUserTicketData();
-            }
+            saveUserTicketData();
+//            String securityCode = binding.etSecurityCode.getText().toString();
+//            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
+//                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
+//            securityCode.equals(DEMO_SECURITY_CODE)){
+//                saveUserTicketData();
+//            }
         }
 
     }
@@ -139,7 +147,31 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     private void saveUserTicketData() {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
-        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
+        uploadUserTicketData();
+    }
+
+    private void uploadUserTicketData() {
+        Attendee attendee = new Attendee(mAuth.getUid(),eventID,false,1);
+        String key = mAttendeesRef.push().getKey();
+        mAttendeesRef.child(eventID).child(key).setValue(attendee)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        showPaymentSuccessDialog();
+//                        hideProgress(binding.loadingView.getRoot());
+//                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.event_added), Snackbar.LENGTH_LONG).show();
+//                        baseActivity.finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add event data to Firebase
+//                        hideProgress(binding.loadingView.getRoot());
+//                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.err_event_not_added) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                });
     }
 
     private void showPaymentSuccessDialog() {

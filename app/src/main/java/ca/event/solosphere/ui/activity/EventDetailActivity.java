@@ -53,7 +53,7 @@ public class EventDetailActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 //        eventID = getIntent().getStringExtra("event_id");
-        eventID = "event_org_1711304440797";
+        eventID = "event_org_1711389804112";
 
         init();
 
@@ -77,6 +77,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Extras.EXTRA_EVENT_DETAIL, event);
                 bundle.putString(Extras.EXTRA_EVENT_ID, eventID);
+                intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
                 intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new PaymentFragment());
                 startActivity(intent);
             }
