@@ -7,13 +7,13 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/event_category_background_unselected"
-    android:padding="@dimen/normal_margin"
     android:layout_marginHorizontal="@dimen/small_margin">
 
     <ImageView
         android:id="@+id/iv_event_category"
         android:layout_width="@dimen/large_icon_size"
         android:layout_height="@dimen/large_icon_size"
+        android:layout_margin="@dimen/normal_margin"
         android:src="@drawable/category_feed"
         android:background="@drawable/event_category_image_background"
         android:padding="@dimen/small_margin" />
@@ -25,7 +25,7 @@
         android:layout_weight="0.5"
         android:text="@string/event_category_feed"
         android:layout_gravity="center"
-        android:layout_marginHorizontal="@dimen/normal_margin"
+        android:layout_marginEnd="@dimen/normal_margin"
         android:textColor="@color/color_white"
         android:textSize="@dimen/_12ssp"/>
 

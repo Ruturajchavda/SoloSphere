@@ -51,6 +51,14 @@
     <color name="ucrop_color_toolbar">@color/colorPrimary</color>
     <color name="ucrop_color_statusbar">@color/colorPrimary</color>
     <color name="ucrop_color_widget_active">@color/color_white</color>
+
+    <color name="card_text_color">#FFFFFF</color>
+    <color name="card_label_color">#D4D9DC</color>
+    <color name="card_cvv_color">#383838</color>
+    <color name="CTA_text">#FFFFFF</color>
+    <color name="CTA_bg">#32C25E</color>
+    <color name="event_like_color">#D95347</color>
+
 </resources><!--opacity value -->
     <!--    100% — FF-->
     <!--    95% — F2-->

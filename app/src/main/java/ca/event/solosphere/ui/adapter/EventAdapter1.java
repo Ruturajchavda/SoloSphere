@@ -16,13 +16,13 @@ import ca.event.solosphere.databinding.LayoutEventBinding;
 import ca.event.solosphere.ui.activity.EventDetailActivity;
 import eightbitlab.com.blurview.RenderScriptBlur;
 
-public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EventAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private Activity mContext;
     private static final int VIEW_TYPE_EVENT = 0;
     private static final int VIEW_TYPE_EMPTY = 1;
 
-    public EventAdapter(Activity mContext) {
+    public EventAdapter1(Activity mContext) {
         this.mContext = mContext;
     }
 
@@ -63,7 +63,7 @@ public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return 4 + 1;
+        return 2;
     }
 
     @Override

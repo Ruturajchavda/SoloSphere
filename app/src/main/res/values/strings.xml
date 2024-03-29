@@ -75,6 +75,12 @@
     <string name="err_empty_view">Oops! list is empty!</string>
     <string name="err_no_chat">You haven\'t begin conversation yet!\nSend you first message today!</string>
     <string name="err_error_view">Something went wrong!\nplease try again</string>
+    <string name="demo_price">$54.99</string>
+    <string name="demo_event_date">31</string>
+    <string name="demo_month">December</string>
+    <string name="demo_day">Wednesday</string>
+    <string name="demo_event_time">10:00 PM - 02:00 AM</string>
+    <string name="about_event">About this event:\u0020</string>
     <string name="text_sample_message">Hi, How are you?</string>
     <string name="sample_time">10:00 AM, 20 Jan 2024</string>
     <string name="start_conversation">Start Conversation</string>
@@ -96,6 +102,20 @@
     <string name="btn_update">Update</string>
     <string name="profile_updated">Hurrah! Profile has been updated successfully.</string>
     <string name="profile_not_updated">Oops! Error in Profile Update. Please try again.</string>
+    <string name="about_event_details">This is about of event where all details of event will be listed.This is about of event where all details of event will be listed.This is about of event where all details of event will be listed.This is about of event where all details of event will be listed.</string>
+    <string name="location">Location</string>
+    <string name="demo_detailed_location">Waterloo Public Square</string>
+    <string name="demo_address">75 King St S, Waterloo, ON N2J 1P2</string>
+    <string name="open_in_map">Open in map</string>
+    <string name="get_ticket">Get a Ticket</string>
+
+    <string name="card_header">NFN CARD</string>
+    <string name="card_number_sample">XXXX XXXX XXXX XXXX</string>
+    <string name="card_validity_label">VALID UPTO</string>
+    <string name="card_validity_sample">MM/YY</string>
+    <string name="card_name_sample">Cardholder Name</string>
+    <string name="title_payment">Payment</string>
+
     <string name="err_not_org">Oops! This email is not registers as an Organization.</string>
     <string name="title_event_name">Event Name</string>
     <string name="title_event_time">Event Time</string>
@@ -130,4 +150,7 @@
     <string name="title_seat">Seat</string>
     <string name="no_seat">No Seat</string>
     <string name="title_ticket">Ticket</string>
+    <string name="demo_attendees">99</string>
+    <string name="attendees_event">People attending this event</string>
+    <string name="see_all_attendees">See All Attendees</string>
 </resources>
