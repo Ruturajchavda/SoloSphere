@@ -11,13 +11,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
-import ca.event.solosphere.core.model.Attendees;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.LayoutChatRequestBinding;
 import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
@@ -25,13 +23,14 @@ import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
 public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.AttendeeAdapterViewHolder> {
 
     private Activity mContext;
-    private ArrayList<Attendees> attendeesArrayList = new ArrayList<>();
-
+    private ArrayList<User> userArrayList = new ArrayList<>();
+    private String currentUid;
     private RecyclerViewItemInterface viewItemInterface;
 
-    public AttendeeAdapter(Activity mContext, ArrayList<Attendees> attendeesArrayList) {
+    public AttendeeAdapter(Activity mContext, ArrayList<User> userArrayList, String currentUid) {
         this.mContext = mContext;
-        this.attendeesArrayList = attendeesArrayList;
+        this.userArrayList = userArrayList;
+        this.currentUid = currentUid;
     }
 
     public void setItemClickListener(RecyclerViewItemInterface viewItemInterface) {
@@ -48,7 +47,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.Attend
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull AttendeeAdapterViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Attendees attendees = attendeesArrayList.get(position);
+        User attendees = userArrayList.get(position);
 
         String tempUrl = attendees.getProfilePicture();
 
@@ -57,61 +56,68 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.Attend
             Glide.with(mContext).load(tempUrl).placeholder(R.drawable.ic_user_stock).error(R.drawable.ic_user_stock).into(holder.binding.imageUser);
         }
 
-        holder.binding.txtName.setText(attendees.getFullName());
-        if (attendees.getCurrentState() != null) {
-            if (attendees.getCurrentState().equals(Constants.STATE_NEW)) {
-                holder.binding.btnSendReq.setText(R.string.title_send_request);
+        if (!attendees.getUid().equals(currentUid)) {
+            holder.binding.txtName.setText(attendees.getFullName());
+            if (attendees.getCurrentState() != null) {
+                if (attendees.getCurrentState().equals(Constants.STATE_NEW)) {
+                    holder.binding.btnSendReq.setText(R.string.title_send_request);
 
-                holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                        if (viewItemInterface != null) {
-                            viewItemInterface.OnItemClick(holder.getAdapterPosition(), attendees);
+                            if (viewItemInterface != null) {
+                                viewItemInterface.OnItemClick(holder.getAdapterPosition(), attendees);
+                            }
+
                         }
+                    });
 
-                    }
-                });
+                } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_SENT)) {
+                    holder.binding.btnSendReq.setText(R.string.title_cancel_request);
 
-            } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_SENT)) {
-                holder.binding.btnSendReq.setText(R.string.title_cancel_request);
+                    holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                holder.binding.btnSendReq.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                            if (viewItemInterface != null) {
+                                viewItemInterface.OnItemMoved(holder.getAdapterPosition(), attendees);
+                            }
 
-                        if (viewItemInterface != null) {
-                            viewItemInterface.OnItemMoved(holder.getAdapterPosition(), attendees);
                         }
+                    });
+                } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_RECEIVED)) {
+                    holder.binding.btnSendReq.setVisibility(View.GONE);
+                    holder.binding.txtStatus.setText(R.string.status_already_received_req);
+                    holder.binding.txtStatus.setVisibility(View.VISIBLE);
+                } else {
+                    holder.binding.btnSendReq.setVisibility(View.GONE);
+                    holder.binding.txtStatus.setText(R.string.status_friends);
+                    holder.binding.txtStatus.setVisibility(View.VISIBLE);
 
-                    }
-                });
-            } else if (attendees.getCurrentState().equals(Constants.STATE_REQ_RECEIVED)) {
-                holder.binding.btnSendReq.setVisibility(View.GONE);
-                holder.binding.txtStatus.setText(R.string.status_already_received_req);
-                holder.binding.txtStatus.setVisibility(View.VISIBLE);
-            } else {
-                holder.binding.btnSendReq.setVisibility(View.GONE);
-                holder.binding.txtStatus.setText(R.string.status_friends);
-                holder.binding.txtStatus.setVisibility(View.VISIBLE);
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
-                holder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                            if (viewItemInterface != null) {
+                                viewItemInterface.OnItemShare(holder.getAdapterPosition(), attendees);
+                            }
 
-                        if (viewItemInterface != null) {
-                            viewItemInterface.OnItemShare(holder.getAdapterPosition(), attendees);
                         }
-
-                    }
-                });
+                    });
+                }
             }
+        } else {
+            holder.binding.txtName.setText(R.string.str_you);
+            holder.binding.layoutSendReq.setVisibility(View.GONE);
+            holder.binding.layoutAcceptReq.setVisibility(View.GONE);
         }
+
     }
 
     @Override
     public int getItemCount() {
-        return attendeesArrayList.size();
+        return userArrayList.size();
     }
 
 

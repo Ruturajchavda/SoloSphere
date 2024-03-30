@@ -29,6 +29,7 @@ import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.ActivityEventDetailBinding;
+import ca.event.solosphere.ui.fragment.AttendeeFragment;
 import ca.event.solosphere.ui.fragment.PaymentFragment;
 
 public class EventDetailActivity extends AppCompatActivity {
@@ -57,7 +58,7 @@ public class EventDetailActivity extends AppCompatActivity {
 
         init();
 
-        Bitmap imageBitmap = ((BitmapDrawable)binding.ivEvent.getDrawable()).getBitmap();
+        Bitmap imageBitmap = ((BitmapDrawable) binding.ivEvent.getDrawable()).getBitmap();
         // generate background color from event image
         Palette.generateAsync(imageBitmap, new Palette.PaletteAsyncListener() {
             public void onGenerated(Palette palette) {
@@ -93,11 +94,11 @@ public class EventDetailActivity extends AppCompatActivity {
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isEventLiked){
+                if (isEventLiked) {
                     isEventLiked = false;
                     binding.btnLike.setColorFilter(getColor(R.color.color_white));
 //                    removeFromLikedEvent();
-                }else{
+                } else {
                     isEventLiked = true;
                     binding.btnLike.setColorFilter(getColor(R.color.event_like_color));
                 }
@@ -113,9 +114,21 @@ public class EventDetailActivity extends AppCompatActivity {
         builder.append(getString(R.string.about_event_details));
         binding.tvEventDescription.setText(builder);
 
+        binding.btnSeeAllAttendees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EventDetailActivity.this, BaseFragmentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+                intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new AttendeeFragment());
+                intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+                startActivity(intent);
+            }
+        });
+
     }
 
-    public void init(){
+    public void init() {
         //Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
@@ -133,11 +146,11 @@ public class EventDetailActivity extends AppCompatActivity {
                         // Set event data to UI elements
                         binding.tvEventName.setText(event.getName());
                         binding.tvEventCategory.setText(event.getCategory());
-                        binding.tvEventPrice.setText("$"+event.getPrice());
-                        binding.tvEventDate.setText(event.getStartDate().substring(0,2));
+                        binding.tvEventPrice.setText("$" + event.getPrice());
+                        binding.tvEventDate.setText(event.getStartDate().substring(0, 2));
                         binding.tvEventMonth.setText("March");
                         binding.tvEventDay.setText("Wednesday");
-                        binding.tvEventTime.setText(event.getStartTime()+"-"+event.getEndTime());
+                        binding.tvEventTime.setText(event.getStartTime() + "-" + event.getEndTime());
                         binding.tvEventDescription.setText(event.getDesc());
                         binding.tvEventLocation.setText(event.getLocation());
                         // Similarly, you can set other event data to corresponding UI elements

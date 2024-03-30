@@ -7,6 +7,8 @@ public class Attendee {
     boolean isCheckedIn;
     int totalTickets;
 
+    public Attendee(){}
+
     public Attendee(String userID, String eventID, boolean isCheckedIn, int totalTickets) {
         this.userID = userID;
         this.eventID = eventID;

@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,14 +25,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
-import ca.event.solosphere.core.model.Attendees;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentChatRequestBinding;
-import ca.event.solosphere.ui.adapter.AttendeeAdapter;
 import ca.event.solosphere.ui.adapter.ChatRequestAdapter;
 import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
 
