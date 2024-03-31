@@ -9,6 +9,8 @@
     <string name="title_booked_events">Booked Events</string>
     <string name="title_profile">Profile</string>
     <string name="title_attendee">Attendees</string>
+    <string name="title_no_attendee">No Attendees</string>
+    <string name="title_view"><u>View</u></string>
     <string name="title_event_list">Events List</string>
     <string name="demo_location">Toronto,ON</string>
     <string name="search_events">Search all events...</string>
@@ -62,6 +64,8 @@
     <string name="title_cancel">Cancel</string>
     <string name="title_accept">Accept</string>
     <string name="title_user_name">User Name</string>
+    <string name="title_travelling_solo">(Travelling Solo)</string>
+    <string name="title_travelling_with">Travelling with</string>
     <string name="title_status">Status</string>
     <string name="title_recent_chats">Recent Chats</string>
     <string name="title_chats">Chats</string>

@@ -40,6 +40,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
     private FragmentAttendeeBinding binding;
     private Activity context;
     private ArrayList<User> userArrayList = new ArrayList<>();
+    private ArrayList<Attendee> attendeeArrayList = new ArrayList<>();
     private AttendeeAdapter attendeeAdapter;
 
     private FirebaseAuth mAuth;
@@ -51,6 +52,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
     private String currentUid;
     private Bundle bundle;
     private Event event;
+    private boolean is_user = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,6 +71,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
         bundle = getArguments();
         if (bundle != null) {
             event = (Event) bundle.getSerializable(Extras.EXTRA_ATTACHMENT);
+            is_user = bundle.getBoolean(Extras.EXTRA_IS_USER);
         } else {
             event = new Event();
         }
@@ -122,6 +125,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                 if (dataSnapshot != null && dataSnapshot.exists()) {
                     for (DataSnapshot attendeeSnapshot : dataSnapshot.getChildren()) {
                         Attendee attendee = attendeeSnapshot.getValue(Attendee.class);
+                        attendeeArrayList.add(attendee);
                         getUserData(attendee);
                     }
 
@@ -174,7 +178,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
     private void populateAdapter() {
 
         if (getActivity() != null) {
-            attendeeAdapter = new AttendeeAdapter(baseActivity, userArrayList, mAuth.getCurrentUser().getUid());
+            attendeeAdapter = new AttendeeAdapter(baseActivity, userArrayList,attendeeArrayList, mAuth.getCurrentUser().getUid(), is_user);
         }
         binding.rvAttendee.setAdapter(attendeeAdapter);
         attendeeAdapter.setItemClickListener(this);

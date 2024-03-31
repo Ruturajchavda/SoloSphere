@@ -120,6 +120,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(EventDetailActivity.this, BaseFragmentActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+                bundle.putBoolean(Extras.EXTRA_IS_USER,true);
                 intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new AttendeeFragment());
                 intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
                 startActivity(intent);

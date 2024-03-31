@@ -73,6 +73,14 @@
                             android:text="@string/title_attendee"
                             android:textSize="@dimen/font_size_10" />
 
+                        <TextView
+                            android:id="@+id/viewAttendee"
+                            style="@style/text_label"
+                            android:text="@string/title_view"
+                            android:textSize="@dimen/font_size_10"
+                            android:layout_marginStart="@dimen/dim_5"
+                            android:textColor="@color/colorPrimary"/>
+
                     </LinearLayout>
 
                 </LinearLayout>

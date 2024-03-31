@@ -61,6 +61,12 @@ public class ListedEventsAdapter extends RecyclerView.Adapter<ListedEventsAdapte
         holder.binding.txtDateTime.setText(event.getStartDate() + " • " + event.getStartTime());
         holder.binding.txtLocation.setText(event.getLocation());
 
+        if (event.getAttendees() == 0) {
+            holder.binding.viewAttendee.setVisibility(View.GONE);
+            holder.binding.txtAttendee.setText(R.string.title_no_attendee);
+        } else {
+            holder.binding.txtAttendee.setText(event.getAttendees() + " " + mContext.getString(R.string.title_attendee));
+        }
         holder.binding.editEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +76,17 @@ public class ListedEventsAdapter extends RecyclerView.Adapter<ListedEventsAdapte
                 }
             }
         });
+
+        holder.binding.viewAttendee.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (viewItemInterface != null) {
+                    viewItemInterface.OnItemShare(holder.getAdapterPosition(), event);
+                }
+            }
+        });
+
 
     }
 
