@@ -183,6 +183,15 @@ public class OrgHomeFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void OnItemMoved(int position, Object o) {
+        if (o != null && o instanceof Event) {
+            Event event = (Event) o;
+            Intent intent = new Intent(getActivity(), BaseFragmentActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+            intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new ScanQRFragment());
+            intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+            startActivity(intent);
+        }
 
     }
 

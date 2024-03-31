@@ -87,6 +87,16 @@ public class ListedEventsAdapter extends RecyclerView.Adapter<ListedEventsAdapte
             }
         });
 
+        holder.binding.scanTicket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (viewItemInterface != null) {
+                    viewItemInterface.OnItemMoved(holder.getAdapterPosition(), event);
+                }
+            }
+        });
+
 
     }
 
