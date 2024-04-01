@@ -81,8 +81,7 @@ public class TicketFragment extends BaseFragment {
     }
 
     private void generateQR() {
-        String qrData = event.getEventID() + "," + mAuth.getCurrentUser().getUid() + "," + event.getStartDate() + ","
-                + event.getStartTime() + "," + event.getEndDate() + "," + event.getEndTime();
+        String qrData = event.getEventID() + "," + mAuth.getCurrentUser().getUid();
         QRGEncoder qrgEncoder = new QRGEncoder(qrData, null, QRGContents.Type.TEXT, 800);
         qrgEncoder.setColorBlack(baseActivity.getResources().getColor(R.color.color_white));
         qrgEncoder.setColorWhite(baseActivity.getResources().getColor(R.color.colorPrimary));

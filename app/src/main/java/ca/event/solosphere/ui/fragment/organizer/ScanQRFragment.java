@@ -1,6 +1,8 @@
 package ca.event.solosphere.ui.fragment.organizer;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -10,27 +12,40 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 
 import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.budiyev.android.codescanner.CodeScanner;
 import com.budiyev.android.codescanner.DecodeCallback;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.zxing.Result;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 
 import ca.event.solosphere.R;
+import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Attendee;
 import ca.event.solosphere.core.model.Event;
+import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentScanQRBinding;
 import ca.event.solosphere.ui.fragment.BaseFragment;
 
 public class ScanQRFragment extends BaseFragment {
 
+    private static final String TAG = "ScanQRFragment";
     private FragmentScanQRBinding binding;
     private Context mContext;
 
@@ -39,6 +54,11 @@ public class ScanQRFragment extends BaseFragment {
 
     private CodeScanner mCodeScanner;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+    private boolean isValidTicket = false;
+
+    private FirebaseAuth mAuth;
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mAttendeesRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +91,11 @@ public class ScanQRFragment extends BaseFragment {
     }
 
     private void init() {
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
+
         mCodeScanner = new CodeScanner(mContext, binding.scannerView);
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
@@ -78,7 +103,17 @@ public class ScanQRFragment extends BaseFragment {
                 baseActivity.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(baseActivity, result.getText(), Toast.LENGTH_SHORT).show();
+                        String[] QRData = result.getText().split(",");
+
+                        String eventId = QRData[0];
+                        String attendeeId = QRData[1];
+
+                        if (event.getEventID().equals(eventId)) {
+                            validateTicket(true, eventId, attendeeId);
+                        } else {
+                            Snackbar.make(binding.scannerView, baseActivity.getResources().getString(R.string.not_scanning_right_event), Snackbar.LENGTH_LONG).show();
+                        }
+
                     }
                 });
             }
@@ -103,7 +138,7 @@ public class ScanQRFragment extends BaseFragment {
         super.onPause();
     }
 
-    private void openCamera(){
+    private void openCamera() {
         if (ActivityCompat.checkSelfPermission(baseActivity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             mCodeScanner.startPreview();
         } else {
@@ -115,13 +150,66 @@ public class ScanQRFragment extends BaseFragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length>0){
+        if (requestCode == REQUEST_CAMERA_PERMISSION && grantResults.length > 0) {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED)
-                Snackbar.make(mContext,binding.scannerView,baseActivity.getResources().getString(R.string.err_permission_denied),Snackbar.LENGTH_LONG).show();
+                Snackbar.make(mContext, binding.scannerView, baseActivity.getResources().getString(R.string.err_permission_denied), Snackbar.LENGTH_LONG).show();
             else
                 openCamera();
-        }else
+        } else
             baseActivity.finish();
     }
 
+    private void validateTicket(boolean isShowProgress, String eventId, String attendeeId) {
+        if (isShowProgress) {
+            showProgress(binding.loadingView.getRoot());
+        }
+        Query query = mAttendeesRef.child(eventId).orderByChild(Constants.COLUMN_USER_ID).equalTo(attendeeId);
+        query.addValueEventListener(new ValueEventListener() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                hideProgress(binding.loadingView.getRoot());
+
+                if (dataSnapshot != null && dataSnapshot.exists()) {
+                    for (DataSnapshot attendeeSnapshot : dataSnapshot.getChildren()) {
+                        Attendee attendee = attendeeSnapshot.getValue(Attendee.class);
+
+                        if (attendee != null && attendee.getIsCheckedIn().equals("false")) {
+                            HashMap<String, Object> hashMap = new HashMap<>();
+                            hashMap.put("isCheckedIn", "true");
+                            attendeeSnapshot.getRef().updateChildren(hashMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Snackbar.make(binding.scannerView, baseActivity.getResources().getString(R.string.successfully_checked_in), Snackbar.LENGTH_LONG).show();
+                                }
+                            });
+                        } else {
+                            Snackbar.make(binding.scannerView, baseActivity.getResources().getString(R.string.err_already_checked_in), Snackbar.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                } else {
+                    Snackbar.make(binding.scannerView, baseActivity.getResources().getString(R.string.err_not_valid_ticket), Snackbar.LENGTH_LONG).show();
+                }
+
+                query.removeEventListener(this);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                hideProgress(binding.loadingView.getRoot());
+
+                Activity activity = getActivity();
+                if (activity != null && isAdded()) {
+
+                    if (databaseError != null) {
+                        Snackbar.make(binding.scannerView, databaseError.getMessage().toString(), Snackbar.LENGTH_LONG).show();
+                    }
+
+                }
+            }
+        });
+    }
 }

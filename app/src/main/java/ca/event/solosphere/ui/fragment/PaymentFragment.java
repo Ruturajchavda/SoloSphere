@@ -152,7 +152,7 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void uploadUserTicketData() {
-        Attendee attendee = new Attendee(mAuth.getUid(),eventID,false,1);
+        Attendee attendee = new Attendee(mAuth.getUid(),eventID,"false",1);
         String key = mAttendeesRef.push().getKey();
         mAttendeesRef.child(eventID).child(key).setValue(attendee)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

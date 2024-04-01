@@ -71,6 +71,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.Attend
         }
 
         if (!is_user) {
+            holder.binding.txtName.setText(attendees.getFullName());
             holder.binding.layoutSendReq.setVisibility(View.GONE);
             holder.binding.layoutAcceptReq.setVisibility(View.GONE);
         } else {
