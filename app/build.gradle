@@ -99,4 +99,7 @@ dependencies {
     //QRCode Generator
     implementation 'com.github.androidmads:QRGenerator:1.0.1'
 
+    //QRCode Scanner
+    implementation 'com.github.yuriy-budiyev:code-scanner:2.3.0'
+
 }

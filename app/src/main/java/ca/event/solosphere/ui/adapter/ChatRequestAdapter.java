@@ -15,7 +15,6 @@ import java.util.ArrayList;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
-import ca.event.solosphere.core.model.Attendees;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.LayoutChatRequestBinding;
 import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;

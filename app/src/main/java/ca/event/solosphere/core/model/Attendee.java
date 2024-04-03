@@ -4,10 +4,12 @@ public class Attendee {
 
     String userID;
     String eventID;
-    boolean isCheckedIn;
+    String isCheckedIn;
     int totalTickets;
 
-    public Attendee(String userID, String eventID, boolean isCheckedIn, int totalTickets) {
+    public Attendee(){}
+
+    public Attendee(String userID, String eventID, String isCheckedIn, int totalTickets) {
         this.userID = userID;
         this.eventID = eventID;
         this.isCheckedIn = isCheckedIn;
@@ -30,12 +32,12 @@ public class Attendee {
         this.eventID = eventID;
     }
 
-    public boolean isCheckedIn() {
+    public String getIsCheckedIn() {
         return isCheckedIn;
     }
 
-    public void setCheckedIn(boolean checkedIn) {
-        isCheckedIn = checkedIn;
+    public void setIsCheckedIn(String isCheckedIn) {
+        this.isCheckedIn = isCheckedIn;
     }
 
     public int getTotalTickets() {
@@ -51,7 +53,7 @@ public class Attendee {
         return "Attendee{" +
                 "userID='" + userID + '\'' +
                 ", eventID='" + eventID + '\'' +
-                ", isCheckedIn=" + isCheckedIn +
+                ", isCheckedIn='" + isCheckedIn + '\'' +
                 ", totalTickets=" + totalTickets +
                 '}';
     }

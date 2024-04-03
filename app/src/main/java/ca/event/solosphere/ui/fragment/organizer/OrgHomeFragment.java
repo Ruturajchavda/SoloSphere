@@ -31,6 +31,7 @@ import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.FragmentOrgHomeBinding;
 import ca.event.solosphere.ui.activity.BaseFragmentActivity;
 import ca.event.solosphere.ui.adapter.ListedEventsAdapter;
+import ca.event.solosphere.ui.fragment.AttendeeFragment;
 import ca.event.solosphere.ui.fragment.BaseFragment;
 import ca.event.solosphere.ui.interfaces.RecyclerViewItemInterface;
 
@@ -53,6 +54,7 @@ public class OrgHomeFragment extends BaseFragment implements View.OnClickListene
         setToolbarTitle(baseActivity.getResources().getString(R.string.title_event_list));
         hideToolbarBack();
         BaseFragmentActivity.isAddEventEnable = true;
+        BaseFragmentActivity.isLogoutEnable = true;
         getActivity().invalidateOptionsMenu();
     }
 
@@ -181,11 +183,30 @@ public class OrgHomeFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void OnItemMoved(int position, Object o) {
+        if (o != null && o instanceof Event) {
+            Event event = (Event) o;
+            Intent intent = new Intent(getActivity(), BaseFragmentActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+            intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new ScanQRFragment());
+            intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+            startActivity(intent);
+        }
 
     }
 
     @Override
     public void OnItemShare(int position, Object o) {
+        if (o != null && o instanceof Event) {
+            Event event = (Event) o;
+            Intent intent = new Intent(getActivity(), BaseFragmentActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+            bundle.putBoolean(Extras.EXTRA_IS_USER,false);
+            intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new AttendeeFragment());
+            intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+            startActivity(intent);
+        }
 
     }
 }

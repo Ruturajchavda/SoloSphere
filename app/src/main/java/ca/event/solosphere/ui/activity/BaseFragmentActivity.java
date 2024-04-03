@@ -1,6 +1,7 @@
 package ca.event.solosphere.ui.activity;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -29,12 +30,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.ui.fragment.BaseFragment;
 import ca.event.solosphere.ui.fragment.ChatFragment;
+import ca.event.solosphere.ui.fragment.LoginFragment;
 import ca.event.solosphere.ui.fragment.organizer.OrgAddEventFragment;
+import ca.event.solosphere.ui.fragment.organizer.OrgLoginFragment;
 import ca.event.solosphere.ui.utils.AppUtils;
 
 public class BaseFragmentActivity extends AppCompatActivity {
@@ -42,6 +47,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
     private boolean isStateSaved = false;
 
     public static boolean isAddEventEnable = false;
+    public static boolean isLogoutEnable = false;
     private Menu menu;
 
     @Override
@@ -57,6 +63,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(systemUiVisibilityFlags);
 
         isAddEventEnable = false;
+        isLogoutEnable = false;
 
         setContentView(R.layout.activity_base_fragment);
 
@@ -135,6 +142,7 @@ public class BaseFragmentActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
         menu.findItem(R.id.menu_add).setVisible(isAddEventEnable);
+        menu.findItem(R.id.menu_logout).setVisible(isLogoutEnable);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -143,6 +151,10 @@ public class BaseFragmentActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_add:
                 addEvent();
+                return true;
+
+            case R.id.menu_logout:
+                doLogout();
                 return true;
         }
 
@@ -202,4 +214,29 @@ public class BaseFragmentActivity extends AppCompatActivity {
         fTransaction.replace(R.id.layoutFHostFragment, fragment, fragment.getClass().getName());
         fTransaction.commit();
     }
+
+    private void doLogout() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.title_log_out))
+                .setMessage(getString(R.string.log_out_question))
+                .setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                        mAuth.signOut();
+                        Intent intent = new Intent(BaseFragmentActivity.this, BaseFragmentActivity.class);
+                        intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new OrgLoginFragment());
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).
+                show();
+    }
+
 }
