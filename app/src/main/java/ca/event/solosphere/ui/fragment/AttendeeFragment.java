@@ -2,18 +2,15 @@ package ca.event.solosphere.ui.fragment;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,12 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Objects;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
-import ca.event.solosphere.core.model.Attendees;
+import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Attendee;
+import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentAttendeeBinding;
 import ca.event.solosphere.ui.adapter.AttendeeAdapter;
@@ -41,15 +39,20 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
     private static final String TAG = "AttendeeFragment";
     private FragmentAttendeeBinding binding;
     private Activity context;
-    private ArrayList<Attendees> attendeesArrayList = new ArrayList<>();
+    private ArrayList<User> userArrayList = new ArrayList<>();
+    private ArrayList<Attendee> attendeeArrayList = new ArrayList<>();
     private AttendeeAdapter attendeeAdapter;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mFirebaseDatabase;
+    private DatabaseReference mAttendeesRef;
     private DatabaseReference mChatRequestRef;
     private DatabaseReference mContactsRef;
     private String currentUid;
+    private Bundle bundle;
+    private Event event;
+    private boolean is_user = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,13 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
 
         context = getActivity();
 
+        bundle = getArguments();
+        if (bundle != null) {
+            event = (Event) bundle.getSerializable(Extras.EXTRA_ATTACHMENT);
+            is_user = bundle.getBoolean(Extras.EXTRA_IS_USER);
+        } else {
+            event = new Event();
+        }
         return binding.getRoot();
     }
 
@@ -76,12 +86,13 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mFirebaseDatabase = mFirebaseInstance.getReference(Constants.TBL_USER);
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
         mChatRequestRef = mFirebaseInstance.getReference(Constants.TBL_CHAT_REQUEST);
         mContactsRef = mFirebaseInstance.getReference(Constants.TBL_CONTACTS);
 
         currentUid = mAuth.getCurrentUser().getUid();
 
-        doAttendeesList(true);
+        doAttendeeList(true);
 
         binding.errorView.getRoot().setOnClickListener(this);
 
@@ -92,38 +103,37 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
         switch (view.getId()) {
 
             case R.id.errorView:
-                doAttendeesList(true);
+                doAttendeeList(true);
                 break;
 
         }
     }
 
-    private void doAttendeesList(boolean isShowProgress) {
+    private void doAttendeeList(boolean isShowProgress) {
         if (isShowProgress) {
             showProgress(binding.loadingView.getRoot());
         }
 
-        mFirebaseDatabase.addValueEventListener(new ValueEventListener() {
+        mAttendeesRef.child(event.getEventID()).addValueEventListener(new ValueEventListener() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                attendeesArrayList.clear();
+                userArrayList.clear();
                 hideProgress(binding.loadingView.getRoot());
                 binding.errorView.getRoot().setVisibility(View.GONE);
 
                 if (dataSnapshot != null && dataSnapshot.exists()) {
-                    for (DataSnapshot attendeesSnapshot : dataSnapshot.getChildren()) {
-                        Attendees attendees = attendeesSnapshot.getValue(Attendees.class);
-
-                        if (attendees != null && !Objects.equals(attendees.getUid(), mAuth.getCurrentUser().getUid())) {
-                            Log.e(TAG, "onDataChange: " + attendees);
-                            manageChatRequest(attendees);
-                        }
+                    for (DataSnapshot attendeeSnapshot : dataSnapshot.getChildren()) {
+                        Attendee attendee = attendeeSnapshot.getValue(Attendee.class);
+                        attendeeArrayList.add(attendee);
+                        getUserData(attendee);
                     }
 
-
+                } else {
+                    updateUI();
                 }
-                updateUI();
+
+                populateAdapter();
             }
 
             @Override
@@ -142,36 +152,59 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                 }
             }
         });
+    }
 
+    private void getUserData(Attendee attendee) {
+        mFirebaseDatabase.child(attendee.getUserID()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    if (user != null) {
+                        manageChatRequest(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage().toString());
+            }
+        });
 
     }
+
 
     private void populateAdapter() {
 
         if (getActivity() != null) {
-            attendeeAdapter = new AttendeeAdapter(baseActivity, attendeesArrayList);
+            attendeeAdapter = new AttendeeAdapter(baseActivity, userArrayList,attendeeArrayList, mAuth.getCurrentUser().getUid(), is_user);
         }
         binding.rvAttendee.setAdapter(attendeeAdapter);
         attendeeAdapter.setItemClickListener(this);
     }
 
     public void updateUI() {
-        if (attendeesArrayList.size() == 0) {
+        if (userArrayList.size() == 0) {
             binding.emptyView.getRoot().setVisibility(View.VISIBLE);
         } else {
             binding.emptyView.getRoot().setVisibility(View.GONE);
         }
     }
 
-    private void manageChatRequest(Attendees attendees) {
-        attendeesArrayList.add(attendees);
+    private void manageChatRequest(User user) {
+        if (Objects.equals(user.getUid(), mAuth.getCurrentUser().getUid())) {
+            userArrayList.add(0, user);
+        } else {
+            userArrayList.add(user);
+        }
         final String[] currentState = {Constants.STATE_NEW};
         mChatRequestRef.child(currentUid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    if (dataSnapshot.hasChild(attendees.getUid())) {
-                        String requestType = dataSnapshot.child(attendees.getUid()).child(Constants.COLUMN_REQ_TYPE).getValue().toString();
+                    if (dataSnapshot.hasChild(user.getUid())) {
+                        String requestType = dataSnapshot.child(user.getUid()).child(Constants.COLUMN_REQ_TYPE).getValue().toString();
                         if (requestType.equals(Constants.STATE_REQ_SENT)) {
                             currentState[0] = Constants.STATE_REQ_SENT;
                         } else {
@@ -181,9 +214,9 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                         mContactsRef.child(currentUid).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.hasChild(attendees.getUid())) {
+                                if (dataSnapshot.hasChild(user.getUid())) {
                                     currentState[0] = Constants.STATE_FRIENDS;
-                                    attendees.setCurrentState(currentState[0]);
+                                    user.setCurrentState(currentState[0]);
                                     attendeeAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -200,9 +233,9 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                if (dataSnapshot.hasChild(attendees.getUid())) {
+                                if (dataSnapshot.hasChild(user.getUid())) {
                                     currentState[0] = Constants.STATE_FRIENDS;
-                                    attendees.setCurrentState(currentState[0]);
+                                    user.setCurrentState(currentState[0]);
                                     attendeeAdapter.notifyDataSetChanged();
                                 }
                             }
@@ -215,8 +248,9 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
                     });
 
                 }
-                attendees.setCurrentState(currentState[0]);
+                user.setCurrentState(currentState[0]);
                 populateAdapter();
+                updateUI();
             }
 
             @Override
@@ -235,8 +269,8 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void OnItemClick(int position, Object o) {
-        if (o != null && o instanceof Attendees) {
-            Attendees attendees = (Attendees) o;
+        if (o != null && o instanceof User) {
+            User attendees = (User) o;
             sendChatRequest(attendees);
         }
 
@@ -244,8 +278,8 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
 
     @Override
     public void OnItemMoved(int position, Object o) {
-        if (o != null && o instanceof Attendees) {
-            Attendees attendees = (Attendees) o;
+        if (o != null && o instanceof User) {
+            User attendees = (User) o;
             cancelChatRequest(attendees);
         }
 
@@ -256,7 +290,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void cancelChatRequest(Attendees attendees) {
+    private void cancelChatRequest(User attendees) {
 
         mChatRequestRef.child(currentUid).child(attendees.getUid())
                 .removeValue()
@@ -282,7 +316,7 @@ public class AttendeeFragment extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void sendChatRequest(Attendees attendees) {
+    private void sendChatRequest(User attendees) {
 
         mChatRequestRef.child(currentUid).child(attendees.getUid()).child(Constants.COLUMN_REQ_TYPE)
                 .setValue(Constants.STATE_REQ_SENT)

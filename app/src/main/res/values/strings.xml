@@ -9,6 +9,8 @@
     <string name="title_booked_events">Booked Events</string>
     <string name="title_profile">Profile</string>
     <string name="title_attendee">Attendees</string>
+    <string name="title_no_attendee">No Attendees</string>
+    <string name="title_view"><u>View</u></string>
     <string name="title_event_list">Events List</string>
     <string name="demo_location">Toronto,ON</string>
     <string name="search_events">Search all events...</string>
@@ -62,6 +64,8 @@
     <string name="title_cancel">Cancel</string>
     <string name="title_accept">Accept</string>
     <string name="title_user_name">User Name</string>
+    <string name="title_travelling_solo">(Travelling Solo)</string>
+    <string name="title_travelling_with">Travelling with</string>
     <string name="title_status">Status</string>
     <string name="title_recent_chats">Recent Chats</string>
     <string name="title_chats">Chats</string>
@@ -161,4 +165,14 @@
     <string name="title_checkout">Checkout</string>
     <string name="demo_total_price">Total: $123.45</string>
     <string name="checkout">Checkout</string>
+    <string name="str_you">You</string>
+    <string name="title_date_time"><![CDATA[Date & Time]]></string>
+    <string name="title_total_attendee">Total Attendees</string>
+    <string name="title_validate_ticket">Validate Ticket</string>
+    <string name="err_permission_denied">Permission Denied</string>
+    <string name="err_scanner_stopped">To prevent memory leaks barcode scanner has been stopped</string>
+    <string name="err_not_valid_ticket">Not Valid Ticket!</string>
+    <string name="err_already_checked_in">Already Checked In!</string>
+    <string name="successfully_checked_in">Successfully Checked In!</string>
+    <string name="not_scanning_right_event">You are not scanning for the right Event!</string>
 </resources>

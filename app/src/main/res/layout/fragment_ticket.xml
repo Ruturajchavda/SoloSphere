@@ -93,12 +93,14 @@
                             android:layout_marginTop="@dimen/dim_25"
                             android:text="@string/title_event_name"
                             android:textColor="@color/color_black"
+                            android:textAlignment="center"
                             android:textSize="@dimen/font_size_14" />
 
                         <com.google.android.material.textview.MaterialTextView
                             android:id="@+id/txtLocation"
                             style="@style/text_label"
                             android:text="@string/demo_location"
+                            android:textAlignment="center"
                             android:textColor="@color/darkgray" />
 
                         <LinearLayout
@@ -116,12 +118,13 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/text_label"
-                                    android:text="@string/title_date"
+                                    android:text="@string/title_date_time"
                                     android:textColor="@color/color_black" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txtDate"
+                                    android:id="@+id/txtDateTime"
                                     style="@style/text_label"
+                                    android:textAlignment="center"
                                     android:text="@string/demo_date"
                                     android:textColor="@color/darkgray" />
 
@@ -143,18 +146,20 @@
 
                                 <com.google.android.material.textview.MaterialTextView
                                     style="@style/text_label"
-                                    android:text="@string/title_time"
+                                    android:text="@string/title_total_attendee"
                                     android:textColor="@color/color_black" />
 
                                 <com.google.android.material.textview.MaterialTextView
-                                    android:id="@+id/txtTime"
+                                    android:id="@+id/txtAttendee"
                                     style="@style/text_label"
-                                    android:text="@string/demo_time"
+                                    android:text="@string/title_attendee"
+                                    android:textAlignment="center"
                                     android:textColor="@color/darkgray" />
 
                             </LinearLayout>
 
                         </LinearLayout>
+
 
                     </LinearLayout>
 

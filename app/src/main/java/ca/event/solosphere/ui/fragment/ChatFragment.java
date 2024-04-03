@@ -1,20 +1,16 @@
 package ca.event.solosphere.ui.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -27,8 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
@@ -36,7 +30,6 @@ import ca.event.solosphere.core.model.Chat;
 import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentChatBinding;
 import ca.event.solosphere.ui.adapter.ChatAdapter;
-import ca.event.solosphere.ui.adapter.ChatListAdapter;
 
 public class ChatFragment extends BaseFragment implements View.OnClickListener {
     private static final String TAG = "ChatFragment";
@@ -255,7 +248,7 @@ public class ChatFragment extends BaseFragment implements View.OnClickListener {
                 if (status != null && !status.isEmpty()) {
                     binding.viewToolbar.txtStatus.setText(status);
                     binding.viewToolbar.txtStatus.setVisibility(View.VISIBLE);
-                    Log.e(TAG, "onDataChange: "+status );
+                    Log.e(TAG, "onDataChange: " + status);
                 }
             }
 
