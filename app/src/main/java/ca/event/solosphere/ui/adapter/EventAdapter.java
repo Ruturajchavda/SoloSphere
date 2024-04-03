@@ -3,6 +3,7 @@ package ca.event.solosphere.ui.adapter;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,90 +12,82 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+
+import java.util.List;
+
 import ca.event.solosphere.R;
+import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.LayoutEventBinding;
+import ca.event.solosphere.ui.activity.BaseFragmentActivity;
 import ca.event.solosphere.ui.activity.EventDetailActivity;
+import ca.event.solosphere.ui.fragment.EventDetailFragment;
+import ca.event.solosphere.ui.fragment.PaymentFragment;
 import eightbitlab.com.blurview.RenderScriptBlur;
 
-public class EventAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHolder> {
 
-    private Activity mContext;
-    private static final int VIEW_TYPE_EVENT = 0;
-    private static final int VIEW_TYPE_EMPTY = 1;
+    private Activity context;
+    private List<Event> eventList;
 
-    public EventAdapter(Activity mContext) {
-        this.mContext = mContext;
+    public EventAdapter(Activity context, List<Event> eventList) {
+        this.context = context;
+        this.eventList = eventList;
     }
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_EVENT) {
-            LayoutEventBinding binding = DataBindingUtil.inflate(LayoutInflater.from(mContext), R.layout.layout_event, parent, false);
-            return new EventViewHolder(binding);
-        } else {
-            // Inflate empty view layout
-            View emptyView = new View(mContext);
-            ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 250);
-            emptyView.setLayoutParams(layoutParams);
-            return new EmptyViewHolder(emptyView);
-        }
+    public EventViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutEventBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context),
+                R.layout.layout_event, parent, false);
+        return new EventViewHolder(binding);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof EventViewHolder) {
-            // Bind data for event item
-            EventViewHolder eventViewHolder = (EventViewHolder) holder;
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext, EventDetailActivity.class));
-                }
-            });
-            if (position == 2) {
-                eventViewHolder.binding.imageViewSmallBanner.setImageResource(R.drawable.demo_event_2);
-                eventViewHolder.binding.tvEventCategoryName.setText("Holi Event - Celebration");
-                eventViewHolder.binding.tvEventCategoryPlace.setText("Waterloo - Ontario, 02:00 PM");
-                eventViewHolder.binding.textViewOffer.setText("March 13");
+    public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
+        Event currentEvent = eventList.get(position);
+        holder.binding.tvEventName.setText(currentEvent.getName());
+        Glide.with(context).load(currentEvent.getEventImage()).placeholder(R.drawable.solosphere_events_banner).error(R.drawable.solosphere_events_banner).into(holder.binding.ivEventImage);
+        holder.binding.tvEventDate.setText(currentEvent.getStartDate());
+        String eventPlaceTime = currentEvent.getCity()+" - "+currentEvent.getState()+", "+
+                currentEvent.getStartTime();
+        holder.binding.tvEventPlaceTime.setText(eventPlaceTime);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, BaseFragmentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString(Extras.EXTRA_EVENT_ID, currentEvent.getEventID());
+                intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new EventDetailFragment());
+                intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+                context.startActivity(intent);
             }
-        }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return 4 + 1;
+        return eventList.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        // Check if it's the last position, then return blank item view type
-        return (position == getItemCount() - 1) ? VIEW_TYPE_EMPTY : VIEW_TYPE_EVENT;
-    }
 
     class EventViewHolder extends RecyclerView.ViewHolder {
-
         private final LayoutEventBinding binding;
 
         EventViewHolder(LayoutEventBinding layoutEventBinding) {
             super(layoutEventBinding.getRoot());
             this.binding = layoutEventBinding;
 
-            float radius = 3f;
+            float radius = 10f;
 
-            View decorView = mContext.getWindow().getDecorView();
-            ViewGroup rootView = (ViewGroup) decorView.findViewById(android.R.id.content);
+            View decorView = context.getWindow().getDecorView();
+            ViewGroup rootView = decorView.findViewById(android.R.id.content);
             Drawable windowBackground = decorView.getBackground();
-            binding.blurView.setupWith(rootView, new RenderScriptBlur(mContext)) // or RenderEffectBlur
+            binding.blurView.setupWith(rootView, new RenderScriptBlur(context)) // or RenderEffectBlur
                     .setFrameClearDrawable(windowBackground) // Optional
                     .setBlurRadius(radius);
-        }
-    }
 
-    // ViewHolder for the empty item
-    class EmptyViewHolder extends RecyclerView.ViewHolder {
-        EmptyViewHolder(View itemView) {
-            super(itemView);
         }
     }
 }

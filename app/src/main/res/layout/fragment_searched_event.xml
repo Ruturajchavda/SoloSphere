@@ -2,41 +2,50 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.fragment.LikedEventsFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvSearchResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_white"
+        android:layout_marginVertical="@dimen/small_margin"
+        android:layout_marginHorizontal="@dimen/large_margin"
+        android:textSize="@dimen/_15ssp"
+        android:text="@string/search_results"/>
 
     <LinearLayout
-        android:id="@+id/ll_liked_events"
+        android:id="@+id/llEvents"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:visibility="visible"
+        android:orientation="vertical">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_liked_event"
+            android:id="@+id/rv_event"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="@dimen/event_image_height"
+            android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/layout_event" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tvNoLikedEvents"
+        android:id="@+id/tvNoEvents"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
         android:gravity="center"
-        android:text="@string/no_liked_events"
+        android:visibility="gone"
         android:textColor="@color/color_white"
         android:textSize="@dimen/_15ssp"
-        android:visibility="gone" />
+        android:text="@string/no_events"/>
 
 
 </LinearLayout>

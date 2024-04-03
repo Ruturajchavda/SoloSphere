@@ -5,7 +5,7 @@ import java.io.File;
 public class Constants {
 
     /*
-    /* */
+            /* */
     /* Local */
     public static String APP_VERSION = "1.0";
     public static String APP_NAME = "SoloSphere Events";
@@ -40,5 +40,8 @@ public class Constants {
     public static final String STATE_FRIENDS = "friends";
     public static final String TYPE_USR = "USR";
     public static final String TYPE_ORG = "ORG";
+    public static final String TBL_LIKED_EVENTS = "LikedEvents";
+    public static final String TBL_BOOKED_EVENTS = "BookedEvents";
+
 
 }
