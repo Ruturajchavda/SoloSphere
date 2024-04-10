@@ -89,7 +89,7 @@ public class SearchedEventFragment extends BaseFragment implements View.OnClickL
                     }
                     if(eventList.size() > 0){
                         showEventView(true);
-                        EventAdapter eventAdapter = new EventAdapter(context,eventList);
+                        EventAdapter eventAdapter = new EventAdapter(context,eventList,false);
                         binding.rvEvent.setAdapter(eventAdapter);
                     }else{
                         showEventView(false);

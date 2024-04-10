@@ -150,7 +150,7 @@ public class HomeFragment extends Fragment {
                             showEventView(false);
                         }
                     }
-                    EventAdapter eventAdapter = new EventAdapter(context,eventList);
+                    EventAdapter eventAdapter = new EventAdapter(context,eventList,false);
                     binding.rvEvent.setAdapter(eventAdapter);
                 }
             }

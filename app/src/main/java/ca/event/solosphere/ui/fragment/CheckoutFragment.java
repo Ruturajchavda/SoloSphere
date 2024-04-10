@@ -27,6 +27,7 @@ import ca.event.solosphere.core.model.Attendee;
 import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.FragmentCheckoutBinding;
 import ca.event.solosphere.databinding.FragmentPaymentBinding;
+import ca.event.solosphere.ui.activity.BaseFragmentActivity;
 import ca.event.solosphere.ui.activity.NavigationActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -63,7 +64,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
 
     private void init(){
         binding.btnCheckout.setOnClickListener(this);
-        binding.plusMinusLayout.setOnClickListener(this);
+        binding.btnPlus.setOnClickListener(this);
         binding.btnMinus.setOnClickListener(this);
     }
 
@@ -86,7 +87,13 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View view) {
         if(view.getId() == binding.btnCheckout.getId()){
-
+            Intent intent = new Intent(context, BaseFragmentActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString(Extras.EXTRA_EVENT_ID, event.getEventID());
+            bundle.putInt(Extras.EXTRA_TICKET_QUANTITY, ticketQuantity);
+            intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+            intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new PaymentFragment());
+            context.startActivity(intent);
         }else if(view.getId() == binding.btnPlus.getId()){
             ticketQuantity++;
             binding.tvTicketQuantity.setText(String.valueOf(ticketQuantity));

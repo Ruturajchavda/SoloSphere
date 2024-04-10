@@ -26,6 +26,7 @@ import java.util.Objects;
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Attendee;
 import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.core.model.BookedEvent;
 import ca.event.solosphere.databinding.FragmentBookedEventsBinding;
@@ -43,7 +44,7 @@ public class BookedEventsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
 
-    private DatabaseReference mBookedEventRef;
+    private DatabaseReference mAttendeesRef;
     private DatabaseReference mEventRef;
     private List<Event> bookedEventList;
     private List<Event> eventList;
@@ -72,33 +73,32 @@ public class BookedEventsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
-        mBookedEventRef = mFirebaseInstance.getReference(Constants.TBL_BOOKED_EVENTS);
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
         getAllEventsData();
     }
     private void getBookedEventsData() {
-        mBookedEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        mAttendeesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot bookedEventSnapshot : dataSnapshot.getChildren()) {
-                        // Iterate through each event data
-                        BookedEvent bookedEvent = bookedEventSnapshot.getValue(BookedEvent.class); // Assuming Event is your custom class representing an event
-                        assert bookedEvent != null;
-                        if (Objects.equals(mAuth.getUid(), bookedEvent.getUserID())) {
-                            for(Event event:eventList){
-                                if(Objects.equals(event.getEventID(), bookedEvent.getEventID())){
-                                    bookedEventList.add(event);
+                    showEventView(true);
+                    for (DataSnapshot mainSnapshot : dataSnapshot.getChildren()) {
+                        for (DataSnapshot attendeeSnapshot : mainSnapshot.getChildren()) {
+                            Attendee attendee = attendeeSnapshot.getValue(Attendee.class); // Assuming Event is your custom class representing an event
+                            assert attendee != null;
+                            if(Objects.equals(mAuth.getUid(), attendee.getUserID())){
+                                for(Event event : eventList){
+                                    if(Objects.equals(event.getEventID(), attendee.getEventID())){
+                                        bookedEventList.add(event);
+                                    }
                                 }
                             }
                         }
                     }
-                    if(bookedEventList.size() > 0){
-                        showEventView(true);
-                        EventAdapter eventAdapter = new EventAdapter(context,bookedEventList);
-                        binding.rvBookedEvent.setAdapter(eventAdapter);
-                    }else{
-                        showEventView(false);
-                    }
+                    EventAdapter eventAdapter = new EventAdapter(context,bookedEventList,true);
+                    binding.rvBookedEvent.setAdapter(eventAdapter);
+                }else {
+                    showEventView(false);
                 }
             }
 

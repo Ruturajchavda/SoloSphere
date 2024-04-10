@@ -1,6 +1,8 @@
 package ca.event.solosphere.core.model;
 
-public class Attendee {
+import java.io.Serializable;
+
+public class Attendee implements Serializable {
 
     String userID;
     String eventID;

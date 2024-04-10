@@ -43,6 +43,7 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     private String creditCardNumber = "";
     private String creditCardExpiry = "";
     private String eventID;
+    private int ticketQuantity;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
@@ -51,7 +52,6 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     private final String DEMO_EXPIRY = "01/25";
     private final String DEMO_SECURITY_CODE = "123";
 
-    private static ActivityResultLauncher<Intent> launcher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,6 +68,7 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
         bundle = getArguments();
         if(bundle != null){
             eventID = bundle.getString(Extras.EXTRA_EVENT_ID);
+            ticketQuantity = bundle.getInt(Extras.EXTRA_TICKET_QUANTITY);
         }
 
         binding.btnPay.setOnClickListener(this);
@@ -132,16 +133,13 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view.getId() == binding.btnPay.getId()){
-//            showPaymentSuccessDialog();
-            saveUserTicketData();
-//            String securityCode = binding.etSecurityCode.getText().toString();
-//            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
-//                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
-//            securityCode.equals(DEMO_SECURITY_CODE)){
-//                saveUserTicketData();
-//            }
+            String securityCode = binding.etSecurityCode.getText().toString();
+            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
+                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
+            securityCode.equals(DEMO_SECURITY_CODE)){
+                saveUserTicketData();
+            }
         }
-
     }
 
     private void saveUserTicketData() {
@@ -152,7 +150,7 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     }
 
     private void uploadUserTicketData() {
-        Attendee attendee = new Attendee(mAuth.getUid(),eventID,"false",1);
+        Attendee attendee = new Attendee(mAuth.getUid(),eventID,"false",ticketQuantity);
         String key = mAttendeesRef.push().getKey();
         mAttendeesRef.child(eventID).child(key).setValue(attendee)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

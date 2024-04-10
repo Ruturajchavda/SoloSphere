@@ -95,7 +95,7 @@ public class LikedEventsFragment extends Fragment {
                     }
                     if(likedEventList.size() > 0){
                         showEventView(true);
-                        EventAdapter eventAdapter = new EventAdapter(context,likedEventList);
+                        EventAdapter eventAdapter = new EventAdapter(context,likedEventList,false);
                         binding.rvLikedEvent.setAdapter(eventAdapter);
                     }else{
                         showEventView(false);

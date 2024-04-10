@@ -154,13 +154,13 @@
     <string name="title_seat">Seat</string>
     <string name="no_seat">No Seat</string>
     <string name="title_ticket">Ticket</string>
-    <string name="demo_attendees">99</string>
+    <string name="demo_attendees">2</string>
     <string name="attendees_event">People attending this event</string>
     <string name="see_all_attendees">See All Attendees</string>
     <string name="no_events">Opps! Nothing is happening around you!</string>
     <string name="title_searched_events">Events</string>
     <string name="search_results">Search results for </string>
-    <string name="no_liked_events">You javen\'t liked any events yet !</string>
+    <string name="no_liked_events">You haven\'t liked any events yet !</string>
     <string name="no_booked_events">You haven\'t purchase any tickets yet !</string>
     <string name="title_checkout">Checkout</string>
     <string name="demo_total_price">Total: $123.45</string>
@@ -175,4 +175,5 @@
     <string name="err_already_checked_in">Already Checked In!</string>
     <string name="successfully_checked_in">Successfully Checked In!</string>
     <string name="not_scanning_right_event">You are not scanning for the right Event!</string>
+    <string name="no_attendee_yet">No one has booked events yet!</string>
 </resources>

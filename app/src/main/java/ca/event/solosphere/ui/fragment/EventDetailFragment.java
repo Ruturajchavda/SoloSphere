@@ -117,6 +117,19 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
             }
         });
 
+        binding.btnSeeAllAttendees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, BaseFragmentActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putBoolean(Extras.EXTRA_IS_USER, true);
+                bundle.putSerializable(Extras.EXTRA_ATTACHMENT, event);
+                intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
+                intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new AttendeeFragment());
+                startActivity(intent);
+            }
+        });
+
         // set event description
         SpannableStringBuilder builder = new SpannableStringBuilder();
         int startBold = builder.length();
