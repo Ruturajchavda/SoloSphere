@@ -28,7 +28,7 @@
             <TextView
                 style="@style/text_label_title_dark"
                 android:layout_marginTop="@dimen/dim_15"
-                android:text="@string/title_login" />
+                android:text="@string/title_org_login" />
 
             <TextView
                 style="@style/text_label_light"

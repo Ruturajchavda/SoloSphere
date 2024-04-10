@@ -18,6 +18,7 @@
     <string name="see_all">See all</string>
     <string name="event_category_feed">My feed</string>
     <string name="title_login">Login</string>
+    <string name="title_org_login">Organizer Login</string>
     <string name="subtitle_login">Please sign in to continue.</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
