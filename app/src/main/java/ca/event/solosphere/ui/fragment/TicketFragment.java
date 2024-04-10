@@ -16,11 +16,21 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Iterator;
 
 import androidmads.library.qrgenearator.QRGContents;
 import androidmads.library.qrgenearator.QRGEncoder;
 import ca.event.solosphere.R;
+import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
+import ca.event.solosphere.core.model.Attendee;
 import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.databinding.FragmentTicketBinding;
 
@@ -32,7 +42,8 @@ public class TicketFragment extends BaseFragment {
     private FirebaseAuth mAuth;
     private Bundle bundle;
     private Event event;
-
+    private FirebaseDatabase mFirebaseInstance;
+    private DatabaseReference mAttendeesRef;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,8 +64,6 @@ public class TicketFragment extends BaseFragment {
             event = new Event();
         }
 
-        mAuth = FirebaseAuth.getInstance();
-
         return binding.getRoot();
     }
 
@@ -66,6 +75,11 @@ public class TicketFragment extends BaseFragment {
 
     @SuppressLint("SetTextI18n")
     private void init() {
+
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
+
         String tempUrl = event.getEventImage();
 
         if (tempUrl != null && !tempUrl.isEmpty()) {
@@ -76,9 +90,35 @@ public class TicketFragment extends BaseFragment {
         binding.txtEventName.setText(event.getName());
         binding.txtLocation.setText(event.getLocation());
         binding.txtDateTime.setText(event.getStartDate() + "\n" + event.getStartTime());
-        binding.txtAttendee.setText(String.valueOf(event.getAttendees()));
+        getTotalTicket(event.getEventID());
+
         generateQR();
     }
+
+    private void getTotalTicket(String eventID) {
+        Query queries = mAttendeesRef.child(eventID).orderByChild(Constants.COLUMN_USER_ID).equalTo(mAuth.getCurrentUser().getUid());
+        String key = mAttendeesRef.push().getKey();
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                    if (iterator.hasNext()) {
+                        DataSnapshot firstElement = iterator.next();
+                        Attendee attendee = firstElement.getValue(Attendee.class);
+                        binding.txtAttendee.setText(String.valueOf(attendee.getTotalTickets()));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+            }
+        };
+        queries.addListenerForSingleValueEvent(eventListener);
+    }
+
 
     private void generateQR() {
         String qrData = event.getEventID() + "," + mAuth.getCurrentUser().getUid();

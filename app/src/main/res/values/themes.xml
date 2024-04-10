@@ -102,4 +102,14 @@
         <item name="android:background">@drawable/rounded_button</item>
     </style>
 
+    <style name="launch_search_bar">
+        <item name="android:layout_height">45dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="queryHint">@string/search_events</item>
+        <item name="iconifiedByDefault">false</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="queryBackground">@null</item>
+        <item name="android:editTextColor">@color/color_white</item>
+    </style>
+
 </resources>

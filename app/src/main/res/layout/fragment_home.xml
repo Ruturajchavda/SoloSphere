@@ -1,117 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg"
-    android:orientation="vertical"
     tools:context=".ui.fragment.HomeFragment">
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginVertical="@dimen/normal_margin"
-        android:orientation="horizontal">
-
-        <ImageView
-            android:layout_width="18dp"
-            android:layout_height="18dp"
-            android:layout_gravity="center"
-            android:src="@drawable/location" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/small_margin"
-            android:text="@string/demo_location"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/_13ssp" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/large_margin"
-        android:layout_marginVertical="@dimen/normal_margin"
-        android:background="@drawable/rounded_border"
-        android:padding="@dimen/normal_margin">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:drawableStart="@drawable/search"
-            android:drawableEnd="@drawable/filter"
-            android:drawablePadding="@dimen/normal_margin"
-            android:drawableTint="@color/darkgray"
-            android:hint="@string/search_events"
-            android:textColorHint="@color/darkgray"
-            android:textSize="@dimen/_13ssp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/large_margin"
-        android:layout_marginVertical="@dimen/normal_margin">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/small_margin"
-            android:layout_weight="0.5"
-            android:text="@string/upcoming_events"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/_12ssp" />
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/small_margin"
-            android:layout_weight="0.5"
-            android:gravity="end"
-            android:text="@string/see_all"
-            android:textColor="@color/color_white"
-            android:textSize="@dimen/_12ssp" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/large_margin"
-        android:layout_marginVertical="@dimen/normal_margin">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_event_category"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/layout_event_category" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_event"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/large_margin"
+            android:layout_marginVertical="@dimen/normal_margin"
+            android:background="@drawable/rounded_border"
+            android:padding="@dimen/normal_margin">
+
+            <EditText
+                android:id="@+id/et_search_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:drawableStart="@drawable/search"
+                android:drawablePadding="@dimen/normal_margin"
+                android:drawableTint="@color/darkgray"
+                android:hint="@string/search_events"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:textColor="@color/color_white"
+                android:textColorHint="@color/darkgray"
+                android:textSize="@dimen/_13ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginVertical="@dimen/normal_margin"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center"
+                android:src="@drawable/location" />
+
+            <TextView
+                android:id="@+id/tvUserLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                android:text="@string/demo_location"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/_13ssp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/large_margin"
+            android:layout_marginVertical="@dimen/normal_margin">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                android:layout_weight="0.5"
+                android:text="@string/upcoming_events"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/_12ssp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/small_margin"
+                android:layout_weight="0.5"
+                android:gravity="end"
+                android:text="@string/see_all"
+                android:textColor="@color/color_white"
+                android:textSize="@dimen/_12ssp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_event_category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/large_margin"
+            android:layout_marginVertical="@dimen/normal_margin">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_event_category"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/layout_event_category" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llEvents"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/layout_event" />
+            android:visibility="visible">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_event"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/event_image_height"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/layout_event" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvNoEvents"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/no_events"
+            android:textColor="@color/color_white"
+            android:textSize="@dimen/_15ssp"
+            android:visibility="gone" />
 
     </LinearLayout>
 
+    <include
+        android:id="@+id/loadingView"
+        layout="@layout/loading_view"
+        android:visibility="gone" />
 
-</LinearLayout>
-
+</RelativeLayout>

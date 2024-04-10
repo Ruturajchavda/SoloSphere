@@ -154,9 +154,17 @@
     <string name="title_seat">Seat</string>
     <string name="no_seat">No Seat</string>
     <string name="title_ticket">Ticket</string>
-    <string name="demo_attendees">99</string>
+    <string name="demo_attendees">2</string>
     <string name="attendees_event">People attending this event</string>
     <string name="see_all_attendees">See All Attendees</string>
+    <string name="no_events">Opps! Nothing is happening around you!</string>
+    <string name="title_searched_events">Events</string>
+    <string name="search_results">Search results for </string>
+    <string name="no_liked_events">You haven\'t liked any events yet !</string>
+    <string name="no_booked_events">You haven\'t purchase any tickets yet !</string>
+    <string name="title_checkout">Checkout</string>
+    <string name="demo_total_price">Total: $123.45</string>
+    <string name="checkout">Checkout</string>
     <string name="str_you">You</string>
     <string name="title_date_time"><![CDATA[Date & Time]]></string>
     <string name="title_total_attendee">Total Attendees</string>
@@ -167,4 +175,11 @@
     <string name="err_already_checked_in">Already Checked In!</string>
     <string name="successfully_checked_in">Successfully Checked In!</string>
     <string name="not_scanning_right_event">You are not scanning for the right Event!</string>
+    <string name="no_attendee_yet">No one has booked events yet!</string>
+    <string name="booked_ticket">Ticket has been booked successfully!</string>
+
+    <string name="intro_text_1">Get ready to immerse yourself in a world of social connections and memorable experiences</string>
+    <string name="intro_text_2">Find your next adventure and meet like-minded individuals with just a few taps</string>
+    <string name="intro_text_3">Explore a variety of events tailored to your interests, from concerts to outdoor activities</string>
+    <string name="intro_text_4">Start mingling with other singles attending the same events through our integrated chat feature</string>
 </resources>

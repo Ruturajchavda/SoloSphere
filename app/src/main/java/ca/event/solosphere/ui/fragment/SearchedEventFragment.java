@@ -3,9 +3,6 @@ package ca.event.solosphere.ui.fragment;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,75 +16,65 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Event;
-import ca.event.solosphere.core.model.LikedEvent;
-import ca.event.solosphere.core.session.UserPreference;
-import ca.event.solosphere.databinding.FragmentLikedEventsBinding;
+import ca.event.solosphere.databinding.FragmentEventDetailBinding;
 import ca.event.solosphere.databinding.FragmentSearchedEventBinding;
 import ca.event.solosphere.ui.adapter.EventAdapter;
-import ca.event.solosphere.ui.adapter.EventAdapter1;
 
+public class SearchedEventFragment extends BaseFragment implements View.OnClickListener {
 
-public class LikedEventsFragment extends Fragment {
-
-    private FragmentLikedEventsBinding binding;
-    private static final String TAG = "LikedEventFragment";
+    private static final String TAG = "SearchedEventFragment";
+    private FragmentSearchedEventBinding binding;
     private Activity context;
     private Bundle bundle;
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
 
     private DatabaseReference mEventRef;
-    private List<String> likedEventList;
     private List<Event> eventList;
+    private String searchedString;
 
-
-    public LikedEventsFragment() {
+    public SearchedEventFragment() {
         // Required empty public constructor
     }
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setToolbarTitle(baseActivity.getResources().getString(R.string.title_searched_events));
+    }
+
+    @SuppressLint("SetTextI18n")
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        binding = FragmentLikedEventsBinding.inflate(inflater, container, false);
-
+        // Inflate the layout for this fragment
+        binding = FragmentSearchedEventBinding.inflate(inflater, container, false);
         context = getActivity();
         bundle = getArguments();
-
+        if(bundle != null){
+            searchedString = bundle.getString(Extras.EXTRA_SEARCHED_STRING);
+            binding.tvSearchResult.setText(context.getString(R.string.search_results)+ " '"+ searchedString + "'");
+        }
+        init();
         return binding.getRoot();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        init();
-    }
-
     public void init(){
-        likedEventList = new ArrayList<>();
-        if(UserPreference.getLikedEvents(getContext()) != null){
-            likedEventList = UserPreference.getLikedEvents(getContext());
-        }
         eventList = new ArrayList<>();
         //Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
-        if(likedEventList.size()>0)
-            getAllEventsData();
-        else
-            showEventView(false);
+        getEventsData();
     }
 
-    private void getAllEventsData() {
+    private void getEventsData() {
         mEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -96,17 +83,17 @@ public class LikedEventsFragment extends Fragment {
                         // Iterate through each event data
                         Event event = eventSnapshot.getValue(Event.class); // Assuming Event is your custom class representing an event
                         assert event != null;
-                        if(likedEventList.contains(event.getEventID())){
+                        if (event.getName().trim().contains(searchedString)) {
                             eventList.add(event);
                         }
                     }
-                    if(eventList.size()>0){
+                    if(eventList.size() > 0){
                         showEventView(true);
                         EventAdapter eventAdapter = new EventAdapter(context,eventList,false);
-                        binding.rvLikedEvent.setAdapter(eventAdapter);
+                        binding.rvEvent.setAdapter(eventAdapter);
+                    }else{
+                        showEventView(false);
                     }
-                }else{
-                    showEventView(false);
                 }
             }
 
@@ -119,7 +106,14 @@ public class LikedEventsFragment extends Fragment {
 
     @SuppressLint("SetTextI18n")
     private void showEventView(boolean flag) {
-        binding.llLikedEvents.setVisibility(flag ? View.VISIBLE : View.GONE);
-        binding.tvNoLikedEvents.setVisibility(!flag ? View.VISIBLE : View.GONE);
+        binding.llEvents.setVisibility(flag ? View.VISIBLE : View.GONE);
+        binding.tvNoEvents.setVisibility(!flag ? View.VISIBLE : View.GONE);
+        if(!flag)
+            binding.tvNoEvents.setText("No result found for '"+searchedString+"'");
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }

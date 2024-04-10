@@ -39,7 +39,8 @@
                     style="@style/text_label_light"
                     android:textColor="@color/colorPrimary"
                     android:textSize="@dimen/font_size_12"
-                    tools:text="@string/title_ticket" />
+                    tools:text="@string/title_ticket"
+                    android:visibility="gone"/>
 
                 <TextView
                     android:id="@+id/txtStatus"

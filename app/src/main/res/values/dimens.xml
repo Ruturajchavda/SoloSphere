@@ -100,7 +100,7 @@
     <dimen name="big_margin">50dp</dimen>
 
     <dimen name="standard_corner">10dp</dimen>
-    <dimen name="intro_image_size">200dp</dimen>
+    <dimen name="intro_image_size">250dp</dimen>
 
     <dimen name="login_flow_lay_pd">@dimen/dim_15</dimen>
     <dimen name="main_lay_pd">@dimen/dim_10</dimen>
@@ -161,4 +161,5 @@
     <dimen name="cardtype_height">50dp</dimen>
     <dimen name="margin_10">10dp</dimen>
     <dimen name="card_margin">25dp</dimen>
+    <dimen name="event_image_height">230dp</dimen>
 </resources>

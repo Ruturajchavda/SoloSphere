@@ -11,9 +11,9 @@
         android:paddingBottom="@dimen/dim_7">
 
         <ImageView
-            android:id="@+id/imageViewSmallBanner"
+            android:id="@+id/iv_event_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/event_image_height"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/demo_event_1"
@@ -24,7 +24,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
-            android:id="@+id/textViewOffer"
+            android:id="@+id/tv_event_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -34,12 +34,12 @@
             android:paddingEnd="4dp"
             android:text="March 9"
             android:textColor="@android:color/black"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
-            app:layout_constraintEnd_toEndOf="@+id/imageViewSmallBanner"
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_event_image"
+            app:layout_constraintEnd_toEndOf="@+id/iv_event_image"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageViewSmallBanner"
+            app:layout_constraintTop_toTopOf="@+id/iv_event_image"
             app:layout_constraintVertical_bias="0.0" />
 
         <eightbitlab.com.blurview.BlurView
@@ -48,9 +48,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            app:layout_constraintBottom_toBottomOf="@+id/imageViewSmallBanner"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_event_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/imageViewSmallBanner"
+            app:layout_constraintStart_toStartOf="@+id/iv_event_image"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1.0">
 
@@ -61,7 +61,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_event_category_name"
+                    android:id="@+id/tv_event_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -71,7 +71,7 @@
                     android:textSize="@dimen/_17ssp" />
 
                 <TextView
-                    android:id="@+id/tv_event_category_place"
+                    android:id="@+id/tv_event_place_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"

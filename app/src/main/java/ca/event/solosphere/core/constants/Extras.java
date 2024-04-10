@@ -11,5 +11,7 @@ public class Extras {
     public static final String EXTRA_TITLE = "title";
     public static final String EXTRA_EVENT_ID = "event_id";
     public static final String EXTRA_EVENT_DETAIL = "event_detail";
+    public static final String EXTRA_SEARCHED_STRING = "searched_string";
     public static final String EXTRA_IS_USER = "is_user";
+    public static final String EXTRA_TICKET_QUANTITY = "ticket_quantity";
 }

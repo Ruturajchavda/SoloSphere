@@ -21,7 +21,7 @@ public class Constants {
     /* Google API Key */
     public static final String DEFAULT_WEB_CLIENT = "259206029837-25l0efndnt03k72videmudhf7db407dd.apps.googleusercontent.com";
     /* Time outs */
-    public static final int SPLASH_SCREEN_TIME = 1500;
+    public static final int SPLASH_SCREEN_TIME = 3000;
 
     /* Table */
     public static final String TBL_USER = "User";
@@ -41,5 +41,8 @@ public class Constants {
     public static final String STATE_FRIENDS = "friends";
     public static final String TYPE_USR = "USR";
     public static final String TYPE_ORG = "ORG";
+    public static final String TBL_LIKED_EVENTS = "LikedEvents";
+    public static final String USER_TYPE_ORG = "ORG";
+    public static final String USER_TYPE_USER = "USR";
 
 }

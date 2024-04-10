@@ -52,12 +52,6 @@ public class EventAdapter1 extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     mContext.startActivity(new Intent(mContext, EventDetailActivity.class));
                 }
             });
-            if (position == 2) {
-                eventViewHolder.binding.imageViewSmallBanner.setImageResource(R.drawable.demo_event_2);
-                eventViewHolder.binding.tvEventCategoryName.setText("Holi Event - Celebration");
-                eventViewHolder.binding.tvEventCategoryPlace.setText("Waterloo - Ontario, 02:00 PM");
-                eventViewHolder.binding.textViewOffer.setText("March 13");
-            }
         }
     }
 

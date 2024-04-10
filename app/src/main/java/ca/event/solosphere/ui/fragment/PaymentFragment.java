@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,16 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Objects;
 
 import ca.event.solosphere.R;
@@ -30,6 +38,7 @@ import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Attendee;
 import ca.event.solosphere.core.model.Event;
+import ca.event.solosphere.core.model.User;
 import ca.event.solosphere.databinding.FragmentPaymentBinding;
 import ca.event.solosphere.ui.activity.NavigationActivity;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -43,15 +52,17 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     private String creditCardNumber = "";
     private String creditCardExpiry = "";
     private String eventID;
+    private int ticketQuantity;
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mAttendeesRef;
+    private DatabaseReference mEventRef;
+    private Event event;
     private final String DEMO_CREDIT_CARD_NUMBER = "1234 5678 9012 3456";
     private final String DEMO_EXPIRY = "01/25";
     private final String DEMO_SECURITY_CODE = "123";
 
-    private static ActivityResultLauncher<Intent> launcher;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,8 +78,12 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
         context = getActivity();
         bundle = getArguments();
         if(bundle != null){
+            event = (Event) bundle.getSerializable(Extras.EXTRA_EVENT_DETAIL);
             eventID = bundle.getString(Extras.EXTRA_EVENT_ID);
+            ticketQuantity = bundle.getInt(Extras.EXTRA_TICKET_QUANTITY);
         }
+
+        init();
 
         binding.btnPay.setOnClickListener(this);
 
@@ -124,6 +139,13 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
         return binding.getRoot();
     }
 
+    private void init(){
+        mAuth = FirebaseAuth.getInstance();
+        mFirebaseInstance = FirebaseDatabase.getInstance();
+        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
+        mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
+    }
+
     @Override
     public void onAttach(Context activity) {
         super.onAttach(activity);
@@ -132,44 +154,79 @@ public class PaymentFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onClick(View view) {
         if(view.getId() == binding.btnPay.getId()){
-//            showPaymentSuccessDialog();
-            saveUserTicketData();
-//            String securityCode = binding.etSecurityCode.getText().toString();
-//            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
-//                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
-//            securityCode.equals(DEMO_SECURITY_CODE)){
-//                saveUserTicketData();
-//            }
+            String securityCode = binding.etSecurityCode.getText().toString();
+            if(Objects.equals(creditCardNumber, DEMO_CREDIT_CARD_NUMBER) &&
+                    Objects.equals(creditCardExpiry, DEMO_EXPIRY) &&
+            securityCode.equals(DEMO_SECURITY_CODE)){
+                isTicketBooked();
+            }
         }
-
     }
 
-    private void saveUserTicketData() {
-        mAuth = FirebaseAuth.getInstance();
-        mFirebaseInstance = FirebaseDatabase.getInstance();
-        mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
-        uploadUserTicketData();
-    }
-
-    private void uploadUserTicketData() {
-        Attendee attendee = new Attendee(mAuth.getUid(),eventID,"false",1);
+    private void isTicketBooked() {
+        showProgress(binding.loadingView.getRoot());
+        Query queries = mAttendeesRef.child(eventID).orderByChild(Constants.COLUMN_USER_ID).equalTo(mAuth.getCurrentUser().getUid());
         String key = mAttendeesRef.push().getKey();
+        ValueEventListener eventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if(snapshot.exists()){
+                    Iterator<DataSnapshot> iterator = snapshot.getChildren().iterator();
+                    if (iterator.hasNext()) {
+                        DataSnapshot firstElement = iterator.next();
+                        Attendee attendee = firstElement.getValue(Attendee.class);
+                        uploadUserTicketData(attendee.getTotalTickets()+ticketQuantity,firstElement.getKey());
+                    }
+                }else{
+                    uploadUserTicketData(ticketQuantity,mAttendeesRef.push().getKey());
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+            }
+        };
+        queries.addListenerForSingleValueEvent(eventListener);
+    }
+
+    private void uploadUserTicketData(int ticketQuantity,String key) {
+        Attendee attendee = new Attendee(mAuth.getUid(),eventID,"false",ticketQuantity);
         mAttendeesRef.child(eventID).child(key).setValue(attendee)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        showPaymentSuccessDialog();
-//                        hideProgress(binding.loadingView.getRoot());
-//                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.event_added), Snackbar.LENGTH_LONG).show();
-//                        baseActivity.finish();
+                        hideProgress(binding.loadingView.getRoot());
+                        updateEventData();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         // Failed to add event data to Firebase
-//                        hideProgress(binding.loadingView.getRoot());
-//                        Snackbar.make(context, binding.btnSelectEventImage, baseActivity.getResources().getString(R.string.err_event_not_added) + e.getMessage(), Snackbar.LENGTH_LONG).show();
+                        hideProgress(binding.loadingView.getRoot());
+                        Snackbar.make(context, binding.getRoot(), e.getMessage(), Snackbar.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void updateEventData() {
+        HashMap<String, Object> hashMap = new HashMap<>();
+        hashMap.put("attendees", event.getAttendees()+ticketQuantity);
+        mEventRef.child(eventID).updateChildren(hashMap)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        hideProgress(binding.loadingView.getRoot());
+                        showPaymentSuccessDialog();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Failed to add event data to Firebase
+                        hideProgress(binding.loadingView.getRoot());
+                        Snackbar.make(context, binding.getRoot(), e.getMessage(), Snackbar.LENGTH_LONG).show();
                     }
                 });
     }
