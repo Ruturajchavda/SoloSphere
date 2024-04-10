@@ -12,9 +12,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.SearchView;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.BuildConfig;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -103,6 +105,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getCategoryData() {
+        showProgress(binding.loadingView.getRoot());
         mCategoryRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -126,6 +129,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                hideProgress(binding.loadingView.getRoot());
                 Log.e(TAG, "onCancelled: " + databaseError.getMessage());
             }
         });
@@ -139,6 +143,7 @@ public class HomeFragment extends Fragment {
         mEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                hideProgress(binding.loadingView.getRoot());
                 if (dataSnapshot.exists()) {
                     for (DataSnapshot eventSnapshot : dataSnapshot.getChildren()) {
                         // Iterate through each event data
@@ -157,7 +162,8 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                hideProgress(binding.loadingView.getRoot());
+                Snackbar.make(binding.rvEvent, databaseError.getMessage().toString(), Snackbar.LENGTH_LONG).show();
             }
         });
     }
@@ -167,4 +173,14 @@ public class HomeFragment extends Fragment {
         binding.tvNoEvents.setVisibility(!flag ? View.VISIBLE : View.GONE);
     }
 
+    public void showProgress(View view) {
+        view.setVisibility(View.VISIBLE);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideProgress(View view) {
+        view.setVisibility(View.GONE);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
+    }
 }

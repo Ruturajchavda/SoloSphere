@@ -176,4 +176,5 @@
     <string name="successfully_checked_in">Successfully Checked In!</string>
     <string name="not_scanning_right_event">You are not scanning for the right Event!</string>
     <string name="no_attendee_yet">No one has booked events yet!</string>
+    <string name="booked_ticket">Ticket has been booked successfully!</string>
 </resources>

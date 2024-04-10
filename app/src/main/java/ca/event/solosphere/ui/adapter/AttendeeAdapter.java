@@ -63,6 +63,7 @@ public class AttendeeAdapter extends RecyclerView.Adapter<AttendeeAdapter.Attend
         }
 
         if (attendee.getTotalTickets() != 0) {
+            holder.binding.txtTravelling.setVisibility(View.VISIBLE);
             if (attendee.getTotalTickets() == 1) {
                 holder.binding.txtTravelling.setText(mContext.getString(R.string.title_travelling_solo));
             } else {

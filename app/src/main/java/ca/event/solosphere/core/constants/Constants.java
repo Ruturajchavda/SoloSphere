@@ -5,7 +5,7 @@ import java.io.File;
 public class Constants {
 
     /*
-            /* */
+    /* */
     /* Local */
     public static String APP_VERSION = "1.0";
     public static String APP_NAME = "SoloSphere Events";

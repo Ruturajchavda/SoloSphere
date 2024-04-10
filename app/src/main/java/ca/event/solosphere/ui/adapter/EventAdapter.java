@@ -54,7 +54,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.EventViewHol
     public void onBindViewHolder(@NonNull EventViewHolder holder, int position) {
         Event currentEvent = eventList.get(position);
         holder.binding.tvEventName.setText(currentEvent.getName());
-        Glide.with(context).load(currentEvent.getEventImage()).placeholder(R.drawable.solosphere_events_banner).error(R.drawable.solosphere_events_banner).into(holder.binding.ivEventImage);
+        Glide.with(context).load(currentEvent.getEventImage()).placeholder(R.drawable.image_placeholder).error(R.drawable.image_placeholder).into(holder.binding.ivEventImage);
         holder.binding.tvEventDate.setText(currentEvent.getStartDate());
         String eventPlaceTime = currentEvent.getCity()+" - "+currentEvent.getState()+", "+
                 currentEvent.getStartTime();

@@ -28,6 +28,7 @@ import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Event;
 import ca.event.solosphere.core.model.LikedEvent;
+import ca.event.solosphere.core.session.UserPreference;
 import ca.event.solosphere.databinding.FragmentLikedEventsBinding;
 import ca.event.solosphere.databinding.FragmentSearchedEventBinding;
 import ca.event.solosphere.ui.adapter.EventAdapter;
@@ -43,9 +44,8 @@ public class LikedEventsFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseDatabase mFirebaseInstance;
 
-    private DatabaseReference mLikedEventRef;
     private DatabaseReference mEventRef;
-    private List<Event> likedEventList;
+    private List<String> likedEventList;
     private List<Event> eventList;
 
 
@@ -61,53 +61,30 @@ public class LikedEventsFragment extends Fragment {
 
         context = getActivity();
         bundle = getArguments();
-        init();
+
         return binding.getRoot();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     public void init(){
         likedEventList = new ArrayList<>();
+        if(UserPreference.getLikedEvents(getContext()) != null){
+            likedEventList = UserPreference.getLikedEvents(getContext());
+        }
         eventList = new ArrayList<>();
         //Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
-        mLikedEventRef = mFirebaseInstance.getReference(Constants.TBL_LIKED_EVENTS);
-        getAllEventsData();
-    }
-
-    private void getLikedEventsData() {
-        mLikedEventRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot likedEventSnapshot : dataSnapshot.getChildren()) {
-                        // Iterate through each event data
-                        LikedEvent likedEvent = likedEventSnapshot.getValue(LikedEvent.class); // Assuming Event is your custom class representing an event
-                        assert likedEvent != null;
-                        if (Objects.equals(mAuth.getUid(), likedEvent.getUserID())) {
-                            for(Event event:eventList){
-                                if(Objects.equals(event.getEventID(), likedEvent.getEventID())){
-                                    likedEventList.add(event);
-                                }
-                            }
-                        }
-                    }
-                    if(likedEventList.size() > 0){
-                        showEventView(true);
-                        EventAdapter eventAdapter = new EventAdapter(context,likedEventList,false);
-                        binding.rvLikedEvent.setAdapter(eventAdapter);
-                    }else{
-                        showEventView(false);
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
-            }
-        });
+        if(likedEventList.size()>0)
+            getAllEventsData();
+        else
+            showEventView(false);
     }
 
     private void getAllEventsData() {
@@ -119,9 +96,17 @@ public class LikedEventsFragment extends Fragment {
                         // Iterate through each event data
                         Event event = eventSnapshot.getValue(Event.class); // Assuming Event is your custom class representing an event
                         assert event != null;
-                        eventList.add(event);
+                        if(likedEventList.contains(event.getEventID())){
+                            eventList.add(event);
+                        }
                     }
-                    getLikedEventsData();
+                    if(eventList.size()>0){
+                        showEventView(true);
+                        EventAdapter eventAdapter = new EventAdapter(context,eventList,false);
+                        binding.rvLikedEvent.setAdapter(eventAdapter);
+                    }
+                }else{
+                    showEventView(false);
                 }
             }
 

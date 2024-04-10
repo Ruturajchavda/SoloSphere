@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -66,7 +67,7 @@ public class BookedEventsFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public void init(){
+    public void init() {
         bookedEventList = new ArrayList<>();
         eventList = new ArrayList<>();
         //Initialize Firebase
@@ -76,34 +77,42 @@ public class BookedEventsFragment extends Fragment {
         mAttendeesRef = mFirebaseInstance.getReference(Constants.TBL_ATTENDEES);
         getAllEventsData();
     }
+
     private void getBookedEventsData() {
+        showProgress(binding.loadingView.getRoot());
         mAttendeesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                hideProgress(binding.loadingView.getRoot());
                 if (dataSnapshot.exists()) {
                     showEventView(true);
                     for (DataSnapshot mainSnapshot : dataSnapshot.getChildren()) {
                         for (DataSnapshot attendeeSnapshot : mainSnapshot.getChildren()) {
                             Attendee attendee = attendeeSnapshot.getValue(Attendee.class); // Assuming Event is your custom class representing an event
                             assert attendee != null;
-                            if(Objects.equals(mAuth.getUid(), attendee.getUserID())){
-                                for(Event event : eventList){
-                                    if(Objects.equals(event.getEventID(), attendee.getEventID())){
+                            if (Objects.equals(mAuth.getUid(), attendee.getUserID())) {
+                                for (Event event : eventList) {
+                                    if (Objects.equals(event.getEventID(), attendee.getEventID())) {
                                         bookedEventList.add(event);
                                     }
                                 }
                             }
                         }
                     }
-                    EventAdapter eventAdapter = new EventAdapter(context,bookedEventList,true);
-                    binding.rvBookedEvent.setAdapter(eventAdapter);
-                }else {
+                    if (bookedEventList.size() != 0) {
+                        EventAdapter eventAdapter = new EventAdapter(context, bookedEventList, true);
+                        binding.rvBookedEvent.setAdapter(eventAdapter);
+                    } else {
+                        showEventView(false);
+                    }
+                } else {
                     showEventView(false);
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                hideProgress(binding.loadingView.getRoot());
                 Log.e(TAG, "onCancelled: " + databaseError.getMessage());
             }
         });
@@ -135,5 +144,16 @@ public class BookedEventsFragment extends Fragment {
     private void showEventView(boolean flag) {
         binding.llBookedEvents.setVisibility(flag ? View.VISIBLE : View.GONE);
         binding.tvNoBookedEvents.setVisibility(!flag ? View.VISIBLE : View.GONE);
+    }
+
+    public void showProgress(View view) {
+        view.setVisibility(View.VISIBLE);
+        getActivity().getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+    }
+
+    public void hideProgress(View view) {
+        view.setVisibility(View.GONE);
+        getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+
     }
 }

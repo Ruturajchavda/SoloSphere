@@ -40,7 +40,6 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
     private Event event;
     private int ticketQuantity = 1;
     private double totalTicketPrice;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,6 +89,7 @@ public class CheckoutFragment extends BaseFragment implements View.OnClickListen
             Intent intent = new Intent(context, BaseFragmentActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString(Extras.EXTRA_EVENT_ID, event.getEventID());
+            bundle.putSerializable(Extras.EXTRA_EVENT_DETAIL, event);
             bundle.putInt(Extras.EXTRA_TICKET_QUANTITY, ticketQuantity);
             intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
             intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new PaymentFragment());

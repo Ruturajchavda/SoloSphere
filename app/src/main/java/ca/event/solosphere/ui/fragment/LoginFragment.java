@@ -63,7 +63,7 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
     private DatabaseReference mFirebaseDatabase;
     private GoogleSignInClient mGoogleSignInClient;
     private View loadingView;
-    private static ActivityResultLauncher<Intent> launcher;
+    private ActivityResultLauncher<Intent> launcher;
 
     private String deviceToken = "";
 
@@ -155,6 +155,12 @@ public class LoginFragment extends BaseFragment implements View.OnClickListener 
                     }
                 }
         );
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        launcher.unregister();
     }
 
     //Launch google singIn Intent

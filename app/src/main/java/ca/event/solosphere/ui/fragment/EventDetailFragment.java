@@ -26,12 +26,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import ca.event.solosphere.R;
 import ca.event.solosphere.core.constants.Constants;
 import ca.event.solosphere.core.constants.Extras;
 import ca.event.solosphere.core.model.Event;
+import ca.event.solosphere.core.session.UserPreference;
 import ca.event.solosphere.databinding.FragmentEventDetailBinding;
 import ca.event.solosphere.ui.activity.BaseFragmentActivity;
 
@@ -48,6 +51,7 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
     private FirebaseDatabase mFirebaseInstance;
     private DatabaseReference mEventRef;
     private Event event;
+    private List<String> likedEvents;
 
     public EventDetailFragment() {
         // Required empty public constructor
@@ -66,12 +70,12 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
         binding = FragmentEventDetailBinding.inflate(inflater, container, false);
         context = getActivity();
         bundle = getArguments();
-        if(bundle != null){
+        if (bundle != null) {
             eventID = bundle.getString(Extras.EXTRA_EVENT_ID);
         }
         init();
 
-        Bitmap imageBitmap = ((BitmapDrawable)binding.ivEvent.getDrawable()).getBitmap();
+        Bitmap imageBitmap = ((BitmapDrawable) binding.ivEvent.getDrawable()).getBitmap();
         // generate background color from event image
         Palette.generateAsync(imageBitmap, new Palette.PaletteAsyncListener() {
             public void onGenerated(Palette palette) {
@@ -106,11 +110,11 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
         binding.btnLike.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(isEventLiked){
+                updateLikedEventList(isEventLiked);
+                if (isEventLiked) {
                     isEventLiked = false;
                     binding.btnLike.setColorFilter(context.getColor(R.color.color_white));
-//                    removeFromLikedEvent();
-                }else{
+                } else {
                     isEventLiked = true;
                     binding.btnLike.setColorFilter(context.getColor(R.color.event_like_color));
                 }
@@ -138,16 +142,39 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
         builder.setSpan(new ForegroundColorSpan(context.getColor(R.color.color_white)), startBold, builder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         builder.append(getString(R.string.about_event_details));
         binding.tvEventDescription.setText(builder);
-
         return binding.getRoot();
     }
 
-    public void init(){
+    private void updateLikedEventList(boolean isEventLiked) {
+        if (!isEventLiked)
+            likedEvents.add(eventID);
+        else
+            likedEvents.remove(eventID);
+        UserPreference.saveLikedEvents(getContext(), likedEvents);
+    }
+
+    public void init() {
+        likedEvents = new ArrayList<>();
+        if (UserPreference.getLikedEvents(getContext()) != null) {
+            likedEvents = UserPreference.getLikedEvents(getContext());
+        }
+        isEventLiked();
+        showProgress(binding.loadingView.getRoot());
         //Initialize Firebase
         mAuth = FirebaseAuth.getInstance();
         mFirebaseInstance = FirebaseDatabase.getInstance();
         mEventRef = mFirebaseInstance.getReference(Constants.TBL_EVENTS);
         getEventData();
+    }
+
+    private void isEventLiked() {
+        if (!likedEvents.contains(eventID)) {
+            isEventLiked = false;
+            binding.btnLike.setColorFilter(context.getColor(R.color.color_white));
+        } else {
+            isEventLiked = true;
+            binding.btnLike.setColorFilter(context.getColor(R.color.event_like_color));
+        }
     }
 
     private void getEventData() {
@@ -160,13 +187,14 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
                         // Set event data to UI elements
                         binding.tvEventName.setText(event.getName());
                         binding.tvEventCategory.setText(event.getCategory());
-                        binding.tvEventPrice.setText("$"+event.getPrice());
-                        binding.tvEventDate.setText(event.getStartDate().substring(0,2));
+                        binding.tvEventPrice.setText("$" + event.getPrice());
+                        binding.tvEventDate.setText(event.getStartDate().substring(0, 2));
                         binding.tvEventMonth.setText("March");
                         binding.tvEventDay.setText("Wednesday");
-                        binding.tvEventTime.setText(event.getStartTime()+"-"+event.getEndTime());
+                        binding.tvEventTime.setText(event.getStartTime() + "-" + event.getEndTime());
                         binding.tvEventDescription.setText(event.getDesc());
                         binding.tvEventLocation.setText(event.getLocation());
+                        binding.tvAttendees.setText("" + event.getAttendees());
                         // Similarly, you can set other event data to corresponding UI elements
 
                         String eventImageUrl = event.getEventImage();
@@ -177,12 +205,15 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
                                     .error(R.drawable.demo_event_1) // Error image if loading fails
                                     .into(binding.ivEvent); // ImageView where the event image is displayed
                         }
+                        binding.clMain.setVisibility(View.VISIBLE);
+                        hideProgress(binding.loadingView.getRoot());
                     }
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                hideProgress(binding.loadingView.getRoot());
                 Log.e(TAG, "onCancelled: " + databaseError.getMessage().toString());
             }
         });

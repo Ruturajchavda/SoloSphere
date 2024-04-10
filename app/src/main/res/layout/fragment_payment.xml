@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -200,5 +201,10 @@
                 android:textColor="@android:color/white" />
         </LinearLayout>
     </ScrollView>
+
+    <include
+        android:id="@+id/loadingView"
+        layout="@layout/loading_view"
+        android:visibility="gone" />
 
 </RelativeLayout>
