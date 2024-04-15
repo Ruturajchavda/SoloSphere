@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.palette.graphics.Palette;
@@ -131,6 +132,18 @@ public class EventDetailFragment extends BaseFragment implements View.OnClickLis
                 intent.putExtra(Extras.EXTRA_FRAGMENT_BUNDLE, bundle);
                 intent.putExtra(Extras.EXTRA_FRAGMENT_SIGNUP, new AttendeeFragment());
                 startActivity(intent);
+            }
+        });
+
+        binding.btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Uri gmmIntentUri =
+                        Uri.parse("geo:37.7749,-122.4192?q=" + Uri.encode(event.getLocation()));
+                Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+                mapIntent.setPackage("com.google.android.apps.maps");
+                baseActivity.startActivity(mapIntent);
+
             }
         });
 
